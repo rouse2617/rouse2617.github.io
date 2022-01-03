@@ -24,11 +24,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>postName</title>
-    <url>/2021/12/26/postName/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>hexo的用法记录</title>
     <url>/2022/01/03/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<ol>
@@ -40,18 +35,23 @@
       </categories>
   </entry>
   <entry>
+    <title>postName</title>
+    <url>/2021/12/26/postName/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>postName3</title>
     <url>/2021/12/26/postName3/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>postName1</title>
-    <url>/2021/12/26/postName1/</url>
+    <title>postName4</title>
+    <url>/2021/12/26/postName4/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>postName4</title>
-    <url>/2021/12/26/postName4/</url>
+    <title>postName1</title>
+    <url>/2021/12/26/postName1/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
