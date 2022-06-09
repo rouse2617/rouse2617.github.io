@@ -1,0 +1,787 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="article">
+<meta property="og:title" content="OS_Lab 1 Booting a PC">
+<meta property="og:url" content="http://example.com/2022/02/06/OS_Lab%201%20Booting%20a%20PC/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://imt.rui.vin/image-20220206112414457-16441195534711.png">
+<meta property="og:image" content="http://imt.rui.vin/image-20220206113644102-16441195589572.png">
+<meta property="og:image" content="http://imt.rui.vin/image-20220206113212423.png">
+<meta property="og:image" content="http://imt.rui.vin/image-20220206113411035.png">
+<meta property="og:image" content="http://imt.rui.vin/202202061510375.png">
+<meta property="og:image" content="http://imt.rui.vin/202202061509929.png">
+<meta property="og:image" content="http://imt.rui.vin/202202061510571.png">
+<meta property="og:image" content="http://imt.rui.vin/202202062055555.png">
+<meta property="og:image" content="http://imt.rui.vin/202202071248330.png">
+<meta property="og:image" content="http://imt.rui.vin/202202071251934.png">
+<meta property="og:image" content="http://imt.rui.vin/202202071255688.png">
+<meta property="og:image" content="c:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220207131053481.png">
+<meta property="og:image" content="http://imt.rui.vin/202202071312659.png">
+<meta property="og:image" content="http://imt.rui.vin/202202071712150.png">
+<meta property="og:image" content="http://imt.rui.vin/202202071714386.png">
+<meta property="og:image" content="http://imt.rui.vin/202202072048503.png">
+<meta property="og:image" content="http://imt.rui.vin/202202072222329.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081115742.png">
+<meta property="og:image" content="c:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208112758744.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081130876.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081138946.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081138735.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081331383.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081334699.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081335987.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081336048.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081530984.png">
+<meta property="og:image" content="http://imt.rui.vin/202202081651635.png">
+<meta property="og:image" content="c:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208165822004.png">
+<meta property="article:published_time" content="2022-02-06T11:31:22.000Z">
+<meta property="article:modified_time" content="2022-06-09T02:16:16.139Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="mit6.828">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://imt.rui.vin/image-20220206112414457-16441195534711.png">
+  
+  
+  
+  <title>OS_Lab 1 Booting a PC - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OS_Lab 1 Booting a PC"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-06 19:31" pubdate>
+          February 6, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">OS_Lab 1 Booting a PC</h1>
+            
+            <div class="markdown-body">
+              
+              <p><img src="http://imt.rui.vin/image-20220206112414457-16441195534711.png" srcset="/img/loading.gif" lazyload alt="image-20220206112414457"></p>
+ <span id="more"></span>
+
+<h3 id="step5-是课程导论，介绍该课程的安排以及Unix的使用"><a href="#step5-是课程导论，介绍该课程的安排以及Unix的使用" class="headerlink" title="step5 是课程导论，介绍该课程的安排以及Unix的使用"></a>step5 是课程导论，介绍该课程的安排以及Unix的使用</h3><p>这次作业是  介绍汇编和一些工具的使用</p>
+<p><img src="http://imt.rui.vin/image-20220206113644102-16441195589572.png" srcset="/img/loading.gif" lazyload alt="image-20220206113644102"></p>
+<p>现在开始：</p>
+<h3 id="Software-Setup"><a href="#Software-Setup" class="headerlink" title="Software Setup"></a>Software Setup</h3><p>先把源码 该章节的源码 clone下来  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://pdos.csail.mit.edu/6.828/2018/jos.git<br></code></pre></td></tr></table></figure>
+
+<p><img src="http://imt.rui.vin/image-20220206113212423.png" srcset="/img/loading.gif" lazyload alt="image-20220206113212423"></p>
+<p>这两部分是 clone源码和该怎么用 git交作业的 不必细说</p>
+<p><img src="http://imt.rui.vin/image-20220206113411035.png" srcset="/img/loading.gif" lazyload alt="image-20220206113411035"></p>
+<h3 id="Part-1-PC-Bootstrap"><a href="#Part-1-PC-Bootstrap" class="headerlink" title="Part 1: PC Bootstrap"></a>Part 1: PC Bootstrap</h3><h4 id="1-Getting-Started-with-x86-assembly"><a href="#1-Getting-Started-with-x86-assembly" class="headerlink" title="1. Getting Started with x86 assembly"></a>1. Getting Started with x86 assembly</h4><p>​	这里申明了 该os是采用 <em>AT&amp;T</em> 风格 的汇编（我接触比较多的是 Intel 风格） 这部分是 让我们熟悉汇编语言，接下来的课程 打好基础，（我会另起一章专门写汇编）</p>
+<h4 id="2-Simulating-the-x86"><a href="#2-Simulating-the-x86" class="headerlink" title="2. Simulating the x86"></a>2. Simulating the x86</h4><p>进入目录  make </p>
+<p><img src="http://imt.rui.vin/202202061510375.png" srcset="/img/loading.gif" lazyload alt="image-20220206145945011"></p>
+<p>可能会有这个报错！ 这是 一个整数是 64位除以 一个数位32位的时候  ，官方说安装 <strong>gcc-multilib</strong><br>但没什么用，我直接把这个函数参数成32位了…先这样再说吧（这个是打印数字的 函数）</p>
+<p><img src="http://imt.rui.vin/202202061509929.png" srcset="/img/loading.gif" lazyload alt="image-20220206145349817"></p>
+<p>运行 qemu  （关于的qemu的安装，网上有很多）</p>
+<p><img src="http://imt.rui.vin/202202061510571.png" srcset="/img/loading.gif" lazyload alt="image-20220206150545992"></p>
+<h4 id="The-PC’s-Physical-Address-Space"><a href="#The-PC’s-Physical-Address-Space" class="headerlink" title="The PC’s Physical Address Space"></a>The PC’s Physical Address Space</h4><p>下图是 内存的布局（4gb），早期的内存只有 1Mb，为了兼容以前的所以还是保留下来，这1Mb 接下来我们会使用到！</p>
+<p><img src="http://imt.rui.vin/202202062055555.png" srcset="/img/loading.gif" lazyload alt="image-20220206205505422"></p>
+<h3 id="Part-2-The-Boot-Loader"><a href="#Part-2-The-Boot-Loader" class="headerlink" title="Part 2: The Boot Loader"></a>Part 2: The Boot Loader</h3><p>part2 是引导程序  BootLoader 的介绍， 这个是什么呢？</p>
+<p>​		电脑启动是时候 会有个<br>​		一句话来表达就是  系统运作之前 所运行的程序，当我们按了开机键，首先是 运行这个程序，<strong>现在的大多数电脑 这个程序都 写死在主板里</strong>（GRUB？）。</p>
+<ul>
+<li>这个程序有什么用？</li>
+</ul>
+<ol>
+<li>硬件自检，如显卡 ，声卡那些…</li>
+<li>这个并不是真正的操作系统，所以这个程序的作用是 找到 OS，并把这个OS程序加载到内存中 （OS 也是一个程序！），随后转让控制权。</li>
+</ol>
+<ul>
+<li>这个 BootLoader 程序 cpu怎么找到的呢？<br>  开机的时候，就开是扫描 硬盘，硬盘被划分为512字节的区域，称为扇区，一个硬盘有很多扇区，扫一次 就一个扇区，如果找到了（如何判定？ 如果这个扇区的最后两个字节内容是0x55和0xAA 则就是要找的 ）  将这个 512 字节扇区加载到内存地址为 0x7c00（为什么是这个，这个是有来源的 ，大家可以找下），加载完成后 ，执行 cpu 就跳到 0x7c00 处开始执行程序，</li>
+</ul>
+<h4 id="Exercise-3"><a href="#Exercise-3" class="headerlink" title="Exercise 3"></a><strong>Exercise 3</strong></h4><p>看 os启动的流程 ，gdb调试 ，启动主要有两个文件  boot&#x2F;main.c  和  boot.s </p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs diff">Exercise 3.   Take a look at the [lab tools guide](https://pdos.csail.mit.edu/6.828/2018/labguide.html), especially the section on GDB commands. Even if you&#x27;re familiar with GDB, this includes some esoteric GDB commands that are useful for OS work.<br><br>Set a breakpoint at address 0x7c00, which is where the boot sector will be loaded. Continue execution until that breakpoint. Trace through the code in `boot/boot.S`, using the source code and the disassembly file `obj/boot/boot.asm` to keep track of where you are. Also use the `x/i` command in GDB to disassemble sequences of instructions in the boot loader, and compare the original boot loader source code with both the disassembly in `obj/boot/boot.asm` and GDB.<br><br>Trace into `bootmain()` in `boot/main.c`, and then into `readsect()`. Identify the exact assembly instructions that correspond to each of the statements in `readsect()`. Trace through the rest of `readsect()` and back out into `bootmain()`, and identify the begin and end of the `for` loop that reads the remaining sectors of the kernel from the disk. Find out what code will run when the loop is finished, set a breakpoint there, and continue to that breakpoint. Then step through the remainder of the boot loader.<br></code></pre></td></tr></table></figure>
+
+<p>开始gdb调试</p>
+<p>一个窗口运行  make qemu-gdb   （开启了个端口）<br>再开一个窗口运行  make gdb  （运行行了一个gdb脚本，远程调试）</p>
+<p><img src="http://imt.rui.vin/202202071248330.png" srcset="/img/loading.gif" lazyload alt="image-20220207124829335"></p>
+<p>现在我们开始 打断点  教材里有说说到是 从 0x7c00 开始的，断点设到 0x7c00 ，b -》 break </p>
+<p><img src="http://imt.rui.vin/202202071251934.png" srcset="/img/loading.gif" lazyload alt="image-20220207125156235"></p>
+<p>c 一直执行知道遇到断点<br>si 意为 执行下一步汇编<br>x&#x2F;N  ADDR   为看这个地址的汇编指令  N为查看几条指令<br>info register ： 查看 寄存器的值 </p>
+<p><img src="http://imt.rui.vin/202202071255688.png" srcset="/img/loading.gif" lazyload alt="image-20220207125543005"></p>
+<p>按照教材意思 比对 boot反汇编的代码和  gdb调试的代码</p>
+<p>boot返汇编的代码在这，比对了下 objdump 反汇编的出的风格还是 Intel的， 和gdb 调试也差多少 ，从 0x7c00开始一步一看吧</p>
+<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220207131053481.png" srcset="/img/loading.gif" lazyload alt="image-20220207131053481"></p>
+<p>boot.o 反汇编的代码  </p>
+<p><img src="http://imt.rui.vin/202202071312659.png" srcset="/img/loading.gif" lazyload alt="image-20220207131245606"></p>
+<p>当调试到 这一步时  地址为 0x7c2d时候  ，提示现在处于 i386状态（32位下）<br><img src="http://imt.rui.vin/202202071712150.png" srcset="/img/loading.gif" lazyload alt="image-20220207171214490"></p>
+<p>在反汇编的代码中 也可以看出 7c2d 后有 伪指令 .code32  意为切换到32位模式<br><img src="http://imt.rui.vin/202202071714386.png" srcset="/img/loading.gif" lazyload alt="image-20220207171406343"></p>
+<p> 关于  elf  得新开一个章节  来描述 </p>
+<p>这里加载从磁盘里加载内核 ，怎么加载呢？结合elf 头 的信息，看要读多少<br><img src="http://imt.rui.vin/202202072048503.png" srcset="/img/loading.gif" lazyload alt="image-20220207204857874"></p>
+<p>这里是 把内核 读到  内存里并执行<br>首先有个问题是怎么读？  （这里涉及到elf 的内容，elf  详细内容不在该章节细说）<br>elf 头 我们已经从 磁盘中读到内存了，目前只是elf 的头部读到内存了，但是 elf 所包含的程序段 没有读到内存里，所以呢，</p>
+<p><img src="http://imt.rui.vin/202202072222329.png" srcset="/img/loading.gif" lazyload alt="image-20220207222201306"></p>
+<h4 id="Exercise-4"><a href="#Exercise-4" class="headerlink" title="Exercise 4."></a><strong>Exercise 4.</strong></h4><p>​	检查下你的对指针的运用，就是指针运用基础，注意下 不同类型的<strong>指针的步长</strong></p>
+<h4 id="Exercise-5，6"><a href="#Exercise-5，6" class="headerlink" title="Exercise 5，6"></a><strong>Exercise 5，6</strong></h4><p>debug 查看从 boot 加载 kernel 的过程，这些可以对照boot.o 反汇编的文件和  kernel的反汇编文件逐步调试对照，就可以清楚的知道了</p>
+<h3 id="Part-3-The-Kernel"><a href="#Part-3-The-Kernel" class="headerlink" title="Part 3: The Kernel"></a>Part 3: The Kernel</h3><p>这部分开始讲 虚拟内存，开始之前再重新 把前面的内容捋一遍！</p>
+<p>qemu启动，执行 从boot 代码段执行，<br>从内存地址  0x7c00 处开始执行代码<br>关闭中断，开启 A20线， 开起gdt<br>调用  bootmain 函数<br>加载 内核文件 到内存里<br>    首先是  加载 elf头<br>    根据elf 头提供的信息，把elf文件中的 程序段加载到对应的内存中<br>（不是很详细，后续再补充 ）</p>
+<p>​	跳到  elf 的入口函数 entry<br><img src="http://imt.rui.vin/202202081115742.png" srcset="/img/loading.gif" lazyload alt="image-20220208111501673"></p>
+<hr>
+<p>Part3 讲的是虚拟内存 和 物理内存的映射，在这把那些细节 描述的很清楚，给了个结论，让我们去验证下， </p>
+<h4 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a><strong>Exercise 7</strong></h4><p>验证     物理地址转换虚拟地址</p>
+<p>执行 movl %eax, %cr0  后就开启了 分页  ，可以看到地址不同</p>
+<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208112758744.png" srcset="/img/loading.gif" lazyload alt="image-20220208112758744"></p>
+<p><img src="http://imt.rui.vin/202202081130876.png" srcset="/img/loading.gif" lazyload alt="image-20220208113037678"></p>
+<p>执行  <code>movl %eax, %cr0</code> 前  0xf0100000 内存都是空的<br><img src="http://imt.rui.vin/202202081138946.png" srcset="/img/loading.gif" lazyload alt="image-20220208113823730"></p>
+<p>执行后   0x 100000 映射到了 0xf0100000<br><img src="http://imt.rui.vin/202202081138735.png" srcset="/img/loading.gif" lazyload alt="image-20220208113835668"></p>
+<h4 id="Formatted-Printing-to-the-Console"><a href="#Formatted-Printing-to-the-Console" class="headerlink" title="Formatted Printing to the Console"></a>Formatted Printing to the Console</h4><p>Read through <code>kern/printf.c</code>, <code>lib/printfmt.c</code>, and <code>kern/console.c</code>, and make sure you understand their relationship. It will become clear in later labs why <code>printfmt.c</code> is located in the separate <code>lib</code> directory.<br>看这些 源码，print 实现也大同小异，相对于  《JamesM’s kernel development tutorials 》 ，我觉的后者 print实现 比较容易理解！可以去参考下</p>
+<p><strong>Exercise 8</strong><br>    print 有个 %o 没实现，就是  数字按照 8进制打印出来 ，下图仿照 %x 输出 写了个，就是换个参数..</p>
+<p><img src="http://imt.rui.vin/202202081331383.png" srcset="/img/loading.gif" lazyload alt="image-20220208133154527"></p>
+<p>os 最开始的运行时，有打印一个<br><img src="http://imt.rui.vin/202202081334699.png" srcset="/img/loading.gif" lazyload alt="image-20220208133403998"></p>
+<p>没修过前是 输出 </p>
+<p><img src="http://imt.rui.vin/202202081335987.png" srcset="/img/loading.gif" lazyload alt="image-20220208133514813"></p>
+<p>添加 %o 输出后   15254 是 8进制，转成 10 进制 6828</p>
+<p><img src="http://imt.rui.vin/202202081336048.png" srcset="/img/loading.gif" lazyload alt="image-20220208133607963"></p>
+<p>很多细节，先放下，后续再补…</p>
+<h3 id="The-Stack"><a href="#The-Stack" class="headerlink" title="The Stack"></a>The Stack</h3><h4 id="Exercise-9"><a href="#Exercise-9" class="headerlink" title="Exercise 9"></a><strong>Exercise 9</strong></h4><p>看 栈的初始地址 在哪里</p>
+<p><img src="http://imt.rui.vin/202202081530984.png" srcset="/img/loading.gif" lazyload alt="image-20220208153047528"></p>
+<p>从以上 代码可以看到  初始化了esp 和 edp，这函数调用的深入下也可以写很多东西，先挖个坑吧….<br>初始化后  看下两个寄存器的 值<br><img src="http://imt.rui.vin/202202081651635.png" srcset="/img/loading.gif" lazyload alt="image-20220208165110291"></p>
+<p>可以得出 栈的地址是冲 0xf0110000 开始的</p>
+<p>esp 指向了栈的指针 ， bootstacktop 的定义我们可以看下 （合理  运用 ide ，我是用 vscode全局查的）</p>
+<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208165822004.png" srcset="/img/loading.gif" lazyload alt="image-20220208165822004">  </p>
+<p>可以的出 栈的大小为    8 * 4096  字节  （SPACE申请一片内存空间）…..</p>
+<p>带更新,,,</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/mit6-828/">#mit6.828</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OS_Lab 1 Booting a PC</div>
+      <div>http://example.com/2022/02/06/OS_Lab 1 Booting a PC/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 6, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/08/OS_Lab%202%20%E5%86%85%E5%AD%98/" title="OS_Lab2 内存">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OS_Lab2 内存</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/05/OS%E5%AE%9E%E7%8E%B0-%E7%AC%AC%E4%B8%80%E5%A4%A9/" title="OS实现-其实">
+                        <span class="hidden-mobile">OS实现-其实</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

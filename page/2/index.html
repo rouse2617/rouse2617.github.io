@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="An elegant Material-Design theme for Hexo"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/24/http%E5%92%8Chttps%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" target="_self">
+          <img src="http://imt.rui.vin/202203271513124.png" srcset="/img/loading.gif" lazyload alt="http的小总结">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/24/http%E5%92%8Chttps%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" target="_self">
+          http的小总结
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/24/http%E5%92%8Chttps%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" target="_self">
+        <div>
+          最近看图解网络，在这里做个笔记 http的概念​	http -&gt; 超文本传输协议，早期只是用来传输文本，现在可以用了传输音频图像，所以称为超文本协议 GET 与 POST get请求： get 意为得到，取得  get请求就是  请求从服务器获取资源，这个资源可以是静态的⽂本、⻚⾯、图⽚视频等。  post请求： post 投递的意思，他将指定的资源通过http协议提交服务器     说到g
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-24 21:15" pubdate>
+              2022-03-24
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C/">#网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/23/TCI-IP%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BA%94%E5%B1%82%EF%BC%89/" target="_self">
+          <img src="http://imt.rui.vin/202203231534067.jpeg" srcset="/img/loading.gif" lazyload alt="TCI/IP网络模型（层）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/23/TCI-IP%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BA%94%E5%B1%82%EF%BC%89/" target="_self">
+          TCI/IP网络模型（层）
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/23/TCI-IP%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BA%94%E5%B1%82%EF%BC%89/" target="_self">
+        <div>
+          看图解网络的一些理解：  总的来说数据通过一层一层封装后 ，最终转换成电信号发送到另外一台主机，数据也从底层开始，一层一层的解包得到想要的数据；将每一层都专注自己的职责，对于开发者说更多只需要 关注应用层的处理就可以了。 此外本文 网络模型 整体做个介绍，后续会对每一层 比较主要的 知识点进行详解  应用层​	 使用的一些http，ftp，ssh，这些都是属于应用层，要发送的数据通过 应用层
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-23 15:32" pubdate>
+              2022-03-23
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C/">#网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/12/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" target="_self">
+          <img src="http://imt.rui.vin/202203141526192.png" srcset="/img/loading.gif" lazyload alt="关于虚函数的一些总结">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/12/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" target="_self">
+          关于虚函数的一些总结
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/12/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" target="_self">
+        <div>
+          说到多态又可以联想到虚函数，虚函数又有很多相关问题，这次做个小总结 1 . 什么是虚函数  虚函数在有多态的前提下才有的特性，现在问题是多态是什么？   多态可以分为：   ​	静态多态：函数重载，根据参数不同，从而调用不同的函数（这里不做重点介绍）   ​    动态多态： 根据操作的对象不同，从而调用不同的函数（使用虚函数实现）   总的来说：  同一操作作用于不同的对象，可以有不同的解释，产
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 15:20" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-%E8%AF%AD%E6%B3%95/">#C++语法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/12/reactor%E6%A8%A1%E6%8B%9F%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" target="_self">
+          <img src="http://imt.rui.vin/202203121528400.png" srcset="/img/loading.gif" lazyload alt="reactor模式的介绍">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/12/reactor%E6%A8%A1%E6%8B%9F%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" target="_self">
+          reactor模式的介绍
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/12/reactor%E6%A8%A1%E6%8B%9F%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" target="_self">
+        <div>
+          说Reactor模式前 我们看下epoll实现的服务器有什么改进的地方 在上几篇博客有介绍 io多用复用 其中主要介绍了epoll，最后 epoll实现了 io多路复用的服务器，我们再捋一捋目前大致情况就是这样，现在是可以用，但是呢？ 还可以优化下吗？因为每次都是要问三次情况,有点冗d余了  客户端有连接也是通过一个fd来管理，也是可读事件，那么讲 客户端连接也纳入 可读事件里 现在如下图所示：
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 13:40" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C/">#网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/11/char-%E5%92%8Cchar-%E7%9A%84%E5%8C%BA%E5%88%AB/" target="_self">
+          <img src="http://imt.rui.vin/202203112353250.png" srcset="/img/loading.gif" lazyload alt="char*和char[]的区别">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/11/char-%E5%92%8Cchar-%E7%9A%84%E5%8C%BA%E5%88%AB/" target="_self">
+          char*和char[]的区别
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/11/char-%E5%92%8Cchar-%E7%9A%84%E5%8C%BA%E5%88%AB/" target="_self">
+        <div>
+          关于此类的问题都放在这里了，不另起文章了 遇到了一道题目： 12345678910111213char *fun1() &amp;#123;  char *x &#x3D; &quot;abcd&quot;;  return x;&amp;#125;char *fun2() &amp;#123;  char str[] &#x3D; &quot;abcd&quot;;  &#x2F;&#x2F;存放在静态数据区  return str;&amp;#125;int ma
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-11 23:24" pubdate>
+              2022-03-11
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">#基础语法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/11/epoll%E4%B8%AD%20LT%20%E5%92%8C%20ET%20%E5%8C%BA%E5%88%AB/" target="_self">
+          <img src="http://imt.rui.vin/202203112229580.png" srcset="/img/loading.gif" lazyload alt="epoll中 LT 和 ET 区别">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/11/epoll%E4%B8%AD%20LT%20%E5%92%8C%20ET%20%E5%8C%BA%E5%88%AB/" target="_self">
+          epoll中 LT 和 ET 区别
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/11/epoll%E4%B8%AD%20LT%20%E5%92%8C%20ET%20%E5%8C%BA%E5%88%AB/" target="_self">
+        <div>
+          上文解释过epoll 原理，现在梳理下epoll 的用法和 epoll 中两个读取数据的模式 现在用epoll 实现一个多路复用的服务器(代码在最后)  LT 水平触发  有数据到来就一直读，直到没有数据可以读取了         ET 边缘触发  有到无，读规定的字节数，没读完，下次有事件了再读取  读取客户端发来的数据时候，只读五个字节，看下ET和LT会有什么不同   ET模式下 必须使用非阻
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-11 11:21" pubdate>
+              2022-03-11
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/10/%E5%AF%B9io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" target="_self">
+          <img src="http://imt.rui.vin/202203111203054.png" srcset="/img/loading.gif" lazyload alt="对io多路复用的一些理解">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/10/%E5%AF%B9io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" target="_self">
+          对io多路复用的一些理解
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/10/%E5%AF%B9io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" target="_self">
+        <div>
+          1.什么是io多路复用
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-10 14:26" pubdate>
+              2022-03-10
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C/">#网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/09/LeetCode-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="_self">
+          LeetCode-动态规划
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/09/LeetCode-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="_self">
+        <div>
+          自己理解：  **当前状态是由上一个状态推出来的，那么就会有个动态的过程，就会有一个公式，就是 状态转移公式，对于解题来说，主要的工作 是找到 这个公式，其实也可以说 是找规律（个人理解）**
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-09 10:08" pubdate>
+              2022-03-09
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/08/LeetCode-%E5%9B%9E%E6%BA%AF/" target="_self">
+          LeetCode-回溯
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/08/LeetCode-%E5%9B%9E%E6%BA%AF/" target="_self">
+        <div>
+          ​	回溯   -》 穷举
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-08 16:00" pubdate>
+              2022-03-08
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/07/LeetCode-%E5%A0%86%E6%A0%88%E9%97%AE%E9%A2%98/" target="_self">
+          LeetCode-堆栈问题
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/07/LeetCode-%E5%A0%86%E6%A0%88%E9%97%AE%E9%A2%98/" target="_self">
+        <div>
+          1. 有效的括号给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘，’]’ 的字符串 s ，判断字符串是否有效。 有效字符串需满足：
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-07 16:34" pubdate>
+              2022-03-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/LeetCode/" class="category-chain-item">LeetCode</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%A0%86%E6%A0%88/">#堆栈</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

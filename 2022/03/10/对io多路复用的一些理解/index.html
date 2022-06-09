@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.什么是io多路复用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对io多路复用的一些理解">
+<meta property="og:url" content="http://example.com/2022/03/10/%E5%AF%B9io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.什么是io多路复用">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://imt.rui.vin/202203111203054.png">
+<meta property="article:published_time" content="2022-03-10T06:26:03.000Z">
+<meta property="article:modified_time" content="2022-06-09T02:16:15.940Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://imt.rui.vin/202203111203054.png">
+  
+  
+  
+  <title>对io多路复用的一些理解 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="对io多路复用的一些理解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-10 14:26" pubdate>
+          March 10, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">对io多路复用的一些理解</h1>
+            
+            <div class="markdown-body">
+              
+              <meta name="referrer" content="no-referrer"/>
+
+<h4 id="1-什么是io多路复用"><a href="#1-什么是io多路复用" class="headerlink" title="1.什么是io多路复用"></a>1.什么是io多路复用</h4> <span id="more"></span>
+
+<p>​    <strong>多路复用是同步的！！！！</strong></p>
+<p>​	单个进z程管理多个文件描述符<br>​	总的来说就使用单个进程管理（监听）更多的io</p>
+<h4 id="2-io多路复用模型-通俗的解释，如何用，底层原理是什么？"><a href="#2-io多路复用模型-通俗的解释，如何用，底层原理是什么？" class="headerlink" title="2.io多路复用模型 通俗的解释，如何用，底层原理是什么？"></a>2.io多路复用模型 通俗的解释，如何用，底层原理是什么？</h4><ul>
+<li><p>通俗的理解 举个例子：</p>
+<p>  有一家新开的饭店，开始的时候，他是这样安排服务员的：每一桌都安排一个服务员，这个服务员负责这张桌子的点菜，茶水；顾客点完菜，服务员把菜单<strong>送到后厨</strong>， 饭店刚开始只有10几张桌子，后来每天都有百余张桌子，出现了一个问题，有时候后厨一下子塞满了人，出现了拥堵，客人那边长时间没人服务….（<strong>类比多进程管理多个io</strong>）</p>
+<p>  后来饭店老板想到了一个方法，让一个人来专门送菜单都后厨，这个服务员呢会逐个逐个问那些服务员，有没有菜单要送到后厨的，收集完了后然再统一拿到后厨，这样后厨就不会拥堵啦。（类比单进程管理多个io，这个类似select 做法）</p>
+<p>  可还是有问题，一张一张桌去问还是太费时间了，有些顾客点了菜就不在点菜了，有的要点很久，再后来，老板又想到了一个方法，每个桌子都安装一个按钮，顾客点好菜了，嗯按钮，那个专门收集菜单的人就去那张桌子那菜单（epoll ）；</p>
+</li>
+</ul>
+<p>​    以上并不是概念，只是抽象的比喻而已，对io多路复用模型有 三种  ： select ，poll，epoll</p>
+<p>​	 select：  虽然效率不高，但可以跨平台；单个进程只能保存1024个fd，轮询访问<br>​		</p>
+<p>​      poll:   和select相同，但是使用数组的形式保存fd，无上限，同样也是轮询访问</p>
+<p><img src="http://imt.rui.vin/202203101426837.png" srcset="/img/loading.gif" lazyload alt="image-20220310132555292"></p>
+<hr>
+<p>​	 epoll： 这个比较重要，详细说下<br>​		  再来做个比喻，有个小区，一开始小区里的人寄快递都是叫快递员上门取件，或者是去快递店里寄，前者有点费快递员的人力，后	者可以有浪费顾客的时间，后来快递公司想到了一个方法， 在小区里建立了一个无人快递收件柜子（蜂巢），顾客把想寄的东西都放	在那个柜子了，快递人员到一定的时间带个大袋子，把要寄送的东西带走，这样就省去快递员挨家挨户的收快递，提高了效率；</p>
+<p>​    小区里的人就是 那些文件io，柜子里的装的东西就是 有事件响应的io，这样就不用挨个去遍历了，每次快递员到了时间点了（timeout）就去拿柜子里的快递。<br>​	这样也挺容易理解的，但要是问如何实现的呢，前两种还可理解，遍历fd所以时间复杂度为 O(n) ，而epoll是怎么做到  O(1)呢？</p>
+<p>​	以前也被问过：epoll怎么实现的，一般都是说红黑树加双向链表实现的，然后就说不下去了….</p>
+<p>​    epoll 使用就不在多说，现在说个话题 为什么 epoll 时间复杂度可以做到O（1） 呢？</p>
+<p>​    我们一般都会说，底层把有事件发生的io放在一个队列里（此时io可以理解为分配给客户端的一个fd），这个对个队列是一个双向链   	表，插入的时间复杂为O（1），</p>
+<p>​	没错，在用户态 我们遍历队列的时候，可以保证遍历的每个io都是有事件发生，效率肯定是上去了，那么在内核态，底层是如何把有	事 件发生的io放到队列呢？ 怎么放我们已经知道了，现在问题是在那么多io里，怎么马上挑出有事件的io呢？难道也是在内核态全部  	遍历一次？我一开始也百思不得其解，查阅很多资料知道，原来在更底层有那么一个机制，当一个io有事件发生会产生一个软终端，然 	后我想到了 信号，信号的类型有个是  SIGIO（这里的软中断我也不是很确定是不是io中断)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-built_in">sigaction</span>(SIGIO, &amp;sigio_action, <span class="hljs-literal">NULL</span>);<br></code></pre></td></tr></table></figure>
+
+<p>  当io有什么事件发生时候，会马上调用这个对应的回调函数（信号是的使用机智我们也知道），那这样，我并不需要每个io的去问有没有事件发生，内核就每个io都设置一个回调函数，那么io有事件了，马上调用回调函数，那么就准备把这个io装在队列里面里，而红黑树的作用就是管理这些io并设置其回调函数，就好像这个api</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-built_in">epoll_ctl</span>(epfd, EPOLL_CTL_ADD, sockfd, &amp;ev);<br></code></pre></td></tr></table></figure>
+
+<p>把新的io加入到红黑树里面，然后注册一个对应的回调函数，我们都知道红黑树的特性是 增删改查时间复杂度稳定 为 logn，有io退出，  取消对应的回调函数，然后删除这个io</p>
+<p>以上就是当前对epoll底层实现 的初步了解，后续看了源码再来更新</p>
+<p>具体流程如下如下所示  （在知乎看到的）</p>
+<p><img src="http://imt.rui.vin/202203111203054.png" srcset="/img/loading.gif" lazyload alt="image-20220310135031722"></p>
+<h4 id="3-epoll-和-select-用哪个好"><a href="#3-epoll-和-select-用哪个好" class="headerlink" title="3 .epoll 和  select 用哪个好"></a>3 .epoll 和  select 用哪个好</h4><p>​	这也是要结合场景使用，如果 连接数比较少，事件响应比较多的时候用select 性能较好一些。涉及到大并发连接是，任意事件段io并不是很活跃可以使用 epoll</p>
+<hr>
+<h4 id="epoll-是同步还是异步？"><a href="#epoll-是同步还是异步？" class="headerlink" title="epoll 是同步还是异步？"></a>epoll 是同步还是异步？</h4><p>从内核态来看，是异步的，无需一直等待事件的发生，有事件io发生，就把这个io 塞到队列里，这好像也没毛病</p>
+<p>从用户态说：  int nready &#x3D; epoll_wait(epoll_fd, events, EPOLL_SIZE, -1);   如果 nready 返回大于0，说明 events里面有东西，就就去遍历，没有就继续等待，所以说  用户态来说  epoll_wait是同步的</p>
+<p>在知乎看到这样的解释， 对epoll而言 很多操作都放到 内核去做处理，也就是说让操作系统帮我们做一些事情，从 一开始 io阻塞模型 到 io多路复用，随着技术的迭代，在底层操作系统帮我们做的事越来越多了 （ 好像这样说也不是很对，后续再花点时间重新捋一下 五种io模型 ）</p>
+<p><img src="http://imt.rui.vin/202203250002719.png" srcset="/img/loading.gif" lazyload alt="知乎上截图的"> </p>
+<hr>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C/">#网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>对io多路复用的一些理解</div>
+      <div>http://example.com/2022/03/10/对io多路复用的一些理解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 10, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/11/epoll%E4%B8%AD%20LT%20%E5%92%8C%20ET%20%E5%8C%BA%E5%88%AB/" title="epoll中 LT 和 ET 区别">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">epoll中 LT 和 ET 区别</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/09/LeetCode-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="LeetCode-动态规划">
+                        <span class="hidden-mobile">LeetCode-动态规划</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

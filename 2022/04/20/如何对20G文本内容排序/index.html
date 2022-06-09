@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="排序问题虽然有了解，很多只是基于理论上，实践比较少，刚好最近遇到个问题：   这个以前遇到过类似的问题， 假如 你有一个20GB的文件，对文件的内容排序，内存限制在 1G，你要怎么排序 以前有做过总结，就是分割文件，逐个文件先排好序，最后然后再合并，说起来很简单，但做起来就。。。。  这次题目有 分割文件，我下载了这个压缩包，解压 看有1000个 20M的文件  	 思路：   将这个一 千个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何对大文件进行排序">
+<meta property="og:url" content="http://example.com/2022/04/20/%E5%A6%82%E4%BD%95%E5%AF%B920G%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="排序问题虽然有了解，很多只是基于理论上，实践比较少，刚好最近遇到个问题：   这个以前遇到过类似的问题， 假如 你有一个20GB的文件，对文件的内容排序，内存限制在 1G，你要怎么排序 以前有做过总结，就是分割文件，逐个文件先排好序，最后然后再合并，说起来很简单，但做起来就。。。。  这次题目有 分割文件，我下载了这个压缩包，解压 看有1000个 20M的文件  	 思路：   将这个一 千个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://imt.rui.vin/202204201613604.png">
+<meta property="article:published_time" content="2022-04-20T06:57:03.000Z">
+<meta property="article:modified_time" content="2022-06-09T02:16:15.981Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="有趣的问题">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://imt.rui.vin/202204201613604.png">
+  
+  
+  
+  <title>如何对大文件进行排序 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="如何对大文件进行排序"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-20 14:57" pubdate>
+          April 20, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">如何对大文件进行排序</h1>
+            
+            <div class="markdown-body">
+              
+              <span id="more"></span>
+
+<p>排序问题虽然有了解，很多只是基于理论上，实践比较少，刚好最近遇到个问题：</p>
+<p><img src="http://imt.rui.vin/202204201529678.png" srcset="/img/loading.gif" lazyload alt="侵删"></p>
+<p><img src="http://imt.rui.vin/202204201538979.png" srcset="/img/loading.gif" lazyload alt="image-20220420153810671"></p>
+<p>这个以前遇到过类似的问题， 假如 你有一个20GB的文件，对文件的内容排序，内存限制在 1G，你要怎么排序</p>
+<p>以前有做过总结，就是分割文件，逐个文件先排好序，最后然后再合并，说起来很简单，但做起来就。。。。 </p>
+<p>这次题目有 分割文件，我下载了这个压缩包，解压 看有1000个 20M的文件 </p>
+<p><img src="http://imt.rui.vin/202204201531613.png" srcset="/img/loading.gif" lazyload alt="image-20220420153113356">	</p>
+<p>思路：   将这个一 千个文件，文件名读取出来，按照条件逐个抽出来，并且排序</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">read_lryic</span><span class="hljs-params">(<span class="hljs-type">char</span> *path)</span></span><br><span class="hljs-function"></span>&#123;<br>    DIR *dir = <span class="hljs-built_in">opendir</span>(path); <span class="hljs-comment">//打开目录文件</span><br>    cout &lt;&lt; path &lt;&lt; endl;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">dirent</span> *entry;<br>    <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> ((entry = <span class="hljs-built_in">readdir</span>(dir)) != <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strstr</span>(entry-&gt;d_name, <span class="hljs-string">&quot;.txt&quot;</span>))<br>        &#123;<br>            filename.<span class="hljs-built_in">push_back</span>(entry-&gt;d_name);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; %d %s\n&quot;</span>, i++, entry-&gt;d_name);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>现在文件名有了，进行筛选排序，这里用map来存放临时的数据，key 为时间戳，value 为对应的数据，为什么用map，map是会自动自动排序，根据key的值，而这里的没条数据都是 json，用了一个jsoncpp 库（如果用 go 估计已经写完了），原本想直接解析字符串，发现有点麻烦，还是用库吧， 提取出  时间戳，作为key，提取完一个文件后，重新写入到新的文件里</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">sortfile</span><span class="hljs-params">()</span></span>&#123;<br>    Json::Reader reader;<br>    Json::Value obj;<br>    <span class="hljs-comment">//读文件名字 </span><br>    <span class="hljs-built_in">read_lryic</span>(<span class="hljs-string">&quot;/home/hrp/Cpp/recore/&quot;</span>);<br>    string file;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> str : filename)&#123;<br>        file = <span class="hljs-string">&quot;/home/hrp/Cpp/recore/&quot;</span> + str;<br>        <span class="hljs-function">std::ifstream <span class="hljs-title">fIn</span><span class="hljs-params">(file)</span></span>;<br>        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">if</span> (fIn)<br>        &#123;<br>            std::string str;<br>            <span class="hljs-keyword">while</span> (std::<span class="hljs-built_in">getline</span>(fIn, str))<br>            &#123;<br>                <span class="hljs-keyword">if</span>(str.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;张三&quot;</span>) != string::npos)&#123;<br>                    <br>                    <span class="hljs-comment">//std::cout &lt;&lt; i++ &lt;&lt; endl;</span><br>                    reader.<span class="hljs-built_in">parse</span>(str, obj);<br>                    <span class="hljs-type">long</span> timestamp = obj[<span class="hljs-string">&quot;timestamp&quot;</span>].<span class="hljs-built_in">asInt64</span>();   <br>                    ret[timestamp] = str;             <br>                &#125;<br>            &#125; <br>            cout &lt;&lt; file &lt;&lt; endl;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            std::cout &lt;&lt; <span class="hljs-string">&quot;Open file faild.&quot;</span> &lt;&lt; std::endl;<br>        &#125;<br>        <span class="hljs-function">ofstream <span class="hljs-title">out1</span><span class="hljs-params">(file)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> i=ret.<span class="hljs-built_in">begin</span>();i!=ret.<span class="hljs-built_in">end</span>();i++)&#123;<br>            <span class="hljs-comment">//cout &lt;&lt; i-&gt;second;</span><br>            out1 &lt;&lt; i-&gt;second ;<br>            out1 &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span> ;<br>        &#125;<br>        ret.<span class="hljs-built_in">clear</span>();<br>        out1.<span class="hljs-built_in">close</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>现在完成 按照条件 完成每个文件的排序了</p>
+<p>接下来就是 归并，如何归并呢，现在有1000个文件，逐个遍历这1000个文件，每次都提取一行来，一次遍历 提取了1000行数据，此时可以用大顶堆的特性，就是1000个数据放进这个大顶堆，堆顶肯定是最大数，按照这个特性，先读取一千条，放在大顶堆了，每次 pop出堆顶的（肯定最大），然后要 补上一个，读哪个文件的呢，肯定是pop出去哪条数据所在的文件，所以现在就是要去那个文件里再读一条数据，以此类推，说是这样说 ，但是这题还有其他附加条件（根据时间分类写）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">clock_t</span> start,end;<span class="hljs-comment">//定义clock_t变量</span><br>   start = <span class="hljs-built_in">clock</span>();  <span class="hljs-comment">//开始时间</span><br><br>   Json::Reader reader;<br>   Json::Value obj;<br><br>   map&lt;string,ifstream*&gt; filesmap;<br>   map&lt;string,ofstream*&gt; outfile;<br><br>   <span class="hljs-built_in">sortfile</span>();<br>   <span class="hljs-type">time_t</span> tt;<br>   <span class="hljs-keyword">struct</span> <span class="hljs-title class_">tm</span> *ttime;<br><span class="hljs-comment">//用 map 保存文件的读写流，这里是读</span><br>   <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> file: filename)&#123;<br>       <span class="hljs-keyword">auto</span> temp = file;<br>       file = <span class="hljs-string">&quot;/home/hrp/Cpp/recore/&quot;</span> + temp;<br>       filesmap.<span class="hljs-built_in">emplace</span>(file, <span class="hljs-keyword">new</span> ifstream(file)); <br>   &#125;<br><span class="hljs-comment">//这里用c++ 的优先队列 来模拟堆，插入的数据  为 时间戳和文件的字符名字</span><br>  	priority_queue&lt;pair&lt;<span class="hljs-type">long</span>, string&gt;&gt; topTime;<br>   map&lt;<span class="hljs-type">long</span>,string&gt; Temp;<br>   string data;<br><span class="hljs-comment">//先读取 全部文件的 第一条数据，push到 优先队列中 </span><br>   <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> iter = filesmap.<span class="hljs-built_in">begin</span>(); iter != filesmap.<span class="hljs-built_in">end</span>(); iter++) &#123;<br>       std::<span class="hljs-built_in">getline</span>(*iter-&gt;second, data);<br><br>       reader.<span class="hljs-built_in">parse</span>(data, obj);<br>       <span class="hljs-type">long</span> timestamp = obj[<span class="hljs-string">&quot;timestamp&quot;</span>].<span class="hljs-built_in">asInt64</span>();<br>       <span class="hljs-function">pair&lt;<span class="hljs-type">long</span>,string&gt; <span class="hljs-title">b</span><span class="hljs-params">(timestamp,iter-&gt;first)</span></span>;<br><br>       topTime.<span class="hljs-built_in">push</span>(b);<br>       Temp[timestamp] = data;<br>   &#125;<br><span class="hljs-comment">// 现在 对队列操作，此时队列是 出一个，进一个，维持平衡，没有进，就一直出，知道 队列为空位止</span><br><span class="hljs-comment">// Temp 维护 这1000个数据，动态增减</span><br>   <span class="hljs-keyword">while</span> (!topTime.<span class="hljs-built_in">empty</span>())&#123;<br>       <span class="hljs-comment">// cout  &lt;&lt; Temp[topTime.top()] &lt;&lt; endl;</span><br>       <span class="hljs-comment">//时间戳转 日期</span><br>       <span class="hljs-keyword">struct</span> <span class="hljs-title class_">tm</span> *ttime;<br>       tt = topTime.<span class="hljs-built_in">top</span>().first/<span class="hljs-number">1000</span>;<br>       ttime = <span class="hljs-built_in">localtime</span>(&amp;tt);<br>       <span class="hljs-type">char</span> formatime[<span class="hljs-number">64</span>];<br>       <span class="hljs-built_in">strftime</span>(formatime, <span class="hljs-number">64</span>, <span class="hljs-string">&quot;%Y-%m-%d&quot;</span>, ttime);<br>       <span class="hljs-function">string <span class="hljs-title">strtime</span><span class="hljs-params">(formatime)</span></span>;<br>	<span class="hljs-comment">//这里是写文件，根据时间戳 转换的日期来 写文件</span><br>       <span class="hljs-comment">// outfile   key 为文件名 value 对应的读写流</span><br>       <span class="hljs-comment">// 为 0 ，说明第一次，创建文件</span><br>       <span class="hljs-keyword">if</span>(outfile.<span class="hljs-built_in">count</span>(strtime)  == <span class="hljs-number">0</span>)&#123;<br>           <br>           outfile.<span class="hljs-built_in">emplace</span>(strtime,<span class="hljs-keyword">new</span> <span class="hljs-built_in">ofstream</span>(strtime));<br>           <span class="hljs-keyword">if</span> (!outfile[strtime]-&gt;<span class="hljs-built_in">is_open</span>()) <br>               cout &lt;&lt; strtime &lt;&lt; <span class="hljs-string">&quot;error&quot;</span> &lt;&lt; endl;<br>           *outfile[strtime] &lt;&lt; Temp[topTime.<span class="hljs-built_in">top</span>().first]+ <span class="hljs-string">&quot;\n&quot;</span>;<br>           Temp.<span class="hljs-built_in">erase</span>(topTime.<span class="hljs-built_in">top</span>().first);<br><br>       &#125;<span class="hljs-keyword">else</span>&#123;<br>           <span class="hljs-comment">//根据 日期写入 数据</span><br>           *outfile[strtime] &lt;&lt; Temp[topTime.<span class="hljs-built_in">top</span>().first] + <span class="hljs-string">&quot;\n&quot;</span>;<br>           Temp.<span class="hljs-built_in">erase</span>(topTime.<span class="hljs-built_in">top</span>().first);<br><br>       &#125;<br>	<span class="hljs-comment">// top是最大的，此时pop出去，记录下 pop去的是哪个文件 </span><br>       <span class="hljs-keyword">auto</span> TopTemp = topTime.<span class="hljs-built_in">top</span>();<br>       topTime.<span class="hljs-built_in">pop</span>();<br>	<br>	<span class="hljs-comment">//如果 读取到了，更行 优先队列的数据</span><br>       <span class="hljs-keyword">if</span>(std::<span class="hljs-built_in">getline</span>(*filesmap[TopTemp.second], data))&#123;<br>           reader.<span class="hljs-built_in">parse</span>(data, obj);<br>           <span class="hljs-type">long</span> timestamp = obj[<span class="hljs-string">&quot;timestamp&quot;</span>].<span class="hljs-built_in">asInt64</span>();<br>           <span class="hljs-function">pair&lt;<span class="hljs-type">long</span>,string&gt; <span class="hljs-title">b</span><span class="hljs-params">(timestamp,TopTemp.second)</span></span>;<br>           Temp[timestamp] = data;<br>           topTime.<span class="hljs-built_in">push</span>(b);<br>       &#125;<br>     <br><br>   &#125;<br><span class="hljs-comment">//最后 要关闭文件，才会保存</span><br>   <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> iter = outfile.<span class="hljs-built_in">begin</span>(); iter != outfile.<span class="hljs-built_in">end</span>(); iter++) &#123;<br>       iter-&gt;second-&gt;<span class="hljs-built_in">close</span>();<br>   &#125;<br>   end = <span class="hljs-built_in">clock</span>();   <span class="hljs-comment">//结束时间</span><br>   cout&lt;&lt;<span class="hljs-string">&quot;time = &quot;</span>&lt;&lt;<span class="hljs-built_in">double</span>(end-start)/CLOCKS_PER_SEC&lt;&lt;<span class="hljs-string">&quot;s&quot;</span>&lt;&lt;endl;  <span class="hljs-comment">//输出时间（单位：ｓ）</span><br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>运行的机器是：  腾讯云服务器   4核 4g</p>
+<p><img src="http://imt.rui.vin/202204201626331.png" srcset="/img/loading.gif" lazyload alt="耗时 117 .s">			</p>
+<img src="http://imt.rui.vin/202204201607730.png" srcset="/img/loading.gif" lazyload alt="内存使用不大，500M 以内解决，就是 cpu 占用率高" style="zoom: 80%;" />	  
+
+<p><img src="http://imt.rui.vin/202204201609407.png" srcset="/img/loading.gif" lazyload alt="排序好的"></p>
+<p> <strong>总结：</strong></p>
+<ul>
+<li>认清了 知道 和 做到的差距！！！！！</li>
+<li>有些api 日常少使用， 很不收悉，都是在查查查 </li>
+<li>要先有整体思路  然后细化问题，逐个解决</li>
+</ul>
+<p>代码整体设计 不是很好，后续在改进， 用多线程 多路归并？</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%89%E8%B6%A3%E7%9A%84%E9%97%AE%E9%A2%98/">#有趣的问题</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>如何对大文件进行排序</div>
+      <div>http://example.com/2022/04/20/如何对20G文本内容排序/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 20, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/09/hello-world/" title="Hello World">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/19/Cmake%E7%9A%84%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8/" title="Cmake的初步使用">
+                        <span class="hidden-mobile">Cmake的初步使用</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

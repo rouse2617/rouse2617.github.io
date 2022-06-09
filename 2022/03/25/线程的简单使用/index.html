@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下线程的一些使用方法 ； （PS： 发现以前好多看的云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）  线程概念    进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本身">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程的简单使用">
+<meta property="og:url" content="http://example.com/2022/03/25/%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下线程的一些使用方法 ； （PS： 发现以前好多看的云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）  线程概念    进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本身">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/vorshen/blog/master/thread/assets/process_thread.png">
+<meta property="article:published_time" content="2022-03-25T15:15:46.000Z">
+<meta property="article:modified_time" content="2022-06-09T02:16:16.062Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="线程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/vorshen/blog/master/thread/assets/process_thread.png">
+  
+  
+  
+  <title>线程的简单使用 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="线程的简单使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-25 23:15" pubdate>
+          March 25, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          57 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">线程的简单使用</h1>
+            
+            <div class="markdown-body">
+              
+              <blockquote>
+<p>线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下线程的一些使用方法 ； （PS： 发现以前好多看的云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）</p>
+</blockquote>
+<h3 id="线程概念"><a href="#线程概念" class="headerlink" title="线程概念"></a>线程概念</h3><blockquote>
+<p>   进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本身只是指令、数据及其组织形式的描述，进程才是程序（那些指令和数据）的真正运行实例。</p>
+<p>　　线程是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。线程包含了表示进程内执行环境必须的信息，其中包括进程中表示线程的线程ID、一组寄存器值、栈、调度优先级和策略、信号屏蔽字、errno常量以及线程私有数据。进程的所有信息对该进程的所有线程都是共享的，包括可执行的程序文本、程序的全局内存和堆内存、栈以及文件描述符。在Unix和类Unix操作系统中线程也被称为轻量级进程（lightweight processes），但轻量级进程更多指的是内核线程（kernel thread），而把用户线程（user thread）称为线程。</p>
+<p>线程和进程一样也有标志号作为识别 </p>
+</blockquote>
+<h3 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a><strong>线程创建</strong></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_create</span> <span class="hljs-params">(<span class="hljs-type">pthread_t</span> *__restrict __newthread, <span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span> *__attr,<span class="hljs-type">void</span> *(*fun) (<span class="hljs-type">void</span> *),<span class="hljs-type">void</span> *arg)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>​		参数分别是 线程的pid，线程属性，线程的函数，传入线程的参数，创建失败会返回错误码</p>
+<p>​		对于 传参 的arg指针，不需要给线程传入参数的话直接 设置为 null即可</p>
+<h3 id="线程终止"><a href="#线程终止" class="headerlink" title="线程终止"></a>线程终止</h3><p>终止有三种方式</p>
+<ul>
+<li><p>运行完线程代码return 结束</p>
+</li>
+<li><p>被其他线程中终止</p>
+</li>
+<li><p>线程可以调用 pthread_exit  ( 自己终结自己 )</p>
+<p>  pthread_exit（） 可以携带返回值</p>
+</li>
+</ul>
+<p>如果需要 现有线程的返回值怎么办？ 有一个函数可以做到</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Make calling thread wait for termination of the thread TH.  The</span><br><span class="hljs-comment">   exit status of the thread is stored in *THREAD_RETURN, if THREAD_RETURN</span><br><span class="hljs-comment">   is not NULL.</span><br><span class="hljs-comment">让调用线程等待线程TH的终止。线程的退出状态存储在*THREAD_RETURN中</span><br><span class="hljs-comment">This function is a cancellation point and therefore not marked with</span><br><span class="hljs-comment">   __THROW.  */</span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pthread_join</span> <span class="hljs-params">(<span class="hljs-type">pthread_t</span> __th, <span class="hljs-type">void</span> **__thread_return)</span>;<br><br></code></pre></td></tr></table></figure>
+
+<p>线程的返回转态可以保存在 __thread_return 中；</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netinet/tcp.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/epoll.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br>using namespace <span class="hljs-built_in">std</span>;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">(<span class="hljs-type">void</span> *arg)</span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;cleanup : %s \n&quot;</span>,(<span class="hljs-type">char</span> *)arg);<br>&#125;<br>	<br><span class="hljs-type">void</span>* <span class="hljs-title function_">fun</span><span class="hljs-params">(<span class="hljs-type">void</span> *arg)</span>&#123;<br>    <span class="hljs-type">char</span> *str = (<span class="hljs-type">char</span> *)arg;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>,str);    <br>    sleep(<span class="hljs-number">1</span>);<br>    <span class="hljs-type">char</span> *ret = <span class="hljs-string">&quot;hrrrr&quot;</span>;<br>    <span class="hljs-keyword">return</span> ((<span class="hljs-type">void</span> *)ret);  <br>&#125;<br><span class="hljs-type">void</span>* <span class="hljs-title function_">fun2</span><span class="hljs-params">(<span class="hljs-type">void</span> *arg)</span>&#123;<br>    <span class="hljs-type">char</span> *str = (<span class="hljs-type">char</span> *)arg;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>,str);    <br>    sleep(<span class="hljs-number">1</span>);<br>    <span class="hljs-type">char</span> *ret = <span class="hljs-string">&quot;cccc&quot;</span>;<br>    pthread_exit((<span class="hljs-type">void</span> *)ret);<br>&#125;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>&#123;<br><br>    <span class="hljs-type">pthread_t</span> pid[<span class="hljs-number">5</span>];<br>    <span class="hljs-type">char</span> *str1 = <span class="hljs-string">&quot;str1 传入的参数内容&quot;</span>;<br>    <span class="hljs-type">char</span> *str2 = <span class="hljs-string">&quot;str2 传入的参数内容&quot;</span>;<br><br>    pthread_create(&amp;pid[<span class="hljs-number">0</span>],<span class="hljs-literal">NULL</span>,fun,str1);<br>    pthread_create(&amp;pid[<span class="hljs-number">1</span>],<span class="hljs-literal">NULL</span>,fun2,str2);<br><br>    <span class="hljs-type">void</span> *tre,*tre1;<br>    pthread_join(pid[<span class="hljs-number">0</span>],&amp;tre);   <br>    pthread_join(pid[<span class="hljs-number">1</span>],&amp;tre1);   <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s \n&quot;</span>,(<span class="hljs-type">char</span> *)tre);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s \n&quot;</span>,(<span class="hljs-type">char</span> *)tre1);<br>    sleep(<span class="hljs-number">10</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;    <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="http://imt.rui.vin/202203261542936.png" srcset="/img/loading.gif" lazyload alt="image-20220326154257729">   </p>
+<p>线程结束后可以得到返回值，返回值分别是return返回的和  pthread_exit结束时返回的</p>
+<h3 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h3><p>​	提到线程必然有很多问题 ，多线程并发的时，同时读取相同变量，不是原子性 可以能会有数据不一致的情况（i++）</p>
+<p>​	i++ 操作 是</p>
+<ul>
+<li>将内存读取寄存器</li>
+<li>操作寄存器的值</li>
+<li>新的值写内存单元</li>
+</ul>
+<p>哪如何保证线程的同步呢？</p>
+<h4 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a><strong>互斥锁</strong></h4><p>对资源加锁后，任何线程试图再次对该互斥量加锁的线程都会阻塞，直到到该锁释放为止，这样可以确保每次只有一个线程可以获取资源</p>
+<p>使用互斥锁得先初始化 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// pthread_mutex_t 是一个结构体</span><br><span class="hljs-type">pthread_mutex_t</span> __mutex;<br><span class="hljs-comment">//init</span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_init</span> <span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span> *__mutex,</span><br><span class="hljs-params">			       <span class="hljs-type">const</span> <span class="hljs-type">pthread_mutexattr_t</span> *__mutexattr)</span><br>     __THROW __<span class="hljs-title function_">nonnull</span> <span class="hljs-params">((<span class="hljs-number">1</span>))</span>;<br><br><span class="hljs-comment">/* Destroy a mutex.  */</span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_destroy</span> <span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span> *__mutex)</span><br>     __THROW __<span class="hljs-title function_">nonnull</span> <span class="hljs-params">((<span class="hljs-number">1</span>))</span>;<br><br><span class="hljs-comment">/* Try locking a mutex.  */</span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_trylock</span> <span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span> *__mutex)</span><br>     __THROWNL __<span class="hljs-title function_">nonnull</span> <span class="hljs-params">((<span class="hljs-number">1</span>))</span>;<br><br><span class="hljs-comment">/* Lock a mutex.  */</span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_lock</span> <span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span> *__mutex)</span><br>     __THROWNL __<span class="hljs-title function_">nonnull</span> <span class="hljs-params">((<span class="hljs-number">1</span>))</span>;<br><br><span class="hljs-comment">/* Unlock a mutex.  */</span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_unlock</span> <span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span> *__mutex)</span><br>     __THROWNL __<span class="hljs-title function_">nonnull</span> <span class="hljs-params">((<span class="hljs-number">1</span>))</span>;<br><br></code></pre></td></tr></table></figure>
+
+<p>使用的话就是在 访问临界区资源之前对 互斥量加锁，尽管这样可以解决线程同步的问题，但是如果存在多个锁，没有设计好加锁顺序，可能造成死锁，看代码</p>
+<p>此时有两个锁和两个线程，每个线程加锁顺序相反的话，就会造成<strong>死锁，</strong>互相等待对方释放资源</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs cpp"> <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">pthread_mutex_t</span> plock2;<br><span class="hljs-type">pthread_mutex_t</span> plock1;<br><span class="hljs-type">pthread_mutex_t</span> plock3 = PTHREAD_MUTEX_INITIALIZER;<br><br><span class="hljs-type">static</span> <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;<br><span class="hljs-comment">//以不同顺序加锁</span><br><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-type">void</span> *arg)</span></span>&#123;<br><br>    <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">100</span>)<br>    &#123;<br>      <span class="hljs-built_in">pthread_mutex_lock</span>(&amp;plock1);<br>      cout &lt;&lt; <span class="hljs-string">&quot;plock1 已经上锁，准备获取plock2锁 &quot;</span> &lt;&lt; endl;<br>      <span class="hljs-built_in">pthread_mutex_lock</span>(&amp;plock2);<br>      cout &lt;&lt; <span class="hljs-string">&quot;plock2 已经上锁&quot;</span> &lt;&lt; endl;<br><br>      <span class="hljs-built_in">pthread_mutex_unlock</span>(&amp;plock2);<br>      <span class="hljs-built_in">pthread_mutex_unlock</span>(&amp;plock1);<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">fun2</span><span class="hljs-params">(<span class="hljs-type">void</span> *arg)</span></span>&#123;<br>    <span class="hljs-built_in">sleep</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">100</span>) <br>    &#123;<br>      <span class="hljs-built_in">pthread_mutex_lock</span>(&amp;plock2);<br>      cout &lt;&lt; <span class="hljs-string">&quot;plock2 已经上锁，准备获取plock1锁&quot;</span> &lt;&lt; endl;<br>      <span class="hljs-built_in">pthread_mutex_lock</span>(&amp;plock1);<br>      cout &lt;&lt; <span class="hljs-string">&quot;plock1 已经上锁&quot;</span> &lt;&lt; endl;<br>      <span class="hljs-built_in">pthread_mutex_unlock</span>(&amp;plock2);<br>      <span class="hljs-built_in">pthread_mutex_unlock</span>(&amp;plock1);<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-type">pthread_t</span> pid[<span class="hljs-number">5</span>];<br>    <span class="hljs-type">char</span> *str1 = <span class="hljs-string">&quot;str1 传入的参数内容&quot;</span>;<br>    <span class="hljs-type">char</span> *str2 = <span class="hljs-string">&quot;str2 传入的参数内容&quot;</span>;<br>    <span class="hljs-built_in">pthread_mutex_init</span>(&amp;plock2,<span class="hljs-literal">NULL</span>);<br>    <span class="hljs-built_in">pthread_mutex_init</span>(&amp;plock1,<span class="hljs-literal">NULL</span>);<br><br>    <span class="hljs-built_in">pthread_create</span>(&amp;pid[<span class="hljs-number">0</span>],<span class="hljs-literal">NULL</span>,fun,str1);<br>    <span class="hljs-built_in">pthread_create</span>(&amp;pid[<span class="hljs-number">1</span>],<span class="hljs-literal">NULL</span>,fun2,str2);<br>    <span class="hljs-comment">// pthread_create(&amp;pid[2],NULL,fun3,str2);</span><br><br>    <span class="hljs-type">void</span> *tre,*tre1;<br>    <span class="hljs-built_in">pthread_join</span>(pid[<span class="hljs-number">0</span>],&amp;tre);   <br>    <span class="hljs-built_in">pthread_join</span>(pid[<span class="hljs-number">1</span>],&amp;tre1);   <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s \n&quot;</span>,(<span class="hljs-type">char</span> *)tre);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s \n&quot;</span>,(<span class="hljs-type">char</span> *)tre1);<br>    <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">100</span>)<br>    &#123;<br>          cout &lt;&lt; <span class="hljs-string">&quot;i的值&quot;</span> &lt;&lt; i++ &lt;&lt; endl;<br>          <span class="hljs-built_in">sleep</span>(<span class="hljs-number">2</span>);<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;    <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="http://imt.rui.vin/202203272046460.png" srcset="/img/loading.gif" lazyload alt="image-20220327204645817">  plock1 和  plock2都 已经上锁，两个线程都在等待对方释放锁，才能进行下去，这种情况下双方都不会释放</p>
+<h4 id="读写锁（-共享互斥锁）"><a href="#读写锁（-共享互斥锁）" class="headerlink" title="读写锁（ 共享互斥锁）"></a>读写锁（ 共享互斥锁）</h4><p>写操作的时候才会互斥，而在进行读的时候是可以共享的进行访问临界区的，    在写少读多的情况下用读写锁更好，为什么呢？  写的时候临界区加锁，这没毛病，读的时候并不需要进修改数据，多线程读数据并不影响数据内容，所以读的时候不用锁共享资源，也节省了系统的开销</p>
+<p>读写锁的分配规则：</p>
+<ol>
+<li>只有线程没有使用读写锁的写转态，那么任意数目的线程都可以使用读写锁</li>
+<li>当有线程持有读写锁的写转态时，其他线程使用读写锁都会被阻塞</li>
+<li>如果读写锁的读模式加锁时，所有线程以读模式它进行加锁的线程都可以得到访问权</li>
+</ol>
+<p>做了实验  使用读写锁，一个线程写数据，两个线程读数据</p>
+<p>写的时候，读线程全部被阻塞<br>读的时候，读线程全都可以获取资源，写线程被阻塞</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs c++"> <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">pthread_mutex_t</span> plock2;<br><span class="hljs-type">pthread_mutex_t</span> plock1;<br><span class="hljs-type">pthread_rwlock_t</span> rw_lock;<br><span class="hljs-type">pthread_rwlock_t</span> rwlock;<br><br><span class="hljs-type">int</span> i = <span class="hljs-number">13</span>;<br><span class="hljs-comment">//写数据</span><br><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-type">void</span> *arg)</span></span>&#123;<br>    <span class="hljs-type">char</span> *arg1 = (<span class="hljs-type">char</span> *)arg;<br><br>    <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">100</span>)<br>    &#123;<br>        <span class="hljs-built_in">pthread_rwlock_wrlock</span>(&amp;rwlock);<br>        <br>        cout &lt;&lt; <span class="hljs-string">&quot;开启 写的锁后  i = &quot;</span> &lt;&lt; i++  &lt;&lt; <span class="hljs-string">&quot; 并且i++&quot;</span>&lt;&lt; endl;<br>        cout &lt;&lt; <span class="hljs-string">&quot;此时所获取这个锁的线程都会被堵塞 3s&quot;</span> &lt;&lt; endl;<br>        cout &lt;&lt; endl;<br>        cout &lt;&lt; endl;<br><br>        <span class="hljs-built_in">sleep</span>(<span class="hljs-number">3</span>);<br>        <span class="hljs-built_in">pthread_rwlock_unlock</span>(&amp;rwlock);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//以下为读数据</span><br><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">fun2</span><span class="hljs-params">(<span class="hljs-type">void</span> *arg)</span></span>&#123;<br>    <span class="hljs-built_in">sleep</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-type">char</span> *arg1 = (<span class="hljs-type">char</span> *)arg;<br>    <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">100</span>) <br>    &#123;<br><br>        <span class="hljs-built_in">pthread_rwlock_rdlock</span>(&amp;rwlock);<br>        cout &lt;&lt; <span class="hljs-string">&quot; 我是 fun2  开启只读的锁后  i =&quot;</span> &lt;&lt; i &lt;&lt; endl;<br><br>        <span class="hljs-built_in">pthread_rwlock_unlock</span>(&amp;rwlock);<br><br>        <span class="hljs-built_in">sleep</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">fun3</span><span class="hljs-params">(<span class="hljs-type">void</span> *arg)</span></span>&#123;<br>    <span class="hljs-built_in">sleep</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-type">char</span> *arg1 = (<span class="hljs-type">char</span> *)arg;<br>    <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">100</span>) <br>    &#123;<br>        <span class="hljs-built_in">pthread_rwlock_rdlock</span>(&amp;rwlock);<br>        cout &lt;&lt; <span class="hljs-string">&quot; 我是 fun3  开启只读的锁后  i =&quot;</span> &lt;&lt; i &lt;&lt; endl;<br><br>        <span class="hljs-built_in">pthread_rwlock_unlock</span>(&amp;rwlock);<br><br>        <span class="hljs-built_in">sleep</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br><br>    <span class="hljs-type">pthread_t</span> pid[<span class="hljs-number">5</span>];<br>    <span class="hljs-type">char</span> *str1 = <span class="hljs-string">&quot;str1 传入的参数内容&quot;</span>;<br>    <span class="hljs-type">char</span> *str2 = <span class="hljs-string">&quot;str2 传入的参数内容&quot;</span>;<br>    <span class="hljs-built_in">pthread_rwlock_init</span>(&amp;rwlock,<span class="hljs-literal">NULL</span>);<br><br>    <span class="hljs-built_in">pthread_create</span>(&amp;pid[<span class="hljs-number">0</span>],<span class="hljs-literal">NULL</span>,fun,str1);<br>    <span class="hljs-built_in">pthread_create</span>(&amp;pid[<span class="hljs-number">1</span>],<span class="hljs-literal">NULL</span>,fun2,str1);<br>    <span class="hljs-built_in">pthread_create</span>(&amp;pid[<span class="hljs-number">2</span>],<span class="hljs-literal">NULL</span>,fun3,str1);<br><br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">sleep</span>(<span class="hljs-number">1</span>);<br>    &#125;<br>    <span class="hljs-built_in">pthread_rwlock_destroy</span>(&amp;rwlock);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;    <br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h4><p>条件变量也是同步线程的同步的方式，但还是得借助互斥锁；  当一个线程获取锁之后，他需要等待一定的条件才能继续执行，执行完成再释放锁，这个条件可能是其他线程计算的结果，等待条件的时候可以 一直判断这个条件是否成立（加个while）但这样太消耗CPU的资源了，资源会被一个线程都占用，使用条件变量可以 使线程进入等待转态，等待其他线程完后发送信号给条件变量，从而继续执行</p>
+<h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><p>​	 与互斥锁类似，等待互斥锁时线程是阻塞的，而自旋锁是一直在询问这个锁是否可用（会占用CPU），所以自旋锁适用于锁持有时间短的场景，长时间占用自旋锁是很占用CPU资源的，使用自旋锁的话对于 竞争锁的线程就不需要做内核态和用户态之间的切换进入阻塞状态，等到持有锁的线程释放锁之后即可获取，这样就避免了用户进程和内核切换的消耗，也是自旋锁适用于所持有时间的场景的原因。</p>
+<p>待更新</p>
+<hr>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>线程的简单使用</div>
+      <div>http://example.com/2022/03/25/线程的简单使用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 25, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/28/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" title="手写线程池-第一版">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">手写线程池-第一版</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/24/http%E5%92%8Chttps%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" title="http的小总结">
+                        <span class="hidden-mobile">http的小总结</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

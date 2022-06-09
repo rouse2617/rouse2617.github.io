@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1. 有效的括号给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘，’]’ 的字符串 s ，判断字符串是否有效。 有效字符串需满足：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode-堆栈问题">
+<meta property="og:url" content="http://example.com/2022/03/07/LeetCode-%E5%A0%86%E6%A0%88%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 有效的括号给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘，’]’ 的字符串 s ，判断字符串是否有效。 有效字符串需满足：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://imt.rui.vin/202203071749015.png">
+<meta property="article:published_time" content="2022-03-07T08:34:15.000Z">
+<meta property="article:modified_time" content="2022-06-09T02:16:16.082Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="堆栈">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://imt.rui.vin/202203071749015.png">
+  
+  
+  
+  <title>LeetCode-堆栈问题 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="LeetCode-堆栈问题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-07 16:34" pubdate>
+          March 7, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">LeetCode-堆栈问题</h1>
+            
+            <div class="markdown-body">
+              
+              <h4 id="1-有效的括号"><a href="#1-有效的括号" class="headerlink" title="1. 有效的括号"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-parentheses/">1. 有效的括号</a></h4><p>给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘，’]’ 的字符串 s ，判断字符串是否有效。</p>
+<p>有效字符串需满足：</p>
+ <span id="more"></span>
+
+<p>左括号必须用相同类型的右括号闭合。<br>左括号必须以正确的顺序闭合。</p>
+<p>思路： 频率比较高的，遍历字符，遇到左括号入栈对应右括号，直到 遇到右括号则出栈，出栈的字符是否和当前遍历的右括号相同</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isValid</span><span class="hljs-params">(string s)</span> </span>&#123;<br>  map&lt;<span class="hljs-type">char</span>,<span class="hljs-type">char</span>&gt; m &#123;&#123;<span class="hljs-string">&#x27;)&#x27;</span>,<span class="hljs-string">&#x27;(&#x27;</span>&#125;,&#123;<span class="hljs-string">&#x27;]&#x27;</span>,<span class="hljs-string">&#x27;[&#x27;</span>&#125;,&#123;<span class="hljs-string">&#x27;&#125;&#x27;</span>,<span class="hljs-string">&#x27;&#123;&#x27;</span>&#125;&#125;;<br>      stack&lt;<span class="hljs-type">char</span>&gt; stk;<br>      	<span class="hljs-keyword">if</span> (s.<span class="hljs-built_in">size</span>() % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>)<br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> ch : s)<br>&#123;<br>	<span class="hljs-keyword">if</span> (m.<span class="hljs-built_in">count</span>(ch)) <span class="hljs-comment">//判断插入的是不是右括号</span><br>	&#123;<br>		<span class="hljs-keyword">if</span> (stk.<span class="hljs-built_in">empty</span>() || stk.<span class="hljs-built_in">top</span>() != m[ch])  <span class="hljs-comment">//如果是空的 又插入右括号， 或者顶部的括号和插入的不匹配</span><br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		stk.<span class="hljs-built_in">pop</span>();  <span class="hljs-comment">//如果匹配 出栈</span><br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		stk.<span class="hljs-built_in">push</span>(ch);  <span class="hljs-comment">//入栈左括号</span><br>	&#125;<br>&#125;	<br><span class="hljs-keyword">return</span> stk.<span class="hljs-built_in">empty</span>(); <span class="hljs-comment">//如果为空返回1k</span><br>  &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-栈模拟队列"><a href="#2-栈模拟队列" class="headerlink" title="2 . 栈模拟队列"></a>2 . 栈模拟队列</h4><p>思路： 可以使用两个栈模拟队列，一个栈用装进入队列的元素，另一个用于出队列</p>
+<p><img src="http://imt.rui.vin/202203071749015.png" srcset="/img/loading.gif" lazyload alt="image-20220307174940369"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyQueue</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    stack&lt;<span class="hljs-type">int</span>&gt; stIn;<br>    stack&lt;<span class="hljs-type">int</span>&gt; stOut;<br>    <span class="hljs-comment">/** Initialize your data structure here. */</span><br>    <span class="hljs-built_in">MyQueue</span>() &#123;<br><br>    &#125;<br>    <span class="hljs-comment">/** Push element x to the back of queue. */</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>        stIn.<span class="hljs-built_in">push</span>(x);<br>    &#125;<br><br>    <span class="hljs-comment">/** Removes the element from in front of queue and returns that element. */</span><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-comment">// 只有当stOut为空的时候，再从stIn里导入数据（导入stIn全部数据）</span><br>        <span class="hljs-keyword">if</span> (stOut.<span class="hljs-built_in">empty</span>()) &#123;<br>            <span class="hljs-comment">// 从stIn导入数据直到stIn为空</span><br>            <span class="hljs-keyword">while</span>(!stIn.<span class="hljs-built_in">empty</span>()) &#123;<br>                stOut.<span class="hljs-built_in">push</span>(stIn.<span class="hljs-built_in">top</span>());<br>                stIn.<span class="hljs-built_in">pop</span>();<br>            &#125;<br>        &#125;<br>        <span class="hljs-type">int</span> result = stOut.<span class="hljs-built_in">top</span>();<br>        stOut.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br><br>    <span class="hljs-comment">/** Get the front element. */</span><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">peek</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-type">int</span> res = <span class="hljs-keyword">this</span>-&gt;<span class="hljs-built_in">pop</span>(); <span class="hljs-comment">// 直接使用已有的pop函数</span><br>        stOut.<span class="hljs-built_in">push</span>(res); <span class="hljs-comment">// 因为pop函数弹出了元素res，所以再添加回去</span><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br><br>    <span class="hljs-comment">/** Returns whether the queue is empty. */</span><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> stIn.<span class="hljs-built_in">empty</span>() &amp;&amp; stOut.<span class="hljs-built_in">empty</span>();<br>    &#125;<br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-队列模拟栈"><a href="#3-队列模拟栈" class="headerlink" title="3 . 队列模拟栈"></a>3 . 队列模拟栈</h4><p>思路： 一个队列而模拟栈，入栈和入队列一样，但是出的时候是最早进来的那个数，栈则是最后进来那个，每次模拟出栈的时候都应该出去的队列中最后一个</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyStack</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    queue&lt;<span class="hljs-type">int</span>&gt; que;<br>    <span class="hljs-comment">/** Initialize your data structure here. */</span><br>    <span class="hljs-built_in">MyStack</span>() &#123;<br><br>    &#125;<br>    <span class="hljs-comment">/** Push element x onto stack. */</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>        que.<span class="hljs-built_in">push</span>(x);<br>    &#125;<br>    <span class="hljs-comment">/** Removes the element on top of the stack and returns that element. */</span><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-type">int</span> size = que.<span class="hljs-built_in">size</span>();<br>        size--;<br>        <span class="hljs-comment">// 队列pop元素，只剩下一个的时候则是栈应出的元素，而pop的元素又重新进入队列</span><br>        <span class="hljs-keyword">while</span> (size--) &#123; <span class="hljs-comment">// 将队列头部的元素（除了最后一个元素外） 重新添加到队列尾部</span><br>            que.<span class="hljs-built_in">push</span>(que.<span class="hljs-built_in">front</span>());<br>            que.<span class="hljs-built_in">pop</span>();<br>        &#125;<br>        <span class="hljs-type">int</span> result = que.<span class="hljs-built_in">front</span>(); <span class="hljs-comment">// 此时弹出的元素顺序就是栈的顺序了</span><br>        que.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br><br>    <span class="hljs-comment">/** Get the top element. */</span><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> que.<span class="hljs-built_in">back</span>();<br>    &#125;<br><br>    <span class="hljs-comment">/** Returns whether the stack is empty. */</span><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> que.<span class="hljs-built_in">empty</span>();<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-最小栈"><a href="#4-最小栈" class="headerlink" title="4 . 最小栈"></a>4 . 最小栈</h4><p>设计一个支持 <code>push</code> ，<code>pop</code> ，<code>top</code> 操作，并能在常数时间内检索到最小元素的栈。</p>
+<p>思路：</p>
+<p>​	1.  用一个辅助栈，一保存入栈的数，另一个栈保存每个数（每个栈层对应的最小值）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MinStack</span> &#123;<br>    stack&lt;<span class="hljs-type">int</span>&gt; x_stack;<br>    stack&lt;<span class="hljs-type">int</span>&gt; min_stack;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">MinStack</span>() &#123;<br>        min_stack.<span class="hljs-built_in">push</span>(INT_MAX);<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>        x_stack.<span class="hljs-built_in">push</span>(x);<br>        min_stack.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">min</span>(min_stack.<span class="hljs-built_in">top</span>(), x));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;<br>        x_stack.<span class="hljs-built_in">pop</span>();<br>        min_stack.<span class="hljs-built_in">pop</span>();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> x_stack.<span class="hljs-built_in">top</span>();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getMin</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> min_stack.<span class="hljs-built_in">top</span>();<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>​	2. 不用辅助栈，每次入栈的值为两个，一个是入栈的值，一个是当前的内的最小值 （思想还是和辅助栈一样）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MinStack</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">/** initialize your data structure here. */</span><br>    <span class="hljs-built_in">MinStack</span>() &#123;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (st.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>) &#123;<br>            st.<span class="hljs-built_in">push</span>(&#123;x, x&#125;);  <span class="hljs-comment">//第一次入栈 ，最小值和本身相同</span><br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            st.<span class="hljs-built_in">push</span>(&#123;x, <span class="hljs-built_in">min</span>(x, st.<span class="hljs-built_in">top</span>().second)&#125;);  <span class="hljs-comment">//待入栈的值， 和 当前的最下值</span><br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;<br>        st.<span class="hljs-built_in">pop</span>();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> st.<span class="hljs-built_in">top</span>().first; <br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getMin</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> st.<span class="hljs-built_in">top</span>().second;  <span class="hljs-comment">//最小值是 当前栈顶的第二个值</span><br>    &#125;<br><span class="hljs-keyword">private</span>:<br>    stack&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt; st;<br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="4-滑动窗口最大值"><a href="#4-滑动窗口最大值" class="headerlink" title="4. 滑动窗口最大值"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sliding-window-maximum/">4. 滑动窗口最大值</a></h4><p>给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。</p>
+<p>返回 滑动窗口中的最大值 。</p>
+<p>输入：nums &#x3D; [1,3,-1,-3,5,3,6,7], k &#x3D; 3<br>输出：[3,3,5,5,6,7]<br>解释：<br>滑动窗口的位置                最大值</p>
+<hr>
+<blockquote>
+<p>[1  3  -1] -3  5  3  6  7       3<br> 1 [3  -1  -3] 5  3  6  7       3<br> 1  3 [-1  -3  5] 3  6  7       5<br> 1  3  -1 [-3  5  3] 6  7       5<br> 1  3  -1  -3 [5  3  6] 7       6<br> 1  3  -1  -3  5 [3  6  7]      7</p>
+</blockquote>
+<p>每次移动窗口，找到窗口中最大的数<br>可以自己设计一个队列，大的数总是在最前面，每次进入入栈的时候，如果入栈的数大于队列最后的数，则该最后的数pop出来，这样一来可以保持队列单调递增</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>  deque&lt;<span class="hljs-type">int</span>&gt; que;<br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-type">int</span> val)</span> </span>&#123;<br>   <span class="hljs-comment">//入队列原则   入列的数若是大于 队列最后一个数则先pop出最后的数在入列 保持单调递增</span><br>    <span class="hljs-keyword">while</span> (!que.<span class="hljs-built_in">empty</span>() &amp;&amp; val &gt; que.<span class="hljs-built_in">back</span>()) &#123;<br>      que.<span class="hljs-built_in">pop_back</span>();<br>    &#125;<br>    que.<span class="hljs-built_in">push_back</span>(val);<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pop</span><span class="hljs-params">(<span class="hljs-type">int</span> val)</span> </span>&#123;<br>    <span class="hljs-comment">//如果队列满足了k个数，出队列的数是否等于队列最前面的数</span><br>    <span class="hljs-keyword">if</span> (!que.<span class="hljs-built_in">empty</span>() &amp;&amp; val == que.<span class="hljs-built_in">front</span>()) &#123;<br>      que.<span class="hljs-built_in">pop_front</span>();<br>    &#125;<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getfron</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> que.<span class="hljs-built_in">front</span>(); &#125;<br>  <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">maxSlidingWindow</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt; &amp;nums, <span class="hljs-type">int</span> k)</span> </span>&#123;<br>    vector&lt;<span class="hljs-type">int</span>&gt; res;<br>    <span class="hljs-comment">//把k 个数先入队列</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span>  i = <span class="hljs-number">0</span>; i &lt; k; i++) &#123;<br>      <span class="hljs-built_in">push</span>(nums[i]); <span class="hljs-comment">//用编写好的push入栈</span><br>    &#125;<br>    res.<span class="hljs-built_in">push_back</span>(que.<span class="hljs-built_in">front</span>()); <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = k; i &lt; nums.<span class="hljs-built_in">size</span>(); i++) &#123;<br>     <span class="hljs-comment">// nums[i - k] 看下 k个数之前入队列的数是不是现在队列最起前面的</span><br>     <span class="hljs-comment">//如果是 pop出去，因为如果是的话说明队列元素已经达到</span><br>      <span class="hljs-built_in">pop</span>(nums[i - k]);<br>      <span class="hljs-built_in">push</span>(nums[i]);<br>      res.<span class="hljs-built_in">push_back</span>(<span class="hljs-built_in">getfron</span>());<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>  &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="5-删除字符串中的所有相邻重复项"><a href="#5-删除字符串中的所有相邻重复项" class="headerlink" title="5. 删除字符串中的所有相邻重复项"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-all-adjacent-duplicates-in-string/">5. 删除字符串中的所有相邻重复项</a></h4><p>难度简单345收藏分享切换为英文接收动态反馈</p>
+<p>给出由小写字母组成的字符串 S，重复项删除操作会选择两个相邻且相同的字母，并删除它们。</p>
+<p>在 S 上反复执行重复项删除操作，直到无法继续删除。</p>
+<p>在完成所有重复项删除操作后返回最终的字符串。答案保证唯一。</p>
+<p>思路： 字符串逐个入栈， 先入一个，入下一个的时候和栈顶的比较，如果相同，说明这两个是相邻且相同的，此时将 栈顶pop出去,遍历完字符后就是最后的结果了，此时还要反转字符串</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">string <span class="hljs-title">removeDuplicates</span><span class="hljs-params">(string S)</span> </span>&#123;<br>  stack&lt;<span class="hljs-type">char</span>&gt; st;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> s : S) &#123;<br>    <span class="hljs-keyword">if</span> (st.<span class="hljs-built_in">empty</span>() || s != st.<span class="hljs-built_in">top</span>()) &#123;<br>      st.<span class="hljs-built_in">push</span>(s);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      st.<span class="hljs-built_in">pop</span>(); <span class="hljs-comment">// s 与 st.top()相等的情况</span><br>    &#125;<br>  &#125;<br>  string result = <span class="hljs-string">&quot;&quot;</span>;<br>  <span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>()) &#123; <span class="hljs-comment">// 将栈中元素放到result字符串汇总</span><br>    result += st.<span class="hljs-built_in">top</span>();<br>    st.<span class="hljs-built_in">pop</span>();<br>  &#125;<br>  <span class="hljs-built_in">reverse</span>(result.<span class="hljs-built_in">begin</span>(), result.<span class="hljs-built_in">end</span>()); <span class="hljs-comment">// 此时字符串需要反转一下</span><br>  <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/LeetCode/" class="category-chain-item">LeetCode</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%A0%86%E6%A0%88/">#堆栈</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>LeetCode-堆栈问题</div>
+      <div>http://example.com/2022/03/07/LeetCode-堆栈问题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 7, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/08/LeetCode-%E5%9B%9E%E6%BA%AF/" title="LeetCode-回溯">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LeetCode-回溯</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/07/LeetCode-%E6%A0%91/" title="LeetCode-树">
+                        <span class="hidden-mobile">LeetCode-树</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

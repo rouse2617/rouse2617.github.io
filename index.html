@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="An elegant Material-Design theme for Hexo"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/06/09/hexo%E6%90%AD%E5%BB%BA%20&amp;&amp;%20%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" target="_self">
+          hexo 搭建记录
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/06/09/hexo%E6%90%AD%E5%BB%BA%20&amp;&amp;%20%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" target="_self">
+        <div>
+          动机就记录下 blog ，一开始 是放在GitHub page上，但是 哪个访问太慢了，而且有时候 push不上去，于是后来 在直接在 服务器上 运行hexo，刚 开始想怎么在本地 直接发布，并并部署在 服务器，一开始的做法 ， git 同步 hexo整个代码，额。。。后来发现只需要同步 public的文件夹的内容就可以，服务器后来也没有用 hexo 部署，而是 用Nginx  做静态资源的服务器
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-06-09 10:16" pubdate>
+              2022-06-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/hexo/" class="category-chain-item">hexo</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/hexo/">#hexo</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/06/09/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%20%E5%B0%8F%E7%BB%93/" target="_self">
+          汇编指令 记录
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/06/09/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%20%E5%B0%8F%E7%BB%93/" target="_self">
+        <div>
+          符号定义伪指令1.global&#96;,&#96;.local&#96;,&#96;.set&#96;,&#96;.equ  .global使得符号对连接器可见，变为对整个工程可用的全局变量
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-06-09 10:16" pubdate>
+              2022-06-09
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/06/09/hello-world/" target="_self">
+          Hello World
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/06/09/hello-world/" target="_self">
+        <div>
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-06-09 09:49" pubdate>
+              2022-06-09
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/04/20/%E5%A6%82%E4%BD%95%E5%AF%B920G%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%8E%92%E5%BA%8F/" target="_self">
+          <img src="http://imt.rui.vin/202204201613604.png" srcset="/img/loading.gif" lazyload alt="如何对大文件进行排序">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/20/%E5%A6%82%E4%BD%95%E5%AF%B920G%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%8E%92%E5%BA%8F/" target="_self">
+          如何对大文件进行排序
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/04/20/%E5%A6%82%E4%BD%95%E5%AF%B920G%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%8E%92%E5%BA%8F/" target="_self">
+        <div>
+          排序问题虽然有了解，很多只是基于理论上，实践比较少，刚好最近遇到个问题：   这个以前遇到过类似的问题， 假如 你有一个20GB的文件，对文件的内容排序，内存限制在 1G，你要怎么排序 以前有做过总结，就是分割文件，逐个文件先排好序，最后然后再合并，说起来很简单，但做起来就。。。。  这次题目有 分割文件，我下载了这个压缩包，解压 看有1000个 20M的文件  	 思路：   将这个一 千个
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-20 14:57" pubdate>
+              2022-04-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%89%E8%B6%A3%E7%9A%84%E9%97%AE%E9%A2%98/">#有趣的问题</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/04/19/Cmake%E7%9A%84%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8/" target="_self">
+          <img src="http://imt.rui.vin/202204190108460.png" srcset="/img/loading.gif" lazyload alt="Cmake的初步使用">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/19/Cmake%E7%9A%84%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8/" target="_self">
+          Cmake的初步使用
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/04/19/Cmake%E7%9A%84%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8/" target="_self">
+        <div>
+          以前 接触Ros是有用过cmake，以及 clickhouse 编译源码时也有用过cmake，但是只是执行命令，没怎样看，最近了解了下 cmake 相对于 Makefile 更加便捷，cmake会根据 CMakeLists.txt的内容  会自动生成 Makefile，想着最近捣鼓的项目代码量也上来了，所以试试 cmake，这里记录做下记录 最近想着一个 项目源文件和头文件如何布局，以及一些模块的
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-19 00:46" pubdate>
+              2022-04-19
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/cmake/">#cmake</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/04/16/Gog%E6%90%AD%E5%BB%BA%E5%92%8Chook%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" target="_self">
+          <img src="http://imt.rui.vin/202204161746854.png" srcset="/img/loading.gif" lazyload alt="Gogs 搭建和githook自动化部署">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/16/Gog%E6%90%AD%E5%BB%BA%E5%92%8Chook%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" target="_self">
+          Gogs 搭建和githook自动化部署
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/04/16/Gog%E6%90%AD%E5%BB%BA%E5%92%8Chook%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" target="_self">
+        <div>
+          ​		昨天 体验到了 rm 的威力（ 手残 把自己服务器的 &#x2F;home都给删除了,好多代码都寄了…..  ）… 导致 早期的搭建的git服务器 挂了，无法更新博客，想到备份而了镜像进行回滚，但是 回滚的是好久之前的，什么都没搭好，于是今天用了一下午的时间 搭建…  ​	   搭建 git的时候按照老办法，突然发现了一个 叫 Gogs的git管理工具，从介绍上看  Gogs 是一款极易搭建
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-16 17:25" pubdate>
+              2022-04-16
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/git/">#git</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/04/10/error%20while%20loading%20shared%20libraries%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" target="_self">
+          <img src="http://imt.rui.vin/202204100035545.png" srcset="/img/loading.gif" lazyload alt="error while loading shared libraries错误解决办法">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/10/error%20while%20loading%20shared%20libraries%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" target="_self">
+          error while loading shared libraries错误解决办法
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/04/10/error%20while%20loading%20shared%20libraries%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" target="_self">
+        <div>
+          最近想实现 Reactor 多线程模式，因为线程池可以使用了，接下来尝试 将epoll 封装下一些api， 后来想到 有个框架 Libevent 也是基于事件通知机制的库，将epoll封装成api，方便调用，以前有看过一点，但是没有用过，所以现在站在巨人的肩膀上看看他们是怎样写的： 看源码之前需要将这个代码跑通，起码会用才行，从编译源代码，到运行demo都遇到了些问题，这里做个总结吧 clone
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-10 22:45" pubdate>
+              2022-04-10
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/bug/">#bug</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/04/01/%E5%87%BD%E6%95%B0%20%E6%8C%87%E9%92%88%20%E6%95%B0%E7%BB%84%20%E6%90%AD%E9%85%8D/" target="_self">
+          <img src="http://imt.rui.vin/202203112353250.png" srcset="/img/loading.gif" lazyload alt="指针数组和数组指针">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/01/%E5%87%BD%E6%95%B0%20%E6%8C%87%E9%92%88%20%E6%95%B0%E7%BB%84%20%E6%90%AD%E9%85%8D/" target="_self">
+          指针数组和数组指针
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/04/01/%E5%87%BD%E6%95%B0%20%E6%8C%87%E9%92%88%20%E6%95%B0%E7%BB%84%20%E6%90%AD%E9%85%8D/" target="_self">
+        <div>
+          指针 ，数组， 函数  这个概念并不会陌生，但是组合起来 就有很多含义，总是搞混，如    数组指针 ，数组指针 ，函数指针等等...  死记硬背是不可能的，在这里总结下规律&#x3D;&#x3D;  指针数组这个比较容易理解 ，我们日常使用的数组有  整型的数组，如 int a[100]; 有100个空间，里面都是存放整型变量的 ， 也有浮点型的数组  float b[100];   从前两个可以总结出这一类数组叫
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-01 23:24" pubdate>
+              2022-04-01
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">#基础语法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/28/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
+          <img src="http://imt.rui.vin/202203292020818.png" srcset="/img/loading.gif" lazyload alt="手写线程池-第一版">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/28/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
+          手写线程池-第一版
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/28/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
+        <div>
+          线程池是什么举个例子，在以前文章又提到过 好几种reactor模式    可以大概分为这几种   单 Reactor 单进程 &#x2F; 线程：    **接收数据  –&gt;  解析数据  –&gt; 发送数据 **              单 Reactor 多线程 ：             接收数据  –&gt; fd 交给线程        –&gt;  线程全程处理 ​
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-28 14:26" pubdate>
+              2022-03-28
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+          <img src="https://raw.githubusercontent.com/vorshen/blog/master/thread/assets/process_thread.png" srcset="/img/loading.gif" lazyload alt="线程的简单使用">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+          线程的简单使用
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/25/%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+        <div>
+          线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下线程的一些使用方法 ； （PS： 发现以前好多看的云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）  线程概念    进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本身
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 23:15" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
