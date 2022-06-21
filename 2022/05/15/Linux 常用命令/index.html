@@ -16,30 +16,26 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="动机就记录下 blog ，一开始 是放在GitHub page上，但是 哪个访问太慢了，而且有时候 push不上去，于是后来 在直接在 服务器上 运行hexo，刚 开始想怎么在本地 直接发布，并并部署在 服务器，一开始的做法 ， git 同步 hexo整个代码，额。。。后来发现只需要同步 public的文件夹的内容就可以，服务器后来也没有用 hexo 部署，而是 用Nginx  做静态资源的服务器">
+    <meta name="description" content="记录一些高频，功能强大的命令  mpstat ：​	 可以用来记录查看 多核心cpus 的运行信息 （具体用法可以看 查看man手册） vmstat：​	 即时显示内存使用情况的工具  1234567891011121314151617r  :The number of processes waiting for run time. 等待运行时间的进程数，即等待的进程数、b  :The numbe">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo 搭建记录">
-<meta property="og:url" content="http://example.com/2022/06/09/hexo%E6%90%AD%E5%BB%BA%20&&%20%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:title" content="Linux 常用命令">
+<meta property="og:url" content="http://example.com/2022/05/15/Linux%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="动机就记录下 blog ，一开始 是放在GitHub page上，但是 哪个访问太慢了，而且有时候 push不上去，于是后来 在直接在 服务器上 运行hexo，刚 开始想怎么在本地 直接发布，并并部署在 服务器，一开始的做法 ， git 同步 hexo整个代码，额。。。后来发现只需要同步 public的文件夹的内容就可以，服务器后来也没有用 hexo 部署，而是 用Nginx  做静态资源的服务器">
+<meta property="og:description" content="记录一些高频，功能强大的命令  mpstat ：​	 可以用来记录查看 多核心cpus 的运行信息 （具体用法可以看 查看man手册） vmstat：​	 即时显示内存使用情况的工具  1234567891011121314151617r  :The number of processes waiting for run time. 等待运行时间的进程数，即等待的进程数、b  :The numbe">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://imt.rui.vin/image-20220206135215658.png">
-<meta property="og:image" content="http://imt.rui.vin/202202061425030.png">
-<meta property="og:image" content="http://imt.rui.vin/202202061425172.png">
-<meta property="og:image" content="http://imt.rui.vin/202202061425433.png">
-<meta property="og:image" content="http://imt.rui.vin/202203101455909.png">
-<meta property="article:published_time" content="2022-06-09T02:16:16.319Z">
-<meta property="article:modified_time" content="2022-06-09T02:16:16.320Z">
+<meta property="og:image" content="http://imt.rui.vin/202206211128187.png">
+<meta property="article:published_time" content="2022-05-14T16:40:40.000Z">
+<meta property="article:modified_time" content="2022-06-21T03:51:36.713Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="Linux网络">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://imt.rui.vin/image-20220206135215658.png">
+<meta name="twitter:image" content="http://imt.rui.vin/202206211128187.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>hexo 搭建记录 - Hexo</title>
+  <title>Linux 常用命令 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="hexo 搭建记录"></span>
+            <span id="subtitle" data-typed-text="Linux 常用命令"></span>
           
         </div>
 
@@ -213,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-06-09 10:16" pubdate>
-          June 9, 2022 am
+        <time datetime="2022-05-15 00:40" pubdate>
+          May 15, 2022 am
         </time>
       </span>
     
@@ -225,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k words
+          986 words
         
       </span>
     
@@ -236,7 +232,7 @@
         
         
         
-          17 mins
+          9 mins
         
       </span>
     
@@ -282,78 +278,85 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">hexo 搭建记录</h1>
+            <h1 style="display: none">Linux 常用命令</h1>
             
             <div class="markdown-body">
               
-              <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>就记录下 blog ，一开始 是放在GitHub page上，但是 哪个访问太慢了，而且有时候 push不上去，于是后来 在直接在 服务器上 运行hexo，刚 开始想怎么在本地 直接发布，并并部署在 服务器，一开始的做法 ， git 同步 hexo整个代码，额。。。后来发现只需要同步 public的文件夹的内容就可以，服务器后来也没有用 hexo 部署，而是 用Nginx  做静态资源的服务器，端口直接定向到 80，后面 还加了 git hook，实现git自动 pull 部署， 目前 大致 框架算是完成好了（能写就行的原则），后续在添加功能</p>
-<h3 id="Nginx-做域名指向"><a href="#Nginx-做域名指向" class="headerlink" title="Nginx 做域名指向"></a>Nginx 做域名指向</h3><p>​	域名备案完成，想使用域名代替ip，域名解析指向ip就行，但没那么简单，最后还是修改了 Nginx 的配置文件</p>
-<h3 id="图床的搭建"><a href="#图床的搭建" class="headerlink" title="图床的搭建"></a>图床的搭建</h3><p>​	起初： 直接把图片上传，好像装个什么插件(这个忘了)，用是挺好用的，但有时候路径不对，还没找到原因</p>
-<p>​    后面： 一直想尝试用图床，但懒得折腾；恰好现在有 备案好的域名，于是 就捣鼓了下七牛云的云储存，其实也不难~</p>
-<h4 id="1-注册七牛云并实名-然后点-对象存储-创建空间"><a href="#1-注册七牛云并实名-然后点-对象存储-创建空间" class="headerlink" title="1. 注册七牛云并实名 然后点  对象存储  创建空间"></a>1. 注册七牛云并实名 然后点  <strong>对象存储</strong>  创建空间</h4><p>​	![image-20220206134637817](img&#x2F;hexo搭建 &amp;&amp; 优化过程记录&#x2F;image-20220206134637817.png)</p>
-<p>![image-20220206134748451](img&#x2F;hexo搭建 &amp;&amp; 优化过程记录&#x2F;image-20220206134748451.png)</p>
-<h4 id="2-添加域名"><a href="#2-添加域名" class="headerlink" title="2.添加域名"></a>2.添加域名</h4><p>如果你自己没有备案的域名只能 用七牛云的但是只有30 天…..</p>
-<p><img src="http://imt.rui.vin/image-20220206135215658.png" srcset="/img/loading.gif" lazyload alt="image-20220206135215658"></p>
-<p>剩下就是添加域名啦</p>
-<p>![image-20220206135312503](img&#x2F;hexo搭建 &amp;&amp; 优化过程记录&#x2F;image-20220206135312503.png)</p>
-<p>缓存配置 我直接选默认（我也还没搞明白这个怎么用…）</p>
-<p>![image-20220206135405161](img&#x2F;hexo搭建 &amp;&amp; 优化过程记录&#x2F;image-20220206135405161.png)</p>
-<p>这里需要注意的是  域名的问题：  我直接用一级域名 会404，可能是因为 一级域名 被Nginx解析了，要在Nginx配置文件中修改下，于是我用了个二级域名（这个可以去对应的域名网站解析），一切完成后 下载 </p>
-<h4 id="3-PicGO-图床上传工具"><a href="#3-PicGO-图床上传工具" class="headerlink" title="3.PicGO 图床上传工具"></a>3.PicGO 图床上传工具</h4><p>存储区域： 华南的是z2，以此类推</p>
-<p>key和secretkey可以在找到</p>
-<p><img src="http://imt.rui.vin/202202061425030.png" srcset="/img/loading.gif" lazyload alt="image-20220206140329112"></p>
-<p><img src="http://imt.rui.vin/202202061425172.png" srcset="/img/loading.gif" lazyload alt="image-20220206140148172"></p>
-<p>我用 typora   这个可以直接贴图上传，在偏好设置 配一下就可以</p>
-<p><img src="http://imt.rui.vin/202202061425433.png" srcset="/img/loading.gif" lazyload alt="image-20220206140424154"></p>
-<h3 id="hexo-功能完善记录"><a href="#hexo-功能完善记录" class="headerlink" title="hexo 功能完善记录"></a>hexo 功能完善记录</h3><h4 id="实现文章置顶功能"><a href="#实现文章置顶功能" class="headerlink" title="实现文章置顶功能"></a>实现文章置顶功能</h4><p>​	</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">$ npm uninstall hexo-generator-index --save<br><br>$ npm install hexo-generator-index-pin-top --save<br></code></pre></td></tr></table></figure>
-
-<p>在 format 中 加入 top :1 </p>
-<p><img src="http://imt.rui.vin/202203101455909.png" srcset="/img/loading.gif" lazyload alt="image-20220310145545576"></p>
-<p>置顶了但是没有标志</p>
-<p>&#x2F;blog&#x2F;themes&#x2F;next&#x2F;layout&#x2F;_macro 目录下的<code>post.swig</code>文件，定位到<code>&lt;div class=&quot;post-meta&quot;&gt;</code>标签下，插入如下代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&#123;% <span class="hljs-keyword">if</span> post.<span class="hljs-property">top</span> %&#125;<br>  &lt;i <span class="hljs-keyword">class</span>=<span class="hljs-string">&quot;fa fa-thumb-tack&quot;</span>&gt;&lt;/i&gt;<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">font</span> <span class="hljs-attr">color</span>=<span class="hljs-string">7D26CD</span>&gt;</span>置顶<span class="hljs-tag">&lt;/<span class="hljs-name">font</span>&gt;</span></span><br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;post-meta-divider&quot;</span>&gt;</span>|<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span><br>&#123;% endif %&#125;<br></code></pre></td></tr></table></figure>
-
-<p>效果展示：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript">        &lt;div <span class="hljs-keyword">class</span>=<span class="hljs-string">&quot;post-meta&quot;</span>&gt;<br>          <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;post-time&quot;</span>&gt;</span></span><br><span class="language-xml">在此之下插入代码，包含在 span块内        </span><br><span class="language-xml">          &#123;% if post.top %&#125;</span><br><span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;fa fa-thumb-tack&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">font</span> <span class="hljs-attr">color</span>=<span class="hljs-string">7D26CD</span>&gt;</span>置顶<span class="hljs-tag">&lt;/<span class="hljs-name">font</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;post-meta-divider&quot;</span>&gt;</span>|<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span><br><span class="language-xml">          &#123;% endif %&#125;</span><br></code></pre></td></tr></table></figure>
+              <p>记录一些高频，功能强大的命令 </p>
+<h3 id="mpstat-："><a href="#mpstat-：" class="headerlink" title="mpstat ："></a>mpstat ：</h3><p>​	 可以用来记录查看 多核心cpus 的运行信息 （具体用法可以看 查看man手册）</p>
+<h3 id="vmstat："><a href="#vmstat：" class="headerlink" title="vmstat："></a>vmstat：</h3><p>​	 即时显示内存使用情况的工具</p>
+<p><img src="http://imt.rui.vin/202206211128187.png" srcset="/img/loading.gif" lazyload alt="image-20220621112805965"></p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">r  :The number of processes waiting for run time. 等待运行时间的进程数，即等待的进程数、<br>b  :The number of processes <span class="hljs-keyword">in</span> uninterruptible <span class="hljs-keyword">sleep</span>. 在等待io的进程数<br><span class="hljs-symbol">swpd:</span> 虚拟内存的使用量<br>free：空闲内存量<br>buff：缓冲区中的内存<br>cache：被用来做为高速缓存的内存数<br><span class="hljs-symbol">si:</span> 从磁盘交换到内存的交换页数量，单位：KB/秒。<br><span class="hljs-symbol">so:</span> 从内存交换到磁盘的交换页数量，单位：KB/秒。<br><span class="hljs-symbol">bi:</span> 发送到块设备的块数，单位：块/秒。<br><span class="hljs-symbol">bo:</span> 从块设备接收到的块数，单位：块/秒。<br><span class="hljs-symbol">in:</span> 每秒的中断数，包括时钟中断。<br><span class="hljs-symbol">cs:</span> 每秒的环境（上下文）转换次数。<br>us：用户进程使用的时间 。以百分比表示。<br>sy：系统进程使用的时间。 以百分比表示。<br>id：中央处理器的空闲时间 。以百分比表示。<br>wa：io等待时间<br><span class="hljs-keyword">st</span>：Time stolen from a virtual machine<br></code></pre></td></tr></table></figure>
 
 
 
-<h4 id="实现首页背景每天更新图片"><a href="#实现首页背景每天更新图片" class="headerlink" title="实现首页背景每天更新图片"></a>实现首页背景每天更新图片</h4><p>今天打开必应搜索，突然突然想到我的blog背景图能不能和必应一样每天更新，于是搜了下必应背景图的api，果然有，于是直接在 配置文件上更换了这个，但是第一次加载没那么快了</p>
-<h4 id="开启评论功能"><a href="#开启评论功能" class="headerlink" title="开启评论功能"></a>开启评论功能</h4><p>这个主题都集成了好多功能！！ 评论模块也有，这次选用 leancloud 提供的平台，只需要注册 拿到 api key就行，一步搞定…. 我在想自己有服务器，是不是也可以在后台搭建个评论系统 ; 这里留一个坑吧…. leancloud好像提供提供许多服务的</p>
-
+<h3 id="sar："><a href="#sar：" class="headerlink" title="sar："></a>sar：</h3><p>sar  系统的 CPU、运行队列、磁盘读写（I&#x2F;O）、分区（交换区）、内存、CPU 中断和网络性能数据</p>
+<p><code>[root@localhost ~]# sar [options] [-o filename] interval [count]</code></p>
+<p>[<strong>options</strong>]</p>
+<table>
+<thead>
+<tr>
+<th>-A</th>
+<th align="left">显示系统所有资源设备（CPU、内存、磁盘）的运行状况。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-u</td>
+<td align="left">显示系统所有 CPU 在采样时间内的负载状态。</td>
+</tr>
+<tr>
+<td>-P</td>
+<td align="left">显示当前系统中指定 CPU 的使用情况。</td>
+</tr>
+<tr>
+<td>-d</td>
+<td align="left">显示系统所有硬盘设备在采样时间内的使用状态。</td>
+</tr>
+<tr>
+<td>-r</td>
+<td align="left">显示系统内存在采样时间内的使用情况。</td>
+</tr>
+<tr>
+<td>-b</td>
+<td align="left">显示缓冲区在采样时间内的使用情况。</td>
+</tr>
+<tr>
+<td>-v</td>
+<td align="left">显示 inode 节点、文件和其他内核表的统计信息。</td>
+</tr>
+<tr>
+<td>-n</td>
+<td align="left">显示网络运行状态，此选项后可跟 DEV（显示网络接口信息）、EDEV（显示网络错误的统计数据）、SOCK（显示套接字信息）和 FULL（等同于使用 DEV、EDEV和SOCK）等，有关更多的选项，可通过执行 man sar 命令查看。</td>
+</tr>
+<tr>
+<td>-q</td>
+<td align="left">显示运行列表中的进程数、进程大小、系统平均负载等。</td>
+</tr>
+<tr>
+<td>-R</td>
+<td align="left">显示进程在采样时的活动情况。</td>
+</tr>
+<tr>
+<td>-y</td>
+<td align="left">显示终端设备在采样时间的活动情况。</td>
+</tr>
+<tr>
+<td>-w</td>
+<td align="left">显示系统交换活动在采样时间内的状态。</td>
+</tr>
+</tbody></table>
+<h3 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a>iostat</h3>
               
             </div>
             <hr/>
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/hexo/" class="category-chain-item">hexo</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/hexo/">#hexo</a>
+        <a href="/tags/Linux%E7%BD%91%E7%BB%9C/">#Linux网络</a>
       
     </div>
   
@@ -367,12 +370,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2022/06/09/hexo%E6%90%AD%E5%BB%BA%20&amp;&amp;%20%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" title="hexo 搭建记录">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">hexo 搭建记录</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/15/Linux%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux 常用命令">
-                        <span class="hidden-mobile">Linux 常用命令</span>
+                      <a href="/2022/04/20/%E5%A6%82%E4%BD%95%E5%AF%B920G%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%8E%92%E5%BA%8F/" title="如何对大文件进行排序">
+                        <span class="hidden-mobile">如何对大文件进行排序</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
