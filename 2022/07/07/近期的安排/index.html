@@ -16,26 +16,22 @@
   <meta name="author" content="Rui">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.什么是io多路复用">
-<meta property="og:type" content="article">
-<meta property="og:title" content="对io多路复用的一些理解">
-<meta property="og:url" content="http://example.com/2022/03/10/%E5%AF%B9io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="近期的安排">
+<meta property="og:url" content="http://example.com/2022/07/07/%E8%BF%91%E6%9C%9F%E7%9A%84%E5%AE%89%E6%8E%92/index.html">
 <meta property="og:site_name" content="Rui">
-<meta property="og:description" content="1.什么是io多路复用">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://imt.rui.vin/202203111203054.png">
-<meta property="article:published_time" content="2022-03-10T06:26:03.000Z">
-<meta property="article:modified_time" content="2022-06-09T02:16:15.940Z">
+<meta property="article:published_time" content="2022-07-07T15:26:21.000Z">
+<meta property="article:modified_time" content="2022-07-07T15:28:00.813Z">
 <meta property="article:author" content="Rui">
-<meta property="article:tag" content="网络">
+<meta property="article:tag" content="计划">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://imt.rui.vin/202203111203054.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>对io多路复用的一些理解 - Rui</title>
+  <title>近期的安排 - Rui</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +194,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="对io多路复用的一些理解"></span>
+            <span id="subtitle" data-typed-text="近期的安排"></span>
           
         </div>
 
@@ -209,8 +205,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-03-10 14:26" pubdate>
-          March 10, 2022 pm
+        <time datetime="2022-07-07 23:26" pubdate>
+          July 7, 2022 pm
         </time>
       </span>
     
@@ -221,7 +217,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k words
+          0 words
         
       </span>
     
@@ -232,7 +228,7 @@
         
         
         
-          18 mins
+          1 mins
         
       </span>
     
@@ -278,51 +274,11 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">对io多路复用的一些理解</h1>
+            <h1 style="display: none">近期的安排</h1>
             
             <div class="markdown-body">
               
-              <meta name="referrer" content="no-referrer"/>
-
-<h4 id="1-什么是io多路复用"><a href="#1-什么是io多路复用" class="headerlink" title="1.什么是io多路复用"></a>1.什么是io多路复用</h4> <span id="more"></span>
-
-<p>​    <strong>多路复用是同步的！！！！</strong></p>
-<p>​	单个进z程管理多个文件描述符<br>​	总的来说就使用单个进程管理（监听）更多的io</p>
-<h4 id="2-io多路复用模型-通俗的解释，如何用，底层原理是什么？"><a href="#2-io多路复用模型-通俗的解释，如何用，底层原理是什么？" class="headerlink" title="2.io多路复用模型 通俗的解释，如何用，底层原理是什么？"></a>2.io多路复用模型 通俗的解释，如何用，底层原理是什么？</h4><ul>
-<li><p>通俗的理解 举个例子：</p>
-<p>  有一家新开的饭店，开始的时候，他是这样安排服务员的：每一桌都安排一个服务员，这个服务员负责这张桌子的点菜，茶水；顾客点完菜，服务员把菜单<strong>送到后厨</strong>， 饭店刚开始只有10几张桌子，后来每天都有百余张桌子，出现了一个问题，有时候后厨一下子塞满了人，出现了拥堵，客人那边长时间没人服务….（<strong>类比多进程管理多个io</strong>）</p>
-<p>  后来饭店老板想到了一个方法，让一个人来专门送菜单都后厨，这个服务员呢会逐个逐个问那些服务员，有没有菜单要送到后厨的，收集完了后然再统一拿到后厨，这样后厨就不会拥堵啦。（类比单进程管理多个io，这个类似select 做法）</p>
-<p>  可还是有问题，一张一张桌去问还是太费时间了，有些顾客点了菜就不在点菜了，有的要点很久，再后来，老板又想到了一个方法，每个桌子都安装一个按钮，顾客点好菜了，嗯按钮，那个专门收集菜单的人就去那张桌子那菜单（epoll ）；</p>
-</li>
-</ul>
-<p>​    以上并不是概念，只是抽象的比喻而已，对io多路复用模型有 三种  ： select ，poll，epoll</p>
-<p>​	 select：  虽然效率不高，但可以跨平台；单个进程只能保存1024个fd，轮询访问<br>​		</p>
-<p>​      poll:   和select相同，但是使用数组的形式保存fd，无上限，同样也是轮询访问</p>
-<p><img src="http://imt.rui.vin/202203101426837.png" srcset="/img/loading.gif" lazyload alt="image-20220310132555292"></p>
-<hr>
-<p>​	 epoll： 这个比较重要，详细说下<br>​		  再来做个比喻，有个小区，一开始小区里的人寄快递都是叫快递员上门取件，或者是去快递店里寄，前者有点费快递员的人力，后	者可以有浪费顾客的时间，后来快递公司想到了一个方法， 在小区里建立了一个无人快递收件柜子（蜂巢），顾客把想寄的东西都放	在那个柜子了，快递人员到一定的时间带个大袋子，把要寄送的东西带走，这样就省去快递员挨家挨户的收快递，提高了效率；</p>
-<p>​    小区里的人就是 那些文件io，柜子里的装的东西就是 有事件响应的io，这样就不用挨个去遍历了，每次快递员到了时间点了（timeout）就去拿柜子里的快递。<br>​	这样也挺容易理解的，但要是问如何实现的呢，前两种还可理解，遍历fd所以时间复杂度为 O(n) ，而epoll是怎么做到  O(1)呢？</p>
-<p>​	以前也被问过：epoll怎么实现的，一般都是说红黑树加双向链表实现的，然后就说不下去了….</p>
-<p>​    epoll 使用就不在多说，现在说个话题 为什么 epoll 时间复杂度可以做到O（1） 呢？</p>
-<p>​    我们一般都会说，底层把有事件发生的io放在一个队列里（此时io可以理解为分配给客户端的一个fd），这个对个队列是一个双向链   	表，插入的时间复杂为O（1），</p>
-<p>​	没错，在用户态 我们遍历队列的时候，可以保证遍历的每个io都是有事件发生，效率肯定是上去了，那么在内核态，底层是如何把有	事 件发生的io放到队列呢？ 怎么放我们已经知道了，现在问题是在那么多io里，怎么马上挑出有事件的io呢？难道也是在内核态全部  	遍历一次？我一开始也百思不得其解，查阅很多资料知道，原来在更底层有那么一个机制，当一个io有事件发生会产生一个软终端，然 	后我想到了 信号，信号的类型有个是  SIGIO（这里的软中断我也不是很确定是不是io中断)</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-built_in">sigaction</span>(SIGIO, &amp;sigio_action, <span class="hljs-literal">NULL</span>);<br></code></pre></td></tr></table></figure>
-
-<p>  当io有什么事件发生时候，会马上调用这个对应的回调函数（信号是的使用机智我们也知道），那这样，我并不需要每个io的去问有没有事件发生，内核就每个io都设置一个回调函数，那么io有事件了，马上调用回调函数，那么就准备把这个io装在队列里面里，而红黑树的作用就是管理这些io并设置其回调函数，就好像这个api</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-built_in">epoll_ctl</span>(epfd, EPOLL_CTL_ADD, sockfd, &amp;ev);<br></code></pre></td></tr></table></figure>
-
-<p>把新的io加入到红黑树里面，然后注册一个对应的回调函数，我们都知道红黑树的特性是 增删改查时间复杂度稳定 为 logn，有io退出，  取消对应的回调函数，然后删除这个io</p>
-<p>以上就是当前对epoll底层实现 的初步了解，后续看了源码再来更新</p>
-<p>具体流程如下如下所示  （在知乎看到的）</p>
-<p><img src="http://imt.rui.vin/202203111203054.png" srcset="/img/loading.gif" lazyload alt="image-20220310135031722"></p>
-<h4 id="3-epoll-和-select-用哪个好"><a href="#3-epoll-和-select-用哪个好" class="headerlink" title="3 .epoll 和  select 用哪个好"></a>3 .epoll 和  select 用哪个好</h4><p>​	这也是要结合场景使用，如果 连接数比较少，事件响应比较多的时候用select 性能较好一些。涉及到大并发连接是，任意事件段io并不是很活跃可以使用 epoll</p>
-<hr>
-<h4 id="epoll-是同步还是异步？"><a href="#epoll-是同步还是异步？" class="headerlink" title="epoll 是同步还是异步？"></a>epoll 是同步还是异步？</h4><p>从内核态来看，是异步的，无需一直等待事件的发生，有事件io发生，就把这个io 塞到队列里，这好像也没毛病</p>
-<p>从用户态说：  int nready &#x3D; epoll_wait(epoll_fd, events, EPOLL_SIZE, -1);   如果 nready 返回大于0，说明 events里面有东西，就就去遍历，没有就继续等待，所以说  用户态来说  epoll_wait是同步的</p>
-<p>在知乎看到这样的解释， 对epoll而言 很多操作都放到 内核去做处理，也就是说让操作系统帮我们做一些事情，从 一开始 io阻塞模型 到 io多路复用，随着技术的迭代，在底层操作系统帮我们做的事越来越多了 （ 好像这样说也不是很对，后续再花点时间重新捋一下 五种io模型 ）</p>
-<p><img src="http://imt.rui.vin/202203250002719.png" srcset="/img/loading.gif" lazyload alt="知乎上截图的"> </p>
-<hr>
-
+              
               
             </div>
             <hr/>
@@ -333,7 +289,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%BD%91%E7%BB%9C/">#网络</a>
+        <a href="/tags/%E8%AE%A1%E5%88%92/">#计划</a>
       
     </div>
   
@@ -347,18 +303,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/11/epoll%E4%B8%AD%20LT%20%E5%92%8C%20ET%20%E5%8C%BA%E5%88%AB/" title="epoll中 LT 和 ET 区别">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">epoll中 LT 和 ET 区别</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/09/LeetCode-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="LeetCode-动态规划">
-                        <span class="hidden-mobile">LeetCode-动态规划</span>
+                      <a href="/2022/06/09/hexo%E6%90%AD%E5%BB%BA%20&amp;&amp;%20%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" title="hexo 搭建记录">
+                        <span class="hidden-mobile">hexo 搭建记录</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
