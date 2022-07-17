@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2022/07/07/%E5%AD%98%E5%82%A8%E9%80%9A%E8%AF%86/"/>
+    <url>/2022/07/07/%E5%AD%98%E5%82%A8%E9%80%9A%E8%AF%86/</url>
+    
+    <content type="html"><![CDATA[<h2 id="iops"><a href="#iops" class="headerlink" title="iops"></a>iops</h2><blockquote><p>  iops（Input&#x2F;Output Operations Per Second），每秒能进行多少次io（读写次数），是衡量磁盘性能的主要指标之一</p></blockquote><h2 id="RAID"><a href="#RAID" class="headerlink" title="RAID"></a>RAID</h2><blockquote><p>  RAID （ Redundant Array of Independent Disks ）即独立磁盘冗余阵列，简称为「磁盘阵列」，其实就是用多个独立的磁盘组成在一起形成一个大的磁盘系统，从而实现比单块磁盘更好的存储性能和更高的可靠性。</p></blockquote><h3 id="RAID0"><a href="#RAID0" class="headerlink" title="RAID0"></a>RAID0</h3><p>通俗的理解：数据分割成 n分，并行写入 n个磁盘中，但是启动一个磁盘坏了，整体数据也丢失了，不可靠</p><p>技术上分析： </p><ul><li>RAID0 在逻辑上讲多个磁盘横向划分为 Stripe（条带），而 Strip是条带单元，称之为Segment，如下图 有五个条带单元构成了一个Stripe，这个条带的宽度是磁盘数即 5，条带的深度为4（条带单元的块个数）</li><li>当系统下发IO是，RAID控制器会根据读写块以及条带深度均衡 io（尽量让每个磁盘都有活干），当然也有不理想的时候读取的刚好都是在一个 Segment中，这个均衡就没意思了，而且还浪费资源，若是想要最大化的均衡io，让Segment的粒度更小，更多占用物理盘；</li><li>由于冗余处理，读取速度快，空间使用率百分百，不足的就是数据不可靠</li></ul><p><img src="http://imt.rui.vin/202207180018451.png" alt="image-20220717231603585"></p><p>待更新…..</p><p>RAID01：在RAID0的缺点上该进，增加一个镜像磁盘作为备份，有个磁盘坏了可以从备用磁盘中读取，但读写翻倍，性能下降，稳定性高</p><p>RAID2： 基于前两种引用了一种数据纠错算法进行保证数据正确性，一种叫做汉明码的算法，RAID2允许一块一快磁盘出错，但是两块以上就不可以了</p><p>RAID3： 基于RAID2的校验率提升了（XOR算法），利用奇偶校验信息来恢复故障硬盘上的数据</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>计划</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>近期的安排</title>
     <link href="/2022/07/07/%E8%BF%91%E6%9C%9F%E7%9A%84%E5%AE%89%E6%8E%92/"/>
     <url>/2022/07/07/%E8%BF%91%E6%9C%9F%E7%9A%84%E5%AE%89%E6%8E%92/</url>
