@@ -86,7 +86,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -296,7 +296,7 @@
             <div class="markdown-body">
               
               <p>在 jos中 BIOS程序先写好了，qemu已启动直接跳到了 0x7c00处 开始执行程序，在设模式下内存布局如图</p>
-<p><img src="http://imt.rui.vin/202202161604341.jpeg" srcset="/img/loading.gif" lazyload alt="preview"></p>
+<p><img src="http://imt.rui.vin/202202161604341.jpeg" alt="preview"></p>
 <span id="more"></span>
 
 
@@ -306,14 +306,14 @@
 <p><strong>物理地址直接通过MMU模块转换成了虚拟地址！</strong></p>
 <p>到目前为止，内核已经写进了了内存，</p>
 <p>​	如图</p>
-<p><img src="http://imt.rui.vin/202202171701110.png" srcset="/img/loading.gif" lazyload alt="image-20220217161035639"></p>
+<p><img src="http://imt.rui.vin/202202171701110.png" alt="image-20220217161035639"></p>
 <p>将一个已经映射好的页表的地址放在指定的地方，开业分页模式后，cpu会自动查找到这个并且通过MMU模块转换层虚拟地址</p>
 <hr>
 <h1 id="开始-lab2-！"><a href="#开始-lab2-！" class="headerlink" title="开始 lab2 ！"></a>开始 lab2 ！</h1><p>本章主要内容 是内存管理  虚拟内存  -&gt; 映射到物理内存</p>
 <p>目前的内存布局如下 </p>
-<p><img src="http://imt.rui.vin/202202172030021.png" srcset="/img/loading.gif" lazyload alt="image-20220217203020565"></p>
+<p><img src="http://imt.rui.vin/202202172030021.png" alt="image-20220217203020565"></p>
 <p>在写入完内核后，我们知道j接下来的任务建立页表，  我们要从哪里开始建立页表呢？很明显是在内核之后，而我们不知道内核的具体到小，而内核的大小是不固定的，在那个地址结束呢？在 kernel文件生成时，BSS段我们设置一个变量 end，作为内核结束的标志，所以我们可以在其他文件extend 引用这个变量，就可以知道 内核结束的位置在哪里！</p>
-<p><img src="http://imt.rui.vin/202202171958263.png" srcset="/img/loading.gif" lazyload alt="image-20220217195848698"></p>
+<p><img src="http://imt.rui.vin/202202171958263.png" alt="image-20220217195848698"></p>
 <hr>
 <h3 id="Exercise-1-完善函数"><a href="#Exercise-1-完善函数" class="headerlink" title="Exercise 1.   完善函数"></a><strong>Exercise 1.</strong>   完善函数</h3><p> In the file <code>kern/pmap.c</code>, you must implement code for the following functions (probably in the order given).</p>
 <blockquote>
@@ -334,7 +334,7 @@
 
 
 
-<p><img src="http://imt.rui.vin/202202172123327.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="http://imt.rui.vin/202202172123327.png"></p>
 <p><strong>第二个函数page_init()</strong></p>
 <p>初始化页表：</p>
 <p>pages并没有内容<br>按要求来  </p>
@@ -352,7 +352,7 @@
 <p>这里说下 page2kva(addr)  这个函数；<br>memset扩充内存，操作的虚拟是虚拟内存 （实际物理地址加 0xf00000）<br>现在 的addr 只是这个页表项的地址，如果直接按这个地址扩展的话肯定是会覆盖其他页表项的，所以呢，我们的根据这个页表项设计出在那分配内存</p>
 <p>page2pa ：    pages是页表项的初始地址   pp-pages 可以得出 是第几个页表项 ； 而 左移则是   乘以4096 ，那么这个结果是 物理页的偏移量，我们可以算出在哪里开始分配内存</p>
 <p>KADDR ： 刚才得出的是物理内存，我们还得把这个转换成虚拟地址 ，这个宏就可以将物理地址转换成虚拟地址</p>
-<p><img src="http://imt.rui.vin/202202182223638.png" srcset="/img/loading.gif" lazyload alt="image-20220218222302556"></p>
+<p><img src="http://imt.rui.vin/202202182223638.png" alt="image-20220218222302556"></p>
 <hr>
 <h3 id="Exercise-4-完善函数"><a href="#Exercise-4-完善函数" class="headerlink" title="Exercise 4   完善函数"></a><strong>Exercise 4</strong>   完善函数</h3><blockquote>
 <p><strong>Exercise 4.</strong> In the file <code>kern/pmap.c</code>, you must implement code for the following functions.</p>
@@ -361,20 +361,20 @@
 <p><code>check_page()</code>, called from <code>mem_init()</code>, tests your page table management routines. You should make sure it reports success before proceeding.</p>
 </blockquote>
 <p>​	pgdir_walk(pde_t *pgdir, const void *va, int create)	<br>​	给一个虚拟地址，页目录表入口，返回该虚拟地址所在的页表项</p>
-<p><img src="http://imt.rui.vin/202202201548004.png" srcset="/img/loading.gif" lazyload alt="image-20220220154819450"></p>
+<p><img src="http://imt.rui.vin/202202201548004.png" alt="image-20220220154819450"></p>
 <p>大致看完 lab2 ，先回答几个问题</p>
 <p>在 lab1 完成后，此时 OS的布局是怎么的？</p>
 <p>解释下 虚拟内存 ，物理内存， 两者是如何映射的？</p>
 <p>kernel 存放在哪个位值？ （分派内存是以防覆盖） （提示 ： bss）</p>
 <p>内存权限问题</p>
 <p>开启分页模式后，物理地址 默认都会转换为 虚拟地址（ cr3 寄存器 可以设置 ）</p>
-<p><img src="http://imt.rui.vin/202202171647087.png" srcset="/img/loading.gif" lazyload alt="image-20220217164716439"></p>
-<p><img src="http://imt.rui.vin/202202171647673.png" srcset="/img/loading.gif" lazyload alt="image-20220217164746773"></p>
-<p><img src="http://imt.rui.vin/202202152318490.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="http://imt.rui.vin/202202092233782.png" srcset="/img/loading.gif" lazyload alt="image-20220209223329957"></p>
-<p><img src="http://imt.rui.vin/202202111132647.png" srcset="/img/loading.gif" lazyload alt="image-20220211105409966"></p>
-<p><img src="http://imt.rui.vin/202202111132406.png" srcset="/img/loading.gif" lazyload alt="image-20220211113225003"></p>
-<p><img src="http://imt.rui.vin/202202152325037.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="http://imt.rui.vin/202202171647087.png" alt="image-20220217164716439"></p>
+<p><img src="http://imt.rui.vin/202202171647673.png" alt="image-20220217164746773"></p>
+<p><img src="http://imt.rui.vin/202202152318490.png" alt="img"></p>
+<p><img src="http://imt.rui.vin/202202092233782.png" alt="image-20220209223329957"></p>
+<p><img src="http://imt.rui.vin/202202111132647.png" alt="image-20220211105409966"></p>
+<p><img src="http://imt.rui.vin/202202111132406.png" alt="image-20220211113225003"></p>
+<p><img src="http://imt.rui.vin/202202152325037.png" alt="img"></p>
 
               
             </div>
@@ -619,10 +619,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

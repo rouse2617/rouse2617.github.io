@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -285,7 +285,7 @@
               <p>以前 接触Ros是有用过cmake，以及 clickhouse 编译源码时也有用过cmake，但是只是执行命令，没怎样看，最近了解了下</p>
 <p>cmake 相对于 Makefile 更加便捷，cmake会根据 CMakeLists.txt的内容  会自动生成 Makefile，想着最近捣鼓的项目代码量也上来了，所以试试 cmake，这里记录做下记录</p>
 <p>最近想着一个 项目源文件和头文件如何布局，以及一些模块的代码要在那个文件夹，这里现在考虑的不是很完善，现在方案是  .h 和 .cpp 分离开，并且一个功能模块占用一个文件夹</p>
-<p><img src="http://imt.rui.vin/202204190055109.png" srcset="/img/loading.gif" lazyload alt="image-20220419005501875">	build 里面就是 cmake 生成的文件，在项目根目录编写 个 CmakeLists.txt ,cmake 会根据这个生成对应的makefile文件</p>
+<p><img src="http://imt.rui.vin/202204190055109.png" alt="image-20220419005501875">	build 里面就是 cmake 生成的文件，在项目根目录编写 个 CmakeLists.txt ,cmake 会根据这个生成对应的makefile文件</p>
 <p>aux_source_directory(路径 变量名字)   是指定路径的源文件 保存到指定的变量（这里都是用空格隔开的）<br>期初一直提示没有找   <strong>undefined reference</strong>  原因就是 没有导入相对应的文件</p>
 <ul>
 <li><p>$是取值的符号</p>
@@ -533,10 +533,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

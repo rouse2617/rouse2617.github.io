@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -282,7 +282,7 @@
             
             <div class="markdown-body">
               
-              <p><img src="http://imt.rui.vin/image-20220205193221144.png" srcset="/img/loading.gif" lazyload alt="image-20220205193221144"></p>
+              <p><img src="http://imt.rui.vin/image-20220205193221144.png" alt="image-20220205193221144"></p>
 <p>好久前就有所了解这个 mit6.828 ，但只是走马观花 看了下，趁着毕设（无可奈何），高强度把这个拿下！</p>
 <p>毕设选的题目是  内核设计，实现一个内核，开始 看了 很多关于os书籍，主要看的是  操作系统真相还原，开头引人入胜，后面  …举步维艰..   于是转战     《JamesM’s kernel development tutorials》 这个确实比较适合入门, 好像有点开窍，<br>可能有前面的基础，如此再回来 看mit6.868 ，又是不一样的感觉！</p>
 <p>接下来按照 这个来课表  的顺序来 的顺序来   <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2018/schedule.html">课程表</a>  </p>
@@ -533,10 +533,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

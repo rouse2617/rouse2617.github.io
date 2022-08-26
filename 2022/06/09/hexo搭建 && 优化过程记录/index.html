@@ -77,7 +77,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -293,7 +293,7 @@
 <h4 id="1-注册七牛云并实名-然后点-对象存储-创建空间"><a href="#1-注册七牛云并实名-然后点-对象存储-创建空间" class="headerlink" title="1. 注册七牛云并实名 然后点  对象存储  创建空间"></a>1. 注册七牛云并实名 然后点  <strong>对象存储</strong>  创建空间</h4><p>​	![image-20220206134637817](img&#x2F;hexo搭建 &amp;&amp; 优化过程记录&#x2F;image-20220206134637817.png)</p>
 <p>![image-20220206134748451](img&#x2F;hexo搭建 &amp;&amp; 优化过程记录&#x2F;image-20220206134748451.png)</p>
 <h4 id="2-添加域名"><a href="#2-添加域名" class="headerlink" title="2.添加域名"></a>2.添加域名</h4><p>如果你自己没有备案的域名只能 用七牛云的但是只有30 天…..</p>
-<p><img src="http://imt.rui.vin/image-20220206135215658.png" srcset="/img/loading.gif" lazyload alt="image-20220206135215658"></p>
+<p><img src="http://imt.rui.vin/image-20220206135215658.png" alt="image-20220206135215658"></p>
 <p>剩下就是添加域名啦</p>
 <p>![image-20220206135312503](img&#x2F;hexo搭建 &amp;&amp; 优化过程记录&#x2F;image-20220206135312503.png)</p>
 <p>缓存配置 我直接选默认（我也还没搞明白这个怎么用…）</p>
@@ -301,15 +301,15 @@
 <p>这里需要注意的是  域名的问题：  我直接用一级域名 会404，可能是因为 一级域名 被Nginx解析了，要在Nginx配置文件中修改下，于是我用了个二级域名（这个可以去对应的域名网站解析），一切完成后 下载 </p>
 <h4 id="3-PicGO-图床上传工具"><a href="#3-PicGO-图床上传工具" class="headerlink" title="3.PicGO 图床上传工具"></a>3.PicGO 图床上传工具</h4><p>存储区域： 华南的是z2，以此类推</p>
 <p>key和secretkey可以在找到</p>
-<p><img src="http://imt.rui.vin/202202061425030.png" srcset="/img/loading.gif" lazyload alt="image-20220206140329112"></p>
-<p><img src="http://imt.rui.vin/202202061425172.png" srcset="/img/loading.gif" lazyload alt="image-20220206140148172"></p>
+<p><img src="http://imt.rui.vin/202202061425030.png" alt="image-20220206140329112"></p>
+<p><img src="http://imt.rui.vin/202202061425172.png" alt="image-20220206140148172"></p>
 <p>我用 typora   这个可以直接贴图上传，在偏好设置 配一下就可以</p>
-<p><img src="http://imt.rui.vin/202202061425433.png" srcset="/img/loading.gif" lazyload alt="image-20220206140424154"></p>
+<p><img src="http://imt.rui.vin/202202061425433.png" alt="image-20220206140424154"></p>
 <h3 id="hexo-功能完善记录"><a href="#hexo-功能完善记录" class="headerlink" title="hexo 功能完善记录"></a>hexo 功能完善记录</h3><h4 id="实现文章置顶功能"><a href="#实现文章置顶功能" class="headerlink" title="实现文章置顶功能"></a>实现文章置顶功能</h4><p>​	</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">$ npm uninstall hexo-generator-index --save<br><br>$ npm install hexo-generator-index-pin-top --save<br></code></pre></td></tr></table></figure>
 
 <p>在 format 中 加入 top :1 </p>
-<p><img src="http://imt.rui.vin/202203101455909.png" srcset="/img/loading.gif" lazyload alt="image-20220310145545576"></p>
+<p><img src="http://imt.rui.vin/202203101455909.png" alt="image-20220310145545576"></p>
 <p>置顶了但是没有标志</p>
 <p>&#x2F;blog&#x2F;themes&#x2F;next&#x2F;layout&#x2F;_macro 目录下的<code>post.swig</code>文件，定位到<code>&lt;div class=&quot;post-meta&quot;&gt;</code>标签下，插入如下代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&#123;% <span class="hljs-keyword">if</span> post.<span class="hljs-property">top</span> %&#125;<br>  &lt;i <span class="hljs-keyword">class</span>=<span class="hljs-string">&quot;fa fa-thumb-tack&quot;</span>&gt;&lt;/i&gt;<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">font</span> <span class="hljs-attr">color</span>=<span class="hljs-string">7D26CD</span>&gt;</span>置顶<span class="hljs-tag">&lt;/<span class="hljs-name">font</span>&gt;</span></span><br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;post-meta-divider&quot;</span>&gt;</span>|<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span><br>&#123;% endif %&#125;<br></code></pre></td></tr></table></figure>
@@ -565,10 +565,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

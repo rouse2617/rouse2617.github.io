@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -296,7 +296,7 @@
 <li>当系统下发IO是，RAID控制器会根据读写块以及条带深度均衡 io（尽量让每个磁盘都有活干），当然也有不理想的时候读取的刚好都是在一个 Segment中，这个均衡就没意思了，而且还浪费资源，若是想要最大化的均衡io，让Segment的粒度更小，更多占用物理盘；</li>
 <li>由于冗余处理，读取速度快，空间使用率百分百，不足的就是数据不可靠</li>
 </ul>
-<p><img src="http://imt.rui.vin/202207180018451.png" srcset="/img/loading.gif" lazyload alt="image-20220717231603585"></p>
+<p><img src="http://imt.rui.vin/202207180018451.png" alt="image-20220717231603585"></p>
 <ul>
 <li><p>条带化技术</p>
 <p>当只有一块磁盘时候，很多进程访问磁盘，可能会出现磁盘冲突操作系统会限制访问，进程则会堵塞等待，  而条带化技术可以自动的将I&#x2F;O 的负载均衡到多个物理磁盘上，条带化技术就是将一块连续的数据分成很多小部分并把他们分别存储到不同磁盘上去。这就能使多个进程同时访问数据的多个不同部分而不会造成磁盘冲突，而且在需要对这种数据进行顺序访问的时候可以获得最大程度上的I&#x2F;O 并行能力，从而获得非常好的性能。很多操作系统、磁盘设备供应商、各种第三方软件都能做到条带化。</p>
@@ -305,7 +305,7 @@
 <h3 id="RAID1"><a href="#RAID1" class="headerlink" title="RAID1"></a>RAID1</h3><p>通俗理解： 在RAID0的缺点上该进，增加一个镜像磁盘作为备份，有个磁盘坏了可以从备用磁盘中读取，但读写翻倍，性能下降，稳定性高</p>
 <p>技术上分析：</p>
 <p>改进对数据的保护措施 ，每一个物理块都有一个备份，写的时候要写两份，写的速度下降了</p>
-<p><img src="http://imt.rui.vin/202207200002647.png" srcset="/img/loading.gif" lazyload alt="image-20220720000224691"></p>
+<p><img src="http://imt.rui.vin/202207200002647.png" alt="image-20220720000224691"></p>
 <h3 id="RAID2"><a href="#RAID2" class="headerlink" title="RAID2"></a>RAID2</h3><p>​    RAID2 比较特殊，已经淘汰了….  可以理解为 RAID0带的深度为1，这里的1 是1b，但是我们知道磁盘最小读写单位是一个扇区 512b，那不是浪费了？ 加入现在有四块磁盘，写512b数据，控制器会对数据进行分割，怎么分呢？第一块磁盘写入的顺序是 1，5，14，第二块磁盘写入的顺序是 2，6，10，15，以此类推，就是说把数据分割1b的粒度分割，逐个写到磁盘，写完的话每个磁盘占了128b，剩下的空间怎么办呢？等下次的写的时候，把数据先读出来，并且和待写入的数据合并，然后再按照刚才的方式写数据… 这个效率肯定是大打折扣，但是这样可以保证任意时刻，这个每个盘都不会空闲，性能压榨到极致，也说明了，为什么比较适用于大io，但是这技术，可以提高 连续io。</p>
 <h3 id="RAID3"><a href="#RAID3" class="headerlink" title="RAID3"></a>RAID3</h3><p>​	RAID2 条带的Segment深度是1b，在RAID3中其segment深度通常为一个扇区或者多个扇区作为单位划分数据，保持磁盘并行性；此外使用XOR校验算法进行判断数据是否有错，但是无法定位到那一位（无论多少块磁盘，只需要一块校验盘）；</p>
 <p>​	举个例子，4个数据盘和一个校验盘使用的是RAID3，条带长度4k，写入4k的数据，此时写入数据刚好和条带一样大；控制器在第一个磁盘写入1,2块，第二个磁盘写入3,4，以此类推，4k的数据分散到四个磁盘，此是是并行写入的；如果是只写入2k的话，只能读写两个磁盘，也就是说只能获得两倍的磁盘性能，剩下的就浪费了，调高效率的方法是如果此是还有其他io需要用到磁盘，那么可以合并到一次，实现并发io</p>
@@ -537,10 +537,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

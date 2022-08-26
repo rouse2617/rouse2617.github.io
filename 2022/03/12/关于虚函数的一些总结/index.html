@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -297,14 +297,14 @@
 
 <p>基类用 virtual 声明了函数，用基类的指针指向不同的派生类，然后基类的指向的函数也有不同的效果</p>
 <p>那这个的原理是怎样的呢？即虚函数如何实现的？</p>
-<p>如果一个带有虚函数的类的大小他的大小是多大呢？<br><img src="http://imt.rui.vin/202203151407880.png" srcset="/img/loading.gif" lazyload alt="image-20220314163106660" style="zoom:80%;" /></p>
+<p>如果一个带有虚函数的类的大小他的大小是多大呢？<br><img src="http://imt.rui.vin/202203151407880.png" alt="image-20220314163106660" style="zoom:80%;" /></p>
 <p>先不说为什么空类大小为1 ，我们先说带有虚函数的类大小为4,  因为带有虚函数的类有一个<strong>指向函数数组</strong>的指针，而指针是4个字节的，指针指向的数组可以函数，那么能否直接自己直接通过指针来调用虚函数呢？  答案是可以的</p>
-<p><img src="http://imt.rui.vin/202203151448327.png" srcset="/img/loading.gif" lazyload alt="image-20220315144827997"></p>
+<p><img src="http://imt.rui.vin/202203151448327.png" alt="image-20220315144827997"></p>
 <p>如上图所示，用通过 base 实例化的 b地址 可以调用类中的虚函数，通过偏移值的不同，调用不同的函数 ，可以看出 实例化后的 b是有个指针指向一个指针数组 ，就该base类而言，内存布局如下：</p>
-<p><img src="http://imt.rui.vin/202203151506531.png" srcset="/img/loading.gif" lazyload alt="image-20220315150631707"></p>
+<p><img src="http://imt.rui.vin/202203151506531.png" alt="image-20220315150631707"></p>
 <p>现在我们知道了虚函数表的如何存在的，那如何通过这个实现多态的呢？</p>
 <p>用一个基类的指针指向派生类时候，如果派生类中有函数重载了父类的虚函数，则会替换虚函数表中对应的函数<br>就是说 ： 假如派生类也有函数 f();  此时 虚表中 f()的函数地址 会被 派生类的 f() 函数替换（也称为动态联编）<br>与基类指针 指向 f() 时，执行的是派生类的 f()</p>
-<p><img src="http://imt.rui.vin/202203151520475.png" srcset="/img/loading.gif" lazyload alt="image-20220315152052778"></p>
+<p><img src="http://imt.rui.vin/202203151520475.png" alt="image-20220315152052778"></p>
 <p>大致上的原理 就这样，其实还有多细节没有补充，想着通过反汇编来看下动态联编是怎么实现，后续再来吧..</p>
 <p>一些虚函数的问题</p>
 <h4 id="什么函数不能声明为虚函数"><a href="#什么函数不能声明为虚函数" class="headerlink" title="什么函数不能声明为虚函数"></a>什么函数不能声明为虚函数</h4><ol>
@@ -547,10 +547,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

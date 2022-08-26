@@ -76,7 +76,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -285,7 +285,7 @@
             
             <div class="markdown-body">
               
-              <p> <img src="http://imt.rui.vin/202202271318039.png" srcset="/img/loading.gif" lazyload alt="image-20220227131753050"></p>
+              <p> <img src="http://imt.rui.vin/202202271318039.png" alt="image-20220227131753050"></p>
 <span id="more"></span>
 
 
@@ -306,13 +306,13 @@
 
 
 
-<img src="http://imt.rui.vin/202202281532419.png" srcset="/img/loading.gif" lazyload alt="image-20220228153050186" style="zoom:67%;" />
+<img src="http://imt.rui.vin/202202281532419.png" alt="image-20220228153050186" style="zoom:67%;" />
 
 
 
 <h2 id="4-链表相交"><a href="#4-链表相交" class="headerlink" title="4.链表相交 "></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/intersection-of-two-linked-lists-lcci/">4.链表相交 </a></h2><p>给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。</p>
 <p>图示两个链表在节点 c1 开始相交：</p>
-<p><img src="http://imt.rui.vin/202203011232466.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="http://imt.rui.vin/202203011232466.png" alt="img"></p>
 <p>思路： A 和 B 都同时走</p>
 <p>​	若相交，链表A： a+c, 链表B : b+c<br>​	a+c+b+c &#x3D; b+c+a+c 。则会在公共处c起点相遇。<br>​	若不相交，a+b &#x3D; b+a 。因此相遇处是NULL      </p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">ListNode *<span class="hljs-title">getIntersectionNode</span><span class="hljs-params">(ListNode *headA, ListNode *headB)</span> </span>&#123;<br>	ListNode *fast = headA;<br>	ListNode *slow = headB;<br>	<span class="hljs-keyword">while</span> (fast != slow) &#123;<br>  		fast = (fast != <span class="hljs-literal">nullptr</span> ? fast-&gt;next : headB);<br>  		slow = (slow != <span class="hljs-literal">nullptr</span> ? slow-&gt;next : headA);<br>	&#125;<br>	<span class="hljs-keyword">return</span> fast;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -320,16 +320,16 @@
 
 
 <h2 id="5-反转链表-II"><a href="#5-反转链表-II" class="headerlink" title="5. 反转链表 II"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-linked-list-ii/">5. 反转链表 II</a></h2><p>给你单链表的头指针 head 和两个整数 left 和 right ，其中 left &lt;&#x3D; right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。</p>
-<p><img src="http://imt.rui.vin/202203261516515.jpeg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<p><img src="http://imt.rui.vin/202203261516515.jpeg" alt="img"> </p>
 <p>反转链表升级版</p>
 <p>思路： 遍历链表到到 left的位置 以left 上一个节点为头结点，接下来遍历节点，以头插法的方式插入头结点上（此时问题 又转换到而来 反转链表 I 的问题，不同的是并不是遍历到尾）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs cpp"> <span class="hljs-function">ListNode *<span class="hljs-title">reverseBetween</span><span class="hljs-params">(ListNode *head, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(head-&gt;next == <span class="hljs-literal">nullptr</span>)<br>        <span class="hljs-keyword">return</span> head;<br>    ListNode *vHead = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ListNode</span>(<span class="hljs-number">0</span>);<br>    vHead -&gt;next = head;<br>    ListNode *p  = vHead;<br>    ListNode *q  = vHead-&gt;next;<br> <span class="hljs-comment">//	第一次for 循环走到 定位到 left 的位置，p和q</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; left<span class="hljs-number">-1</span>; i++) &#123;<br>      p = p-&gt;next;<br>      q = q-&gt;next;<br>    &#125;<br><span class="hljs-comment">//  第二次 for 开始反转需要的节点     </span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; right - left; i++) &#123;<br>      <span class="hljs-comment">//保留下一个节点</span><br>      ListNode *temp = q-&gt;next;<br>      <span class="hljs-comment">// 为下一个反转做好准备</span><br>      q-&gt;next = q-&gt;next-&gt;next;<br>     <span class="hljs-comment">//  头插法，查到  p 的后面</span><br>      temp-&gt;next = p-&gt;next;<br>      <span class="hljs-comment">// 更新 p的位置 ，为 p做好准备</span><br>      p-&gt;next = temp;<br>    &#125;<br>    <span class="hljs-keyword">return</span> vHead-&gt;next;<br>  &#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="http://imt.rui.vin/202203261522218.png" srcset="/img/loading.gif" lazyload alt="image-20220326152225259"> </p>
+<p><img src="http://imt.rui.vin/202203261522218.png" alt="image-20220326152225259"> </p>
 <h2 id="K-个一组翻转链表"><a href="#K-个一组翻转链表" class="headerlink" title="K 个一组翻转链表"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-nodes-in-k-group/">K 个一组翻转链表</a></h2><p>给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。</p>
 <p>k 是一个正整数，它的值小于或等于链表的长度。</p>
 <p>如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。</p>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220407144530921.png" srcset="/img/loading.gif" lazyload alt="image-20220407144530921"></p>
+<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220407144530921.png" alt="image-20220407144530921"></p>
 <p>思路： 每k个节点反转， 可以把问题拆分到  每组 k个节点的反转，最后将每组拼接起来，对于反转 一个链表比较容易，这次反转有指定得的范围，k个几点</p>
 <p>​			利用递归可以将每组拼接起来</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">//反转 k个节点的链表</span><br>    <span class="hljs-function">ListNode* <span class="hljs-title">reverseList</span><span class="hljs-params">(ListNode* head,ListNode* tail)</span> </span>&#123;<br>     ListNode *vhead = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ListNode</span>();<br>     ListNode *v = vhead-&gt;next;<br>     <span class="hljs-keyword">while</span>(head != tail)&#123;<br>        ListNode *t = head-&gt;next;<br>        head-&gt;next = v;<br>        v = head;<br>        head = t; <br>     &#125;<br>     <span class="hljs-keyword">return</span> v;<br>    &#125;<br>    <span class="hljs-function">ListNode* <span class="hljs-title">reverseKGroup</span><span class="hljs-params">(ListNode* head, <span class="hljs-type">int</span> k)</span> </span>&#123;<br>        ListNode *node = head;<br>        <span class="hljs-comment">//遍历k个节点</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; k; i++)&#123;<br>            <span class="hljs-keyword">if</span>(node == <span class="hljs-literal">nullptr</span>)<br>                <span class="hljs-keyword">return</span> head;<br>            node = node-&gt;next;<br>        &#125;<br>        <span class="hljs-comment">//  传入首尾节点</span><br>        ListNode *res = <span class="hljs-built_in">reverseList</span>(head,node);<br>        <span class="hljs-comment">//  递归  此时head已经是尾节点</span><br>        head-&gt;next =<span class="hljs-built_in">reverseKGroup</span>(node,k);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
@@ -586,10 +586,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

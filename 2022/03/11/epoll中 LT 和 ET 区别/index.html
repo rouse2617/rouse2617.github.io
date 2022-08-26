@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -289,18 +289,18 @@
 <li>ET 边缘触发  有到无，读规定的字节数，没读完，下次有事件了再读取</li>
 </ul>
 <p>读取客户端发来的数据时候，只读五个字节，看下ET和LT会有什么不同</p>
-<p><img src="http://imt.rui.vin/202203112222329.png" srcset="/img/loading.gif" lazyload alt="image-20220311222200962"></p>
+<p><img src="http://imt.rui.vin/202203112222329.png" alt="image-20220311222200962"></p>
 <ul>
 <li>ET模式下 <strong>必须使用非阻塞fd</strong>：</li>
 </ul>
-<p><img src="http://imt.rui.vin/202203112229580.png" srcset="/img/loading.gif" lazyload alt="image-20220311222904069"></p>
+<p><img src="http://imt.rui.vin/202203112229580.png" alt="image-20220311222904069"></p>
 <p>连接后：</p>
-<p><img src="http://imt.rui.vin/202203112223478.png" srcset="/img/loading.gif" lazyload alt="image-20220311222323848"></p>
+<p><img src="http://imt.rui.vin/202203112223478.png" alt="image-20220311222323848"></p>
 <p>第一次客户端发了 7 个字节，而服务器只接受五个字节就结束，第二次客户端发送一个字节，客户读取了三个字节，显然还是读取上一次未读取的完的，  所以et模式就是 自己能在缓冲区读多少就读多少，读不完下次还来读</p>
 <ul>
-<li>LT模式下：<br>  如果没有设置，默认的是LT模式<br>  <img src="http://imt.rui.vin/202203112228039.png" srcset="/img/loading.gif" lazyload alt="image-20220311222834196"></li>
+<li>LT模式下：<br>  如果没有设置，默认的是LT模式<br>  <img src="http://imt.rui.vin/202203112228039.png" alt="image-20220311222834196"></li>
 </ul>
-<p>​	<img src="http://imt.rui.vin/202203112232077.png" srcset="/img/loading.gif" lazyload alt="image-20220311223210774"></p>
+<p>​	<img src="http://imt.rui.vin/202203112232077.png" alt="image-20220311223210774"></p>
 <p>​	客户端发送了15个字节，服务器读了三次，也就是说只要缓冲区没读完，就一直有事件响应，  LT   等效于    （一个while + ET）</p>
 <p>​	实现原理还有待后续挖掘（待填坑）</p>
 <p>服务端代码：</p>
@@ -535,10 +535,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

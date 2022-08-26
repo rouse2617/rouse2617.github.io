@@ -99,7 +99,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -308,27 +308,27 @@
             
             <div class="markdown-body">
               
-              <p><img src="http://imt.rui.vin/image-20220206112414457-16441195534711.png" srcset="/img/loading.gif" lazyload alt="image-20220206112414457"></p>
+              <p><img src="http://imt.rui.vin/image-20220206112414457-16441195534711.png" alt="image-20220206112414457"></p>
  <span id="more"></span>
 
 <h3 id="step5-是课程导论，介绍该课程的安排以及Unix的使用"><a href="#step5-是课程导论，介绍该课程的安排以及Unix的使用" class="headerlink" title="step5 是课程导论，介绍该课程的安排以及Unix的使用"></a>step5 是课程导论，介绍该课程的安排以及Unix的使用</h3><p>这次作业是  介绍汇编和一些工具的使用</p>
-<p><img src="http://imt.rui.vin/image-20220206113644102-16441195589572.png" srcset="/img/loading.gif" lazyload alt="image-20220206113644102"></p>
+<p><img src="http://imt.rui.vin/image-20220206113644102-16441195589572.png" alt="image-20220206113644102"></p>
 <p>现在开始：</p>
 <h3 id="Software-Setup"><a href="#Software-Setup" class="headerlink" title="Software Setup"></a>Software Setup</h3><p>先把源码 该章节的源码 clone下来  </p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://pdos.csail.mit.edu/6.828/2018/jos.git<br></code></pre></td></tr></table></figure>
 
-<p><img src="http://imt.rui.vin/image-20220206113212423.png" srcset="/img/loading.gif" lazyload alt="image-20220206113212423"></p>
+<p><img src="http://imt.rui.vin/image-20220206113212423.png" alt="image-20220206113212423"></p>
 <p>这两部分是 clone源码和该怎么用 git交作业的 不必细说</p>
-<p><img src="http://imt.rui.vin/image-20220206113411035.png" srcset="/img/loading.gif" lazyload alt="image-20220206113411035"></p>
+<p><img src="http://imt.rui.vin/image-20220206113411035.png" alt="image-20220206113411035"></p>
 <h3 id="Part-1-PC-Bootstrap"><a href="#Part-1-PC-Bootstrap" class="headerlink" title="Part 1: PC Bootstrap"></a>Part 1: PC Bootstrap</h3><h4 id="1-Getting-Started-with-x86-assembly"><a href="#1-Getting-Started-with-x86-assembly" class="headerlink" title="1. Getting Started with x86 assembly"></a>1. Getting Started with x86 assembly</h4><p>​	这里申明了 该os是采用 <em>AT&amp;T</em> 风格 的汇编（我接触比较多的是 Intel 风格） 这部分是 让我们熟悉汇编语言，接下来的课程 打好基础，（我会另起一章专门写汇编）</p>
 <h4 id="2-Simulating-the-x86"><a href="#2-Simulating-the-x86" class="headerlink" title="2. Simulating the x86"></a>2. Simulating the x86</h4><p>进入目录  make </p>
-<p><img src="http://imt.rui.vin/202202061510375.png" srcset="/img/loading.gif" lazyload alt="image-20220206145945011"></p>
+<p><img src="http://imt.rui.vin/202202061510375.png" alt="image-20220206145945011"></p>
 <p>可能会有这个报错！ 这是 一个整数是 64位除以 一个数位32位的时候  ，官方说安装 <strong>gcc-multilib</strong><br>但没什么用，我直接把这个函数参数成32位了…先这样再说吧（这个是打印数字的 函数）</p>
-<p><img src="http://imt.rui.vin/202202061509929.png" srcset="/img/loading.gif" lazyload alt="image-20220206145349817"></p>
+<p><img src="http://imt.rui.vin/202202061509929.png" alt="image-20220206145349817"></p>
 <p>运行 qemu  （关于的qemu的安装，网上有很多）</p>
-<p><img src="http://imt.rui.vin/202202061510571.png" srcset="/img/loading.gif" lazyload alt="image-20220206150545992"></p>
+<p><img src="http://imt.rui.vin/202202061510571.png" alt="image-20220206150545992"></p>
 <h4 id="The-PC’s-Physical-Address-Space"><a href="#The-PC’s-Physical-Address-Space" class="headerlink" title="The PC’s Physical Address Space"></a>The PC’s Physical Address Space</h4><p>下图是 内存的布局（4gb），早期的内存只有 1Mb，为了兼容以前的所以还是保留下来，这1Mb 接下来我们会使用到！</p>
-<p><img src="http://imt.rui.vin/202202062055555.png" srcset="/img/loading.gif" lazyload alt="image-20220206205505422"></p>
+<p><img src="http://imt.rui.vin/202202062055555.png" alt="image-20220206205505422"></p>
 <h3 id="Part-2-The-Boot-Loader"><a href="#Part-2-The-Boot-Loader" class="headerlink" title="Part 2: The Boot Loader"></a>Part 2: The Boot Loader</h3><p>part2 是引导程序  BootLoader 的介绍， 这个是什么呢？</p>
 <p>​		电脑启动是时候 会有个<br>​		一句话来表达就是  系统运作之前 所运行的程序，当我们按了开机键，首先是 运行这个程序，<strong>现在的大多数电脑 这个程序都 写死在主板里</strong>（GRUB？）。</p>
 <ul>
@@ -346,50 +346,50 @@
 
 <p>开始gdb调试</p>
 <p>一个窗口运行  make qemu-gdb   （开启了个端口）<br>再开一个窗口运行  make gdb  （运行行了一个gdb脚本，远程调试）</p>
-<p><img src="http://imt.rui.vin/202202071248330.png" srcset="/img/loading.gif" lazyload alt="image-20220207124829335"></p>
+<p><img src="http://imt.rui.vin/202202071248330.png" alt="image-20220207124829335"></p>
 <p>现在我们开始 打断点  教材里有说说到是 从 0x7c00 开始的，断点设到 0x7c00 ，b -》 break </p>
-<p><img src="http://imt.rui.vin/202202071251934.png" srcset="/img/loading.gif" lazyload alt="image-20220207125156235"></p>
+<p><img src="http://imt.rui.vin/202202071251934.png" alt="image-20220207125156235"></p>
 <p>c 一直执行知道遇到断点<br>si 意为 执行下一步汇编<br>x&#x2F;N  ADDR   为看这个地址的汇编指令  N为查看几条指令<br>info register ： 查看 寄存器的值 </p>
-<p><img src="http://imt.rui.vin/202202071255688.png" srcset="/img/loading.gif" lazyload alt="image-20220207125543005"></p>
+<p><img src="http://imt.rui.vin/202202071255688.png" alt="image-20220207125543005"></p>
 <p>按照教材意思 比对 boot反汇编的代码和  gdb调试的代码</p>
 <p>boot返汇编的代码在这，比对了下 objdump 反汇编的出的风格还是 Intel的， 和gdb 调试也差多少 ，从 0x7c00开始一步一看吧</p>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220207131053481.png" srcset="/img/loading.gif" lazyload alt="image-20220207131053481"></p>
+<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220207131053481.png" alt="image-20220207131053481"></p>
 <p>boot.o 反汇编的代码  </p>
-<p><img src="http://imt.rui.vin/202202071312659.png" srcset="/img/loading.gif" lazyload alt="image-20220207131245606"></p>
-<p>当调试到 这一步时  地址为 0x7c2d时候  ，提示现在处于 i386状态（32位下）<br><img src="http://imt.rui.vin/202202071712150.png" srcset="/img/loading.gif" lazyload alt="image-20220207171214490"></p>
-<p>在反汇编的代码中 也可以看出 7c2d 后有 伪指令 .code32  意为切换到32位模式<br><img src="http://imt.rui.vin/202202071714386.png" srcset="/img/loading.gif" lazyload alt="image-20220207171406343"></p>
+<p><img src="http://imt.rui.vin/202202071312659.png" alt="image-20220207131245606"></p>
+<p>当调试到 这一步时  地址为 0x7c2d时候  ，提示现在处于 i386状态（32位下）<br><img src="http://imt.rui.vin/202202071712150.png" alt="image-20220207171214490"></p>
+<p>在反汇编的代码中 也可以看出 7c2d 后有 伪指令 .code32  意为切换到32位模式<br><img src="http://imt.rui.vin/202202071714386.png" alt="image-20220207171406343"></p>
 <p> 关于  elf  得新开一个章节  来描述 </p>
-<p>这里加载从磁盘里加载内核 ，怎么加载呢？结合elf 头 的信息，看要读多少<br><img src="http://imt.rui.vin/202202072048503.png" srcset="/img/loading.gif" lazyload alt="image-20220207204857874"></p>
+<p>这里加载从磁盘里加载内核 ，怎么加载呢？结合elf 头 的信息，看要读多少<br><img src="http://imt.rui.vin/202202072048503.png" alt="image-20220207204857874"></p>
 <p>这里是 把内核 读到  内存里并执行<br>首先有个问题是怎么读？  （这里涉及到elf 的内容，elf  详细内容不在该章节细说）<br>elf 头 我们已经从 磁盘中读到内存了，目前只是elf 的头部读到内存了，但是 elf 所包含的程序段 没有读到内存里，所以呢，</p>
-<p><img src="http://imt.rui.vin/202202072222329.png" srcset="/img/loading.gif" lazyload alt="image-20220207222201306"></p>
+<p><img src="http://imt.rui.vin/202202072222329.png" alt="image-20220207222201306"></p>
 <h4 id="Exercise-4"><a href="#Exercise-4" class="headerlink" title="Exercise 4."></a><strong>Exercise 4.</strong></h4><p>​	检查下你的对指针的运用，就是指针运用基础，注意下 不同类型的<strong>指针的步长</strong></p>
 <h4 id="Exercise-5，6"><a href="#Exercise-5，6" class="headerlink" title="Exercise 5，6"></a><strong>Exercise 5，6</strong></h4><p>debug 查看从 boot 加载 kernel 的过程，这些可以对照boot.o 反汇编的文件和  kernel的反汇编文件逐步调试对照，就可以清楚的知道了</p>
 <h3 id="Part-3-The-Kernel"><a href="#Part-3-The-Kernel" class="headerlink" title="Part 3: The Kernel"></a>Part 3: The Kernel</h3><p>这部分开始讲 虚拟内存，开始之前再重新 把前面的内容捋一遍！</p>
 <p>qemu启动，执行 从boot 代码段执行，<br>从内存地址  0x7c00 处开始执行代码<br>关闭中断，开启 A20线， 开起gdt<br>调用  bootmain 函数<br>加载 内核文件 到内存里<br>    首先是  加载 elf头<br>    根据elf 头提供的信息，把elf文件中的 程序段加载到对应的内存中<br>（不是很详细，后续再补充 ）</p>
-<p>​	跳到  elf 的入口函数 entry<br><img src="http://imt.rui.vin/202202081115742.png" srcset="/img/loading.gif" lazyload alt="image-20220208111501673"></p>
+<p>​	跳到  elf 的入口函数 entry<br><img src="http://imt.rui.vin/202202081115742.png" alt="image-20220208111501673"></p>
 <hr>
 <p>Part3 讲的是虚拟内存 和 物理内存的映射，在这把那些细节 描述的很清楚，给了个结论，让我们去验证下， </p>
 <h4 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a><strong>Exercise 7</strong></h4><p>验证     物理地址转换虚拟地址</p>
 <p>执行 movl %eax, %cr0  后就开启了 分页  ，可以看到地址不同</p>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208112758744.png" srcset="/img/loading.gif" lazyload alt="image-20220208112758744"></p>
-<p><img src="http://imt.rui.vin/202202081130876.png" srcset="/img/loading.gif" lazyload alt="image-20220208113037678"></p>
-<p>执行  <code>movl %eax, %cr0</code> 前  0xf0100000 内存都是空的<br><img src="http://imt.rui.vin/202202081138946.png" srcset="/img/loading.gif" lazyload alt="image-20220208113823730"></p>
-<p>执行后   0x 100000 映射到了 0xf0100000<br><img src="http://imt.rui.vin/202202081138735.png" srcset="/img/loading.gif" lazyload alt="image-20220208113835668"></p>
+<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208112758744.png" alt="image-20220208112758744"></p>
+<p><img src="http://imt.rui.vin/202202081130876.png" alt="image-20220208113037678"></p>
+<p>执行  <code>movl %eax, %cr0</code> 前  0xf0100000 内存都是空的<br><img src="http://imt.rui.vin/202202081138946.png" alt="image-20220208113823730"></p>
+<p>执行后   0x 100000 映射到了 0xf0100000<br><img src="http://imt.rui.vin/202202081138735.png" alt="image-20220208113835668"></p>
 <h4 id="Formatted-Printing-to-the-Console"><a href="#Formatted-Printing-to-the-Console" class="headerlink" title="Formatted Printing to the Console"></a>Formatted Printing to the Console</h4><p>Read through <code>kern/printf.c</code>, <code>lib/printfmt.c</code>, and <code>kern/console.c</code>, and make sure you understand their relationship. It will become clear in later labs why <code>printfmt.c</code> is located in the separate <code>lib</code> directory.<br>看这些 源码，print 实现也大同小异，相对于  《JamesM’s kernel development tutorials 》 ，我觉的后者 print实现 比较容易理解！可以去参考下</p>
 <p><strong>Exercise 8</strong><br>    print 有个 %o 没实现，就是  数字按照 8进制打印出来 ，下图仿照 %x 输出 写了个，就是换个参数..</p>
-<p><img src="http://imt.rui.vin/202202081331383.png" srcset="/img/loading.gif" lazyload alt="image-20220208133154527"></p>
-<p>os 最开始的运行时，有打印一个<br><img src="http://imt.rui.vin/202202081334699.png" srcset="/img/loading.gif" lazyload alt="image-20220208133403998"></p>
+<p><img src="http://imt.rui.vin/202202081331383.png" alt="image-20220208133154527"></p>
+<p>os 最开始的运行时，有打印一个<br><img src="http://imt.rui.vin/202202081334699.png" alt="image-20220208133403998"></p>
 <p>没修过前是 输出 </p>
-<p><img src="http://imt.rui.vin/202202081335987.png" srcset="/img/loading.gif" lazyload alt="image-20220208133514813"></p>
+<p><img src="http://imt.rui.vin/202202081335987.png" alt="image-20220208133514813"></p>
 <p>添加 %o 输出后   15254 是 8进制，转成 10 进制 6828</p>
-<p><img src="http://imt.rui.vin/202202081336048.png" srcset="/img/loading.gif" lazyload alt="image-20220208133607963"></p>
+<p><img src="http://imt.rui.vin/202202081336048.png" alt="image-20220208133607963"></p>
 <p>很多细节，先放下，后续再补…</p>
 <h3 id="The-Stack"><a href="#The-Stack" class="headerlink" title="The Stack"></a>The Stack</h3><h4 id="Exercise-9"><a href="#Exercise-9" class="headerlink" title="Exercise 9"></a><strong>Exercise 9</strong></h4><p>看 栈的初始地址 在哪里</p>
-<p><img src="http://imt.rui.vin/202202081530984.png" srcset="/img/loading.gif" lazyload alt="image-20220208153047528"></p>
-<p>从以上 代码可以看到  初始化了esp 和 edp，这函数调用的深入下也可以写很多东西，先挖个坑吧….<br>初始化后  看下两个寄存器的 值<br><img src="http://imt.rui.vin/202202081651635.png" srcset="/img/loading.gif" lazyload alt="image-20220208165110291"></p>
+<p><img src="http://imt.rui.vin/202202081530984.png" alt="image-20220208153047528"></p>
+<p>从以上 代码可以看到  初始化了esp 和 edp，这函数调用的深入下也可以写很多东西，先挖个坑吧….<br>初始化后  看下两个寄存器的 值<br><img src="http://imt.rui.vin/202202081651635.png" alt="image-20220208165110291"></p>
 <p>可以得出 栈的地址是冲 0xf0110000 开始的</p>
 <p>esp 指向了栈的指针 ， bootstacktop 的定义我们可以看下 （合理  运用 ide ，我是用 vscode全局查的）</p>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208165822004.png" srcset="/img/loading.gif" lazyload alt="image-20220208165822004">  </p>
+<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208165822004.png" alt="image-20220208165822004">  </p>
 <p>可以的出 栈的大小为    8 * 4096  字节  （SPACE申请一片内存空间）…..</p>
 <p>带更新,,,</p>
 
@@ -636,10 +636,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

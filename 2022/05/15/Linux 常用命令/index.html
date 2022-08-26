@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -285,7 +285,7 @@
               <p>记录一些高频，功能强大的命令 </p>
 <h3 id="mpstat-："><a href="#mpstat-：" class="headerlink" title="mpstat ："></a>mpstat ：</h3><p>​	 可以用来记录查看 多核心cpus 的运行信息 （具体用法可以看 查看man手册）</p>
 <h3 id="vmstat："><a href="#vmstat：" class="headerlink" title="vmstat："></a>vmstat：</h3><p>​	 即时显示内存使用情况的工具</p>
-<p><img src="http://imt.rui.vin/202206211128187.png" srcset="/img/loading.gif" lazyload alt="image-20220621112805965"></p>
+<p><img src="http://imt.rui.vin/202206211128187.png" alt="image-20220621112805965"></p>
 <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">r  :The number of processes waiting for run time. 等待运行时间的进程数，即等待的进程数、<br>b  :The number of processes <span class="hljs-keyword">in</span> uninterruptible <span class="hljs-keyword">sleep</span>. 在等待io的进程数<br><span class="hljs-symbol">swpd:</span> 虚拟内存的使用量<br>free：空闲内存量<br>buff：缓冲区中的内存<br>cache：被用来做为高速缓存的内存数<br><span class="hljs-symbol">si:</span> 从磁盘交换到内存的交换页数量，单位：KB/秒。<br><span class="hljs-symbol">so:</span> 从内存交换到磁盘的交换页数量，单位：KB/秒。<br><span class="hljs-symbol">bi:</span> 发送到块设备的块数，单位：块/秒。<br><span class="hljs-symbol">bo:</span> 从块设备接收到的块数，单位：块/秒。<br><span class="hljs-symbol">in:</span> 每秒的中断数，包括时钟中断。<br><span class="hljs-symbol">cs:</span> 每秒的环境（上下文）转换次数。<br>us：用户进程使用的时间 。以百分比表示。<br>sy：系统进程使用的时间。 以百分比表示。<br>id：中央处理器的空闲时间 。以百分比表示。<br>wa：io等待时间<br><span class="hljs-keyword">st</span>：Time stolen from a virtual machine<br></code></pre></td></tr></table></figure>
 
 
@@ -570,10 +570,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

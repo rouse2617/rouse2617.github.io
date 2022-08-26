@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -291,9 +291,9 @@
 <blockquote>
 <p>  openssl 是什么： openssl则是SSL的实现版（SSL https加密哪个 ），另外openssl还包含了公钥私钥的生成、摘要生成等各种工具</p>
 </blockquote>
-<p><img src="http://imt.rui.vin/202204100020544.png" srcset="/img/loading.gif" lazyload alt="image-20220410001448008">	</p>
+<p><img src="http://imt.rui.vin/202204100020544.png" alt="image-20220410001448008">	</p>
 <p>libevent 2.0.x版本的  openssl &lt; 1.1.0 ，不兼容，现在 Linux openssl  普遍  版本都是1.1.0+  </p>
-<p><img src="http://imt.rui.vin/202204100017635.png" srcset="/img/loading.gif" lazyload alt="image-20220410001724343">	</p>
+<p><img src="http://imt.rui.vin/202204100017635.png" alt="image-20220410001724343">	</p>
 <p>解决方法： 用  libevent 2.1.x+ 以上的版本</p>
 <hr>
 <p>使用 libevent 库 编译过了，执行程序时报错 </p>
@@ -307,10 +307,10 @@
 <ul>
 <li>先看下系统 是否有这个库  ，找到 库的位置</li>
 </ul>
-<p>​      <img src="http://imt.rui.vin/202204100026453.png" srcset="/img/loading.gif" lazyload alt="image-20220410002648057">	</p>
+<p>​      <img src="http://imt.rui.vin/202204100026453.png" alt="image-20220410002648057">	</p>
 <ul>
 <li><p>动态库文件所在的目录 在    **&#x2F;etc&#x2F;ld.so.conf **   ，将 libevent-2.1.so.6所在的目录添加到该文件下</p>
-<p>​    <img src="http://imt.rui.vin/202204100031469.png" srcset="/img/loading.gif" lazyload alt="image-20220410003108601">     	</p>
+<p>​    <img src="http://imt.rui.vin/202204100031469.png" alt="image-20220410003108601">     	</p>
 </li>
 <li><p>执行 &#x2F;sbin&#x2F;ldconfig  -v   才会生效</p>
 </li>
@@ -539,10 +539,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 

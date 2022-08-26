@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -289,9 +289,9 @@
 <h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><p>​	 使用的一些http，ftp，ssh，这些都是属于应用层，要发送的数据通过 应用层的协议包装起，传到传输层，而且应用层是处于用户态，传输层是处于内核态</p>
 <h4 id="传输层："><a href="#传输层：" class="headerlink" title="传输层："></a>传输层：</h4><p>​	收到应用层的数据包，传输层又会对这些这些数据进行打包，或者将数据分割后打包，传输层有两种协议： TCP 和UDP （这两种区别不在本文细说），此时这些操作处于内核态操作了。</p>
 <h4 id="网络层："><a href="#网络层：" class="headerlink" title="网络层："></a>网络层：</h4><p>​	传输层是准备好数据，网络层则是将数据传输到另外一个设备，此外网络层用到的是IP协议，通过该协议进行再一次封装，</p>
-<p><img src="http://imt.rui.vin/202203231557336.png" srcset="/img/loading.gif" lazyload alt="image-20220323155745319" style="zoom: 80%;" /> 参考图解网络的图</p>
+<p><img src="http://imt.rui.vin/202203231557336.png" alt="image-20220323155745319" style="zoom: 80%;" /> 参考图解网络的图</p>
 <h4 id="数据链路层："><a href="#数据链路层：" class="headerlink" title="数据链路层："></a>数据链路层：</h4><p>​	同一个局域网内可以通过子网地址和主机号来区别，而不同子网呢？则需要跨网络传输，在这层也是需要对数据进行封装，而且要附带设备的mac地址，路由器计算出了下⼀个⽬的地 IP 地址，再通过 ARP 协议找到该⽬的地的 MAC 地址，这样就知道这个 IP 地址是哪个设备的了</p>
-<p><img src="http://imt.rui.vin/202203231534067.jpeg" srcset="/img/loading.gif" lazyload alt="TCP/IP协议的组成"></p>
+<p><img src="http://imt.rui.vin/202203231534067.jpeg" alt="TCP/IP协议的组成"></p>
 <p>接下来的任务就是交给 物理层里，，需要把数据包转换成电信号，让其可以在物理介质中传输</p>
 
               
@@ -516,10 +516,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 
