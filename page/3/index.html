@@ -221,6 +221,52 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/11/epoll%E4%B8%AD%20LT%20%E5%92%8C%20ET%20%E5%8C%BA%E5%88%AB/" target="_self">
+          <img src="http://imt.rui.vin/202203112229580.png" alt="epoll中 LT 和 ET 区别">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/11/epoll%E4%B8%AD%20LT%20%E5%92%8C%20ET%20%E5%8C%BA%E5%88%AB/" target="_self">
+          epoll中 LT 和 ET 区别
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/03/11/epoll%E4%B8%AD%20LT%20%E5%92%8C%20ET%20%E5%8C%BA%E5%88%AB/" target="_self">
+        <div>
+          上文解释过epoll 原理，现在梳理下epoll 的用法和 epoll 中两个读取数据的模式 现在用epoll 实现一个多路复用的服务器(代码在最后)  LT 水平触发  有数据到来就一直读，直到没有数据可以读取了         ET 边缘触发  有到无，读规定的字节数，没读完，下次有事件了再读取  读取客户端发来的数据时候，只读五个字节，看下ET和LT会有什么不同   ET模式下 必须使用非阻
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-11 11:21" pubdate>
+              2022-03-11
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/03/10/%E5%AF%B9io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" target="_self">
           <img src="http://imt.rui.vin/202203111203054.png" alt="对io多路复用的一些理解">
         </a>
@@ -694,73 +740,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E9%93%BE%E8%A1%A8/">#链表</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/02/16/Leetcode-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" target="_self">
-          <img src="https://api.dujin.org/bing/1366.php" alt="Leetcode-滑动窗口">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/16/Leetcode-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" target="_self">
-          Leetcode-滑动窗口
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2022/02/16/Leetcode-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" target="_self">
-        <div>
-          1 .给定一个含有 n 个正整数的数组和一个正整数 target 。找出该数组中满足其和 ≥ target 的长度最小的 连续子数组 [numsl, numsl+1, …, numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 。 最小的 连续子数组 : eg , [1,2,3,4,4]    连续数组   [1,2]   [2,3,4];    但是  [1,4,
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-16 14:30" pubdate>
-              2022-02-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Leetcode/" class="category-chain-item">Leetcode</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">#滑动窗口</a>
             
           </div>
         
