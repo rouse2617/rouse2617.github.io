@@ -314,7 +314,7 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
-          <img src="https://api.dujin.org/bing/1366.php" alt="rbd 原理初步探索">
+          <img src="http://img.rui.vin/image-20220803095650245.png" alt="rbd 原理初步探索">
         </a>
       </div>
     
@@ -330,6 +330,52 @@
       <a class="index-excerpt " href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
         <div>
           ceph中RBD 建立 image后，可以map到操作系统，当磁盘使用和插入STAT一样，此外内核模块已经支持 rbd（krbd）， modinfo 可以查看内核模块；创建100g的image并不是在真实磁盘中占用了100g，而是用多少，在ceph中就占用多少  创建RBD发生了什么现在创建pool，名字为rbd，并在rbd pool里创建image 12345678910111213141516
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-08-03 20:11" pubdate>
+              2022-08-03
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ceph/">#ceph</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
+          <img src="http://img.rui.vin/image-20220803145842254.png" alt="rgw 部署">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
+          rgw 部署
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
+        <div>
+          \ what rgw   RGW（Rados GateWay)  对象存储网关，ceph 是分布式对象系统，完全是可以做对象存储的，然而 Rados提供的是私有接口，不符合市场趋势，因为对象存储狭义上说是 云存储（互联网应用），所以接口应该支持主流网络协议，如http；ceph为了支持 http协议访问，设计了RGW存储网关，提供接口，此外还兼容云存储领域较为主流的接口  如 S3，Swift。
         </div>
       </a>
 
@@ -645,52 +691,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Linux%E7%BD%91%E7%BB%9C/">#Linux网络</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/04/20/%E5%A6%82%E4%BD%95%E5%AF%B920G%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%8E%92%E5%BA%8F/" target="_self">
-          <img src="http://imt.rui.vin/202204201613604.png" alt="如何对大文件进行排序">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/04/20/%E5%A6%82%E4%BD%95%E5%AF%B920G%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%8E%92%E5%BA%8F/" target="_self">
-          如何对大文件进行排序
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2022/04/20/%E5%A6%82%E4%BD%95%E5%AF%B920G%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%8E%92%E5%BA%8F/" target="_self">
-        <div>
-          排序问题虽然有了解，很多只是基于理论上，实践比较少，刚好最近遇到个问题：     这个以前遇到过类似的问题， 假如 你有一个20GB的文件，对文件的内容排序，内存限制在 1G，你要怎么排序 以前有做过总结，就是分割文件，逐个文件先排好序，最后然后再合并，说起来很简单，但做起来就。。。。  这次题目有 分割文件，我下载了这个压缩包，解压 看有1000个 20M的文件  	 思路：   将这个一
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-04-20 14:57" pubdate>
-              2022-04-20
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%9C%89%E8%B6%A3%E7%9A%84%E9%97%AE%E9%A2%98/">#有趣的问题</a>
             
           </div>
         
