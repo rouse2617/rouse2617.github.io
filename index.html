@@ -222,7 +222,7 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/08/04/%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C/" target="_self">
-          <img src="https://api.dujin.org/bing/1366.php" alt="一致性哈希的简单理解">
+          <img src="http://imt.rui.vin/202208281113157.png" alt="一致性哈希的简单理解">
         </a>
       </div>
     
@@ -313,23 +313,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
-          <img src="http://img.rui.vin/image-20220803095650245.png" alt="rbd 原理初步探索">
+        <a href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
+          <img src="http://img.rui.vin/image-20220803145842254.png" alt="rgw 部署">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
-          rbd 原理初步探索
+        <a href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
+          rgw 部署
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
+      <a class="index-excerpt " href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
         <div>
-          ceph中RBD 建立 image后，可以map到操作系统，当磁盘使用和插入STAT一样，此外内核模块已经支持 rbd（krbd）， modinfo 可以查看内核模块；创建100g的image并不是在真实磁盘中占用了100g，而是用多少，在ceph中就占用多少  创建RBD发生了什么现在创建pool，名字为rbd，并在rbd pool里创建image 12345678910111213141516
+          \ what rgw   RGW（Rados GateWay)  对象存储网关，ceph 是分布式对象系统，完全是可以做对象存储的，然而 Rados提供的是私有接口，不符合市场趋势，因为对象存储狭义上说是 云存储（互联网应用），所以接口应该支持主流网络协议，如http；ceph为了支持 http协议访问，设计了RGW存储网关，提供接口，此外还兼容云存储领域较为主流的接口  如 S3，Swift。
         </div>
       </a>
 
@@ -359,23 +359,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
-          <img src="http://img.rui.vin/image-20220803145842254.png" alt="rgw 部署">
+        <a href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
+          <img src="http://img.rui.vin/image-20220803095650245.png" alt="rbd 原理初步探索">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
-          rgw 部署
+        <a href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
+          rbd 原理初步探索
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2022/08/03/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" target="_self">
+      <a class="index-excerpt " href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
         <div>
-          \ what rgw   RGW（Rados GateWay)  对象存储网关，ceph 是分布式对象系统，完全是可以做对象存储的，然而 Rados提供的是私有接口，不符合市场趋势，因为对象存储狭义上说是 云存储（互联网应用），所以接口应该支持主流网络协议，如http；ceph为了支持 http协议访问，设计了RGW存储网关，提供接口，此外还兼容云存储领域较为主流的接口  如 S3，Swift。
+          ceph中RBD 建立 image后，可以map到操作系统，当磁盘使用和插入STAT一样，此外内核模块已经支持 rbd（krbd）， modinfo 可以查看内核模块；创建100g的image并不是在真实磁盘中占用了100g，而是用多少，在ceph中就占用多少  创建RBD发生了什么现在创建pool，名字为rbd，并在rbd pool里创建image 12345678910111213141516
         </div>
       </a>
 
@@ -383,7 +383,7 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-08-03 20:11" pubdate>
+            <time datetime="2022-08-03 12:11" pubdate>
               2022-08-03
             </time>
           </div>
