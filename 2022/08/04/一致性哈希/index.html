@@ -16,29 +16,31 @@
   <meta name="author" content="Rui">
   <meta name="keywords" content="">
   
-    <meta name="description" content="最近在群里讨论 crush weight的问题，什么是 crush weight？这两天都只是部署安装，还没了解这个，在osd tree中是可以看到 weight，如下图，有weight 和 reweight。前者我知道是对应osd （磁盘）容量，后者呢？这个reweight有什么？这几个问题网上几乎是千篇一律，说是 weight会改变 它影响PG的到OSD的映射关系？是为什么呢？而且还有一个问题">
+    <meta name="description" content="什么是一致性哈希    一致性hash算法，是麻省理工学院1997年提出的一种算法，目前主要应用于分布式缓存当中。  一致性hash算法可以有效地解决分布式存储结构下动态增加和删除节点所带来的问题。  传统hash假如现在有三台服务器用作图片缓存，如何使用大量的图片均衡的分布在服务器上呢，如果有30万张图片，最理想的是每个服务器都负载10万张图片；使用传统hash可以对文件名进行hash（假设文件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ceph中的 weight">
-<meta property="og:url" content="http://example.com/2022/08/03/ceph%E4%B8%ADweight/index.html">
+<meta property="og:title" content="一致性哈希的简单理解">
+<meta property="og:url" content="http://example.com/2022/08/04/%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C/index.html">
 <meta property="og:site_name" content="Rui">
-<meta property="og:description" content="最近在群里讨论 crush weight的问题，什么是 crush weight？这两天都只是部署安装，还没了解这个，在osd tree中是可以看到 weight，如下图，有weight 和 reweight。前者我知道是对应osd （磁盘）容量，后者呢？这个reweight有什么？这几个问题网上几乎是千篇一律，说是 weight会改变 它影响PG的到OSD的映射关系？是为什么呢？而且还有一个问题">
+<meta property="og:description" content="什么是一致性哈希    一致性hash算法，是麻省理工学院1997年提出的一种算法，目前主要应用于分布式缓存当中。  一致性hash算法可以有效地解决分布式存储结构下动态增加和删除节点所带来的问题。  传统hash假如现在有三台服务器用作图片缓存，如何使用大量的图片均衡的分布在服务器上呢，如果有30万张图片，最理想的是每个服务器都负载10万张图片；使用传统hash可以对文件名进行hash（假设文件">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://img.rui.vin/202208071417007.png">
-<meta property="og:image" content="http://img.rui.vin/202208071417723.png">
-<meta property="og:image" content="c:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220730012445791.png">
-<meta property="og:image" content="http://img.rui.vin/202208071417994.png">
-<meta property="article:published_time" content="2022-08-03T12:21:39.000Z">
-<meta property="article:modified_time" content="2022-08-27T17:08:42.154Z">
+<meta property="og:image" content="http://imt.rui.vin/202208281113268.png">
+<meta property="og:image" content="http://imt.rui.vin/202208281113157.png">
+<meta property="og:image" content="http://imt.rui.vin/202208281113228.png">
+<meta property="og:image" content="http://imt.rui.vin/202208281113159.png">
+<meta property="og:image" content="http://imt.rui.vin/202208281113215.png">
+<meta property="og:image" content="http://imt.rui.vin/202208281113174.png">
+<meta property="article:published_time" content="2022-08-04T05:24:39.000Z">
+<meta property="article:modified_time" content="2022-08-28T03:14:55.152Z">
 <meta property="article:author" content="Rui">
-<meta property="article:tag" content="ceph">
+<meta property="article:tag" content="分布式基础">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://img.rui.vin/202208071417007.png">
+<meta name="twitter:image" content="http://imt.rui.vin/202208281113268.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>ceph中的 weight - Rui</title>
+  <title>一致性哈希的简单理解 - Rui</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="ceph中的 weight"></span>
+            <span id="subtitle" data-typed-text="一致性哈希的简单理解"></span>
           
         </div>
 
@@ -212,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-03 20:21" pubdate>
-          August 3, 2022 pm
+        <time datetime="2022-08-04 13:24" pubdate>
+          August 4, 2022 pm
         </time>
       </span>
     
@@ -224,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.2k words
+          968 words
         
       </span>
     
@@ -235,7 +237,7 @@
         
         
         
-          35 mins
+          9 mins
         
       </span>
     
@@ -281,45 +283,33 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">ceph中的 weight</h1>
+            <h1 style="display: none">一致性哈希的简单理解</h1>
             
             <div class="markdown-body">
               
-              <p>最近在群里讨论 crush weight的问题，什么是 crush weight？这两天都只是部署安装，还没了解这个，在osd tree中是可以看到 weight，如下图，有weight 和 reweight。前者我知道是对应osd （磁盘）容量，后者呢？这个reweight有什么？这几个问题网上几乎是千篇一律，说是 weight会改变 它影响PG的到OSD的映射关系？是为什么呢？而且还有一个问题，Ceph osd weight与ceph osd crush weight 这两个命令之间又有什么区别？</p>
- <img src="http://img.rui.vin/202208071417007.png" alt="image-20220730012445791" style="zoom:80%;" />		
-
-<p>先说下几个知识点</p>
-<ul>
-<li><p>CRUSH 层级结构</p>
-<p>假如一个数据中心里面有很多个机房，机房里面又有很多机柜，机柜里面又有很多服务器，服务器又可以挂载很多磁盘，层层递进就像是多叉树一样，前面所说的 基础设备，在ceph中统称为 <strong>故障域</strong>或者<strong>CRUSH bucket</strong> ，这里的 bucket 就是桶的意思，如在机房room0里面就是一个桶，桶里面装的时候rack0，rack1，rack2，rack0也是个bucket，这个bucket里面装的是host，以此类推，但是osd并不是桶，在这个层级结构中osd是最小的单位 ；这些bucket 表明了设备的位置，此外 ceph在管理这种大型分级存储网络，会将这些  基础设备 用crush map映射起来形成一个嵌套层次的结构如下图</p>
-<img src="http://img.rui.vin/202208071417723.png" alt="image-20220731001442177" style="zoom:67%;" />	
-
-<p>在 ceph 的命令 也可以看到设备对应的层级结构</p>
-<img src="C:\Users\h00165\AppData\Roaming\Typora\typora-user-images\image-20220730012445791.png" alt="image-20220730012445791" style="zoom: 70%;" />	
+              <p>什么是一致性哈希</p>
+<blockquote>
+<p>  一致性hash算法，是麻省理工学院1997年提出的一种算法，目前主要应用于分布式缓存当中。<br>  一致性hash算法可以有效地解决分布式存储结构下动态增加和删除节点所带来的问题。</p>
+</blockquote>
+<h3 id="传统hash"><a href="#传统hash" class="headerlink" title="传统hash"></a>传统hash</h3><p>假如现在有三台服务器用作图片缓存，如何使用大量的图片均衡的分布在服务器上呢，如果有30万张图片，最理想的是每个服务器都负载10万张图片；使用传统hash可以对文件名进行hash（假设文件名字都不相同），得到的结果按服务器个数取模，这样做可以尽可能做到均衡；但是这有个弊端，就是服务器动态增删的事，会产生很大问题；现在有三台服务器 node1 ，node2，node3；其中node1故障，那么现在要改变映射（理论上后台会重新构建），这一时刻，命中node1的缓存是不可以使用了，需要重新hash，同理增加一台服务器也是如此，因为是对服务器数量取模，前的hash映射都会失效，无法动态调整，此时也需要重新取模，会涉及全部数据；</p>
+<img src="http://imt.rui.vin/202208281113268.png" alt="image-20220726112919046" style="zoom:50%;" />    
 
 
-</li>
-<li><p>crush rule</p>
-<p>从 crush map知道了数据可以放在哪里，数据应该怎么放呢，这也是有对应的规则的，ceph客户端如何去选bucket，以及到最后的osd，选择那个osd作为主osd，那个作为辅助osd ；如果我想 把将热数据存放于SSD中，而将冷数据放在HDD中，这也可以设定相关的规则，crush 算法会根据相应的规则去调整，接下来看下ceph 中的规则是怎样的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># getcrushmap 获取CRUSH map，这个输出是编译后的，人不看不了，需要反编译下</span><br>[root@node29 ceph]<span class="hljs-comment"># ceph osd getcrushmap -o crushmap.bin</span><br>33<br><span class="hljs-comment">#crushtool -d 反编译</span><br>[root@node29 ceph]<span class="hljs-comment"># crushtool -d crushmap.bin -o crushmap.txt</span><br><br><span class="hljs-comment">#这里面有map 中 每个bucket的详细情况 </span><br><span class="hljs-comment"># 如 node29  和  root,参照上一张图片的 osd tree</span><br><span class="hljs-comment"># buckets</span><br>host node29 &#123;<br>	<span class="hljs-built_in">id</span> -3		<span class="hljs-comment"># do not change unnecessarily   id为正数说明是osd</span><br>	<span class="hljs-built_in">id</span> -4 class hdd		<span class="hljs-comment"># do not change unnecessarily</span><br>	<span class="hljs-comment"># weight 0.586</span><br>	alg straw2<br>	<span class="hljs-built_in">hash</span> 0	<span class="hljs-comment"># rjenkins1</span><br>	item osd.0 weight 0.293<br>	item osd.3 weight 0.293<br>&#125;<br>.....<br>root default &#123;<br>	<span class="hljs-built_in">id</span> -1		<span class="hljs-comment"># do not change unnecessarily</span><br>	<span class="hljs-built_in">id</span> -2 class hdd		<span class="hljs-comment"># do not change unnecessarily</span><br>	<span class="hljs-comment"># weight 1.177       #这的weight是 item weight的总和  </span><br>	alg straw2  <span class="hljs-comment">#每个bucket选择item时都有指定算法，这里用的是 straw2算法</span><br>	<span class="hljs-built_in">hash</span> 0	<span class="hljs-comment"># rjenkins1</span><br>	<span class="hljs-comment"># bucket 里面的item， 按照层级关系 </span><br>	item rack01 weight 0.586<br>	item rack02 weight 0.298<br>	item rack03 weight 0.293<br>&#125;<br><br><span class="hljs-comment">#最后是rules</span><br><span class="hljs-comment"># rules</span><br>rule replicated_rule &#123;<br>	<span class="hljs-built_in">id</span> 0  <span class="hljs-comment">#rule 的编号</span><br>	<span class="hljs-built_in">type</span> replicated   <span class="hljs-comment"># pool的类型   多副本还是EC</span><br>	min_size 1    <span class="hljs-comment">#pool的最小副本数</span><br>	max_size 10   <span class="hljs-comment">#pool 的最大副本数</span><br>	step take default   <span class="hljs-comment"># bucket的入口点， default 是bucket root的名称  </span><br>	step chooseleaf firstn 0 <span class="hljs-built_in">type</span> host  <span class="hljs-comment"># fistst 算法，返回 osd位置</span><br>	step emit<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
-<p>rule中有三个 <strong>setp</strong></p>
-<ol>
-<li>take 从crush map选定编号（选定特定的bucket，示例中 选择的是 root ），作为步骤的开始</li>
-<li>select 从输入的bucket中选择随机选择指定类型 <strong>type</strong> 的item（桶里面的元素），bucket里面有type类型的item，为了尽可能的随机，会使用随机选择算法（有四种），ceph默认是使用 straw2 算法，使用straw2算法，选择item概率都相同，但是会为每一个item计算一个长度，最终会取最长的那个item；计算公式是一个hash值（这个hash值产生与pgid有关系）乘以 item的<strong>weight</strong>（crush weight ），item weight大的元素有较大的概率算出最长的长度，从而更容易被抽中，当达到一点的数量规模，宏观上看是随机的。（straw2算法还有很多细节，这里知识简单概述下）</li>
-<li>emit 将结果返回上一层；</li>
-</ol>
-<p>接下来的crush 算法步骤，这里不在继续讨论，会再另外篇文章 结合源码再来介绍crush 中具体实现算法</p>
-<hr>
-<p>bucket weight是其item weight 的总和，weight是从下往上推的，若是改变osd的weight，osd的上一层bucket weight，会影响cursh 层级，修改 weight 的命令是 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs bash"> <span class="hljs-comment">#ceph osd crush reweight &#123;name&#125; &#123;weight&#125;</span><br> <span class="hljs-comment">#这里修改 osd.0 的weight</span><br>[root@node29 ~]<span class="hljs-comment"># ceph osd tree |grep -E  &quot;WEIGHT|osd.0&quot;</span><br>ID  CLASS WEIGHT  TYPE NAME           STATUS REWEIGHT PRI-AFF <br>  0   hdd 0.29300             osd.0       up  1.00000 1.00000 <br><span class="hljs-comment">#修改之前导出 pg的分布</span><br>[root@node29 ~]<span class="hljs-comment"># ceph pg dump pgs|awk &#x27;&#123;print $1,$17&#125;&#x27; &gt; old</span><br>dumped pgs<br>[root@node29 ~]<span class="hljs-comment"># cat old | head -n 10</span><br>2.0 [1,3,2]<br>3.1 [1,3,2]<br>2.1 [3,2,1]<br>3.0 [1,2,0]<br>2.2 [2,0,1]<br>3.3 [0,2,1]<br>2.3 [3,1,2]<br>3.2 [3,1,2]<br>2.4 [3,1,2]<br>[root@node29 ~]<span class="hljs-comment"># </span><br> <span class="hljs-comment">#现在修改 osd.0 weight   </span><br>    [root@node29 ~]<span class="hljs-comment">#  ceph osd crush reweight osd.0 0.1</span><br>^[[Areweighted item <span class="hljs-built_in">id</span> 0 name <span class="hljs-string">&#x27;osd.0&#x27;</span> to 0.1 <span class="hljs-keyword">in</span> crush map<br>    [root@node29 ~]<span class="hljs-comment"># ceph osd tree |grep -E  &quot;WEIGHT|osd.0&quot;</span><br>ID  CLASS WEIGHT  TYPE NAME           STATUS REWEIGHT PRI-AFF <br>      0   hdd 0.09999             osd.0       up  1.00000 1.00000 <br>[root@node29 ~]<span class="hljs-comment"># ceph pg dump pgs|awk &#x27;&#123;print $1,$17&#125;&#x27; &gt; new</span><br>    dumped pgs<br><br>[root@node29 ~]<span class="hljs-comment"># diff old new  -y -W 30 --suppress-common-lines | head -n 10</span><br>2.0 [1,3,2]   |	2.0 [1,2,3]<br>3.0 [1,2,0]   |	3.0 [1,2,3]<br>2.2 [2,0,1]   |	2.2 [2,3,1]<br>3.4 [2,1,0]   |	3.4 [2,1,3]<br>2.6 [3,1,2]   |	2.6 [1,0,2]<br>3.6 [1,3,2]   |	3.6 [1,0,2]<br>2.8 [0,1,2]   |	2.8 [3,1,2]<br>3.9 [3,2,1]   |	3.9 [1,3,2]<br>2.a [0,1,2]   |	2.a [1,3,2]<br>2.d [2,0,1]   |	2.d [2,3,1]<br>[root@node29 ~]<span class="hljs-comment"># diff old new  -y -W 30 --suppress-common-lines |wc -l</span><br>101<br>[root@node29 ~]<span class="hljs-comment"># wc -l old </span><br>259 <br><span class="hljs-comment">#pg在osd分布可以看出， 将osd weight 调小后，选择 osd.0 比较少了，所以调整item权重在step 中select是有影响的</span><br>  <br></code></pre></td></tr></table></figure></li>
-</ul>
-<p>总之我们的目的是，尽最大可能让数据均衡在 osd中，这个均衡并不是说 让每个osd存放的数据尽可能一样多，而是说数据所占的百分比，假如有两个硬盘，容量是100g和300g，如果要均衡，存放数据时，存放比例为 1:3 时才能到达均衡，而 osd reweight 就可以的调节；osd reweight 默认为1 ，其这个过程称为过载测试，算法流程如下：</p>
-<p><img src="http://img.rui.vin/202208071417994.png" alt="image-20220731175714700">	</p>
-<p>is_out 则是 选出osd的结果，reweight 调整得越高，那么通过测试的概率越高，通过调节reweight可以使数据分布更加合理</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">ceph osd reweight &#123;osd&#125; &#123;reweight&#125;<br>[root@node29 ~]# ceph osd reweight osd.1 0.5<br>reweighted osd.1 to 0.5 (8000)<br>[root@node29 ~]# ceph osd tree |grep -E  &quot;WEIGHT|osd.1&quot;<br>ID  CLASS WEIGHT  TYPE NAME           STATUS REWEIGHT PRI-AFF <br>  1   hdd 0.29799             osd.1       up  0.50000 1.00000 <br><span class="hljs-meta prompt_">#</span><span class="language-bash">修改后pg分布也有改变</span><br><br></code></pre></td></tr></table></figure>
+<h3 id="一致性hash"><a href="#一致性hash" class="headerlink" title="一致性hash"></a>一致性hash</h3><p>而一致性hash在普通hash功能之上，解决动态增加和删除节点带来的问题（牵一发而动全身）</p>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a><strong>实现原理</strong></h3><p>一致性哈希算法通过一个叫作一致性哈希环的数据结构实现。这个环的起点是 0，终点是 2^32 - 1，并且起点与终点连接，故这个环的整数分布范围是 [0, 2^32-1]<br>第一步： 固定好节点位置，也是hash取模，可以节点ip或者节点名称取模，即 hash(ip)%  2^32 - 1，既可以固定好节点位置；</p>
+<img src="http://imt.rui.vin/202208281113157.png" alt="image-20220726114429945" style="zoom:50%;" />     
 
-<p>ceh osd weight  是修改 reweight，数值在 [0,1]， 选出osd后，通过 reweight可以进行过载测试<br>ceph osd crush weight 是修改 bucket weight，  这个weight 影响在bucket中选择那个 item起着关键作用</p>
+<p>第二部： 接下来和普通hash一样，hash的值对2^32 - 1取模，找哈希环的位置然后顺时针寻找节点，找到的第一个节点则就是要存放数据的节点如下图， key-1 找到节点A，key-2找到节点B以此类推….</p>
+<img src="http://imt.rui.vin/202208281113228.png" alt="cke_136.png" style="zoom:50%;" />        
+
+<p>如果增加一个节点，并不会影响全局，只会影响局部的映射，如增加了节点D，影响的只有key-2，其他的key不影响，删除的也是如此</p>
+<img src="http://imt.rui.vin/202208281113159.png" alt="image-20220726115038487" style="zoom:50%;" />    
+
+
+
+<h4 id="有什么缺陷"><a href="#有什么缺陷" class="headerlink" title="有什么缺陷"></a><strong>有什么缺陷</strong></h4><p>但是有个问题：在第一步的时候，节点定位分布到比较集中（节点数比较少也不是不可能）如下图，节点A承载了大量的数据， 如果过节点蹦了，大量的数据会迁移到节点B，这样会导致节点B的压力增大，可能会造成雪崩效应。<br><img src="http://imt.rui.vin/202208281113215.png" alt="image-20220726115316385" style="zoom:50%;" /></p>
+<p><strong>解决的方法</strong>可以在第一步时候添加虚拟节点，不使用真实的节点，比如节点A可以由多个节点映射，保证节点的均衡性，如下图所示，真实的A节点用虚拟节点A-01 A-02 A-03来取代，B，C同理。<br><img src="http://imt.rui.vin/202208281113174.png" alt="image-20220726151408066" style="zoom:45%;" /> </p>
 
               
             </div>
@@ -331,7 +321,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/ceph/">#ceph</a>
+        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%9F%BA%E7%A1%80/">#分布式基础</a>
       
     </div>
   
@@ -345,18 +335,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/04/%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C/" title="一致性哈希的简单理解">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">一致性哈希的简单理解</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/08/03/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" title="rbd 原理初步探索">
-                        <span class="hidden-mobile">rbd 原理初步探索</span>
+                      <a href="/2022/08/03/ceph%E4%B8%ADweight/" title="ceph中的 weight">
+                        <span class="hidden-mobile">ceph中的 weight</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
