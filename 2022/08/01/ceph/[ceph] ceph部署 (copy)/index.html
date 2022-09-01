@@ -1,0 +1,856 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/R.png">
+  <link rel="icon" href="/img/R.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Rui">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ceph部署(mon)更改的yum源（我这里用的公司的）123456789101112[root@node29 ~]# cat &#x2F;etc&#x2F;yum.repos.d&#x2F;ceph.repo [obs-ceph]name&#x3D;Obs-Ceph-CentOS-$releaseverbaseurl&#x3D;http:&#x2F;&#x2F;10.1.31.40&#x2F;ceph-rpm-centos7-x86_64-basic&#x2F;ref&#x2F;v14.2.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ceph 部署">
+<meta property="og:url" content="http://example.com/2022/08/01/ceph/[ceph]%20ceph%E9%83%A8%E7%BD%B2%20(copy)/index.html">
+<meta property="og:site_name" content="Rui">
+<meta property="og:description" content="ceph部署(mon)更改的yum源（我这里用的公司的）123456789101112[root@node29 ~]# cat &#x2F;etc&#x2F;yum.repos.d&#x2F;ceph.repo [obs-ceph]name&#x3D;Obs-Ceph-CentOS-$releaseverbaseurl&#x3D;http:&#x2F;&#x2F;10.1.31.40&#x2F;ceph-rpm-centos7-x86_64-basic&#x2F;ref&#x2F;v14.2.1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://img.rui.vin/202208071101783.png">
+<meta property="og:image" content="http://img.rui.vin/202208071308021.png">
+<meta property="article:published_time" content="2022-08-01T15:24:39.000Z">
+<meta property="article:modified_time" content="2022-08-28T03:14:16.013Z">
+<meta property="article:author" content="Rui">
+<meta property="article:tag" content="ceph">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://img.rui.vin/202208071101783.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ceph 部署 - Rui</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[],"Options":"home | post | tag | category | about | links | page | 404"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Rui</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.dujin.org/bing/1366.php') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ceph 部署"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-01 23:24" pubdate>
+          August 1, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          119 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ceph 部署</h1>
+            
+            <div class="markdown-body">
+              
+              <h3 id="ceph部署-mon"><a href="#ceph部署-mon" class="headerlink" title="ceph部署(mon)"></a>ceph部署(mon)</h3><h4 id="更改的yum源（我这里用的公司的）"><a href="#更改的yum源（我这里用的公司的）" class="headerlink" title="更改的yum源（我这里用的公司的）"></a>更改的yum源（我这里用的公司的）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node29 ~]<span class="hljs-comment"># cat /etc/yum.repos.d/ceph.repo </span><br>[obs-ceph]<br>name=Obs-Ceph-CentOS-<span class="hljs-variable">$releasever</span><br>baseurl=http://10.1.31.40/ceph-rpm-centos7-x86_64-basic/ref/v14.2.11-2022071420/<span class="hljs-variable">$basearch</span>/<br>gpgcheck=0<br>[obs-ceph-noarch]<br>name=Obs-Ceph-CentOS-<span class="hljs-variable">$releasever</span> Noarch<br>baseurl=http://10.1.31.40/ceph-rpm-centos7-x86_64-basic/ref/v14.2.11-2022071420/noarch/<br>gpgcheck=0<br>You have new mail <span class="hljs-keyword">in</span> /var/spool/mail/root<br>[root@node29 ~]<span class="hljs-comment"># yum install ceph </span><br><br></code></pre></td></tr></table></figure>
+
+<p>安装时遇到问题：  提示无法访问 host，后来发现，在yum.repos.d中，有个repo是失效的（用yum安装时会对 yum.repos.d 的源都检查一遍），所以无法通过，通过ip找到对应的rppo文件并移除就可以安装了</p>
+<p><img src="http://img.rui.vin/202208071101783.png" alt="image-20220727194704455"></p>
+<p> 安装完成后查看ceph 版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node31 tmp]<span class="hljs-comment"># ceph -v</span><br>ceph version 14.2.11-2022071420 (cfbcf2f104d05f7d6c69573d275597371890966e) nautilus (stable)<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="安装mon准备工作"><a href="#安装mon准备工作" class="headerlink" title="安装mon准备工作"></a>安装mon准备工作</h4><p>最开始是要先安装一个mon（moniter），mon也是集群最为关键的组件</p>
+<p>创建 mon需要三个信息：</p>
+<ul>
+<li><p>mon 名字</p>
+</li>
+<li><p>集群 id （uuid）</p>
+</li>
+<li><p>秘钥环  （认证信息）每个集群都需要个id，可以用uuidgen生产，将mon节点和节点ip和FSID进行映射并保存到指定文件中</p>
+</li>
+</ul>
+<p>集群id</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">uuidgen <span class="hljs-comment">#k可以生产 uuid</span><br>monmaptool --create --add &#123;hostname&#125; &#123;ip-address&#125; --fsid &#123;uuid&#125; /tmp/monmap<br></code></pre></td></tr></table></figure>
+
+<p>秘钥环</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#为 mon 创建秘钥环，并创建用户  用户名为  mon.</span><br>sudo ceph-authtool --create-keyring /tmp/ceph.mon.keyring --gen-key -n mon. --<span class="hljs-built_in">cap</span> mon <span class="hljs-string">&#x27;allow *&#x27;</span><br><br><span class="hljs-comment">#也是生成一个client，名字为  client.admin，以后的登录集群默认 使用这个用户（执行 ceph -s 默认指定的用户）</span><br>sudo ceph-authtool --create-keyring /etc/ceph/ceph.client.admin.keyring --gen-key -n client.admin --<span class="hljs-built_in">cap</span> mon <span class="hljs-string">&#x27;allow *&#x27;</span> --<span class="hljs-built_in">cap</span> osd <span class="hljs-string">&#x27;allow *&#x27;</span> --<span class="hljs-built_in">cap</span> mds <span class="hljs-string">&#x27;allow *&#x27;</span> --<span class="hljs-built_in">cap</span> mgr <span class="hljs-string">&#x27;allow *&#x27;</span><br><br><span class="hljs-comment">#生成  client.bootstrap-osd， 引导osd用户 </span><br>sudo ceph-authtool --create-keyring /var/lib/ceph/bootstrap-osd/ceph.keyring --gen-key -n client.bootstrap-osd --<span class="hljs-built_in">cap</span> mon <span class="hljs-string">&#x27;profile bootstrap-osd&#x27;</span> --<span class="hljs-built_in">cap</span> mgr <span class="hljs-string">&#x27;allow r&#x27;</span><br><br><br><span class="hljs-comment">#将 用户 client.admin的 keyring  加入到 mon中，bootstrap-osd也是、</span><br><span class="hljs-comment">#这里操作只是 把keyring文件拷贝到 mon的 keyring中</span><br><span class="hljs-comment">#mon 是管理秘钥的</span><br>sudo ceph-authtool /tmp/ceph.mon.keyring --import-keyring /etc/ceph/ceph.client.admin.keyring<br>sudo ceph-authtool /tmp/ceph.mon.keyring --import-keyring /var/lib/ceph/bootstrap-osd/ceph.keyring<br></code></pre></td></tr></table></figure>
+
+
+
+<p>生成 monmap，使用 monmaptool 可以生成 ，需要结合 节点主机ip，和mon的名字，以及 fsid，可以生成 monmap</p>
+<p>ceph中的map 我理解是存放某个功能节点信息的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node29 bootstrap-osd]<span class="hljs-comment"># monmaptool -h</span><br>usage: monmaptool [--<span class="hljs-built_in">print</span>] [--create [--clobber] [--fsid uuid]]<br>        [--enable-all-features]<br>        [--generate] [--set-initial-members]<br>        [--add name 1.2.3.4:567] [--<span class="hljs-built_in">rm</span> name]<br>        [--feature-list [plain|parseable]]<br>        [--feature-set &lt;value&gt; [--optional|--persistent]]<br>        [--feature-unset &lt;value&gt; [--optional|--persistent]]<br>        [--set-min-mon-release &lt;release-major-number&gt;]<br>        &lt;mapfilename&gt;<br>You have new mail <span class="hljs-keyword">in</span> /var/spool/mail/root<br>[root@node29 bootstrap-osd]<span class="hljs-comment"># monmaptool --create --add mon-node29 10.1.23.29  --fsid e518351f-a867-4ce6-b0c5-2e40a2bfcd1c /tmp/monmap</span><br><span class="hljs-comment">#查看生成了什么 </span><br>[root@node29 bootstrap-osd]<span class="hljs-comment"># cat /tmp/monmap </span><br>??¨gL?.@???^e??? ^e???  <br>mon-node298<br>mon-node29 <br> <br><span class="hljs-comment">#用 monmaptool工具也可以看 打印的是 monmap的纯文本视图</span><br>[root@node29 bootstrap-osd]<span class="hljs-comment"># monmaptool --print /tmp/monmap</span><br>monmaptool: monmap file /tmp/monmap<br>epoch 0<br>fsid e518351f-a867-4ce6-b0c5-2e40a2bfcd1c<br>last_changed 2022-08-10 15:59:26.547689<br>created 2022-08-10 15:59:26.547689<br>min_mon_release 0 (unknown)<br>0: v1:10.1.23.29:6789/0 mon.mon-node29<br>[root@node29 bootstrap-osd]<span class="hljs-comment"># </span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>创建mon 数据的文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo <span class="hljs-built_in">mkdir</span> /var/lib/ceph/mon/&#123;cluster-name&#125;-&#123;hostname&#125;<br>[root@node29 bootstrap-osd]<span class="hljs-comment"># sudo -u ceph mkdir -p /var/lib/ceph/mon/ceph-mon-node29</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>关联 mon进程 和 密钥，并且初始化 mon 数据目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">ceph-mon -h 可以查看使用命令，不过 官网更为详细  https://docs.ceph.com/en/quincy/man/8/ceph-mon/</span><br>sudo -u ceph ceph-mon [--cluster &#123;cluster-name&#125;] --mkfs -i &#123;hostname&#125; --monmap /tmp/monmap --keyring /tmp/ceph.mon.keyring<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">--mkfs 初始化 保存mon 数据的目录</span>  <br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">注意节点名字要和你的集群名字一致</span><br>sudo -u ceph ceph-mon --mkfs -i mon-node29 --monmap /tmp/monmap --keyring /tmp/ceph.mon.keyring<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">执行后在 mon 的数据目录里多了</span><br>[root@node29 ceph-mon-node29]# ls -rh /var/lib/ceph/mon/ceph-mon-node29<br>store.db  kv_backend  keyring<br><span class="hljs-meta prompt_"># </span><span class="language-bash">是个 rocksdb数据库？</span> <br></code></pre></td></tr></table></figure>
+
+<p>最后编辑配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs shell">vi /etc/ceph/ceph.conf<br>[global]<br>fsid = a7f64266-0894-4f1e-a635-d0aeaca0e993   # 用 uuidgen生产的uid<br>mon initial members = mon-node29<br>mon host = 192.168.0.1   #节点ip<br>public network = 192.168.0.0/24  #   掩码<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">cephx 是一种验证方式，也可以设置为  none取消认证</span><br>auth cluster required = cephx   # 各个功能节点（mon，osd，mgr）之间交流 都是否需要验证<br>auth service required = cephx   # 各个功能节点（mon，osd，mgr）和集群之间的验证<br>auth client required = cephx    # 客户端需要验证  <br><br>osd journal size = 1024<br>osd pool default size = 3<br>osd pool default min size = 2<br>osd pool default pg num = 333<br>osd pool default pgp num = 500<br>osd crush chooseleaf type = 1<br></code></pre></td></tr></table></figure>
+
+<p>启动服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo systemctl start ceph-mon@mon-node29<br>sudo systemctl status ceph-mon@mon-node29<br><span class="hljs-meta prompt_">#</span><span class="language-bash">最后要 ceph -s验证下</span><br>[root@node29 ~]# ceph -s<br>  cluster:<br>    id:     311a4057-0837-4af8-92ab-a8053e4a3a57<br>    health: HEALTH_WARN<br>            OSD count 1 &lt; osd_pool_default_size 3<br> <br>  services:<br>    mon: 1 daemons, quorum mon-node29 (age 3h)<br>    mgr: node29(active, since 3h)<br>    osd: 1 osds: 1 up (since 2h), 1 in (since 2h)<br> <br>  data:<br>    pools:   0 pools, 0 pgs<br>    objects: 0 objects, 0 B<br>    usage:   1.0 GiB used, 299 GiB / 300 GiB avail<br>    pgs:     <br></code></pre></td></tr></table></figure>
+
+<p>如果服务没有启，可以去 ceph的日志查看，定位问题</p>
+<p><img src="http://img.rui.vin/202208071308021.png" alt="image-20220727202748125"></p>
+<h4 id="添加多个-mon"><a href="#添加多个-mon" class="headerlink" title="添加多个 mon"></a>添加多个 mon</h4><p>一般来说，一个集群要三个 mon（选举），现在有三台服务器，每个服务器都安装一个mon</p>
+<h5 id="同步配置文件和秘钥"><a href="#同步配置文件和秘钥" class="headerlink" title="同步配置文件和秘钥"></a>同步配置文件和秘钥</h5><p>在ceph.conf 添加 节点ip和 mon 名字 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#这里我添加的  mon-node31    推荐 mon名字格式为    mon-&#123;hostname&#125;</span><br>[root@node29 mon]<span class="hljs-comment"># cat /etc/ceph/ceph.conf </span><br>[global]<br>fsid = e518351f-a867-4ce6-b0c5-2e40a2bfcd1c <br>mon initial members = mon-node29,mon-node30,mon-node31   <span class="hljs-comment">#添加了 mon-node31</span><br>mon host = 10.1.23.29,10.1.23.30,10.1.23.31     <span class="hljs-comment">#添加了 10.1.23.31    </span><br>public network = 10.1.23.0/24<br><br>auth cluster required = cephx<br>auth service required = cephx<br>auth client required = cephx<br><br>osd journal size = 1024<br>osd pool default size = 3<br>osd pool default min size = 2<br>osd pool default pg num = 333<br>osd pool default pgp num = 33<br><br><span class="hljs-comment">#debug_mon=20</span><br><br><span class="hljs-comment">#我这里将 ceph配置 和  client的keyring都拷贝到 node31上</span><br>[root@node29 mon]<span class="hljs-comment"># scp /etc/ceph/* node31:/etc/ceph/</span><br>ceph.client.admin.keyring                                                        100%  151   189.6KB/s   00:00    <br>ceph.conf                                                                        100%  429     1.0MB/s   00:00    <br>You have new mail <span class="hljs-keyword">in</span> /var/spool/mail/root<br>[root@node29 mon]<span class="hljs-comment"># </span><br><br><span class="hljs-comment">#bootstrap-osd 的keyring 也拷贝过去，这个为以后添加 osd做准备 </span><br>[root@node29 mon]<span class="hljs-comment">#  scp /var/lib/ceph/bootstrap-osd/ceph.keyring root@node31:/var/lib/ceph/bootstrap-osd/</span><br>ceph.keyring                                                                     100%  129    13.9KB/s   00:00    <br>[root@node29 mon]<span class="hljs-comment"># </span><br><br><span class="hljs-comment">#复制最为关键的  mon 的keyring </span><br>[root@node29 mon]<span class="hljs-comment">#  scp /tmp/ceph.mon.keyring root@node31:/tmp/ceph.mon.keyring</span><br>ceph.mon.keyring                                                                 100%  506   668.9KB/s   00:00    <br><span class="hljs-comment">#--------------------------------------------------</span><br><span class="hljs-comment">#现在登录到 node31上，要注意这些操作是在那台机子上操作的</span><br><span class="hljs-comment">#--------------------------------------------------</span><br><br><br><span class="hljs-comment">#创建  保存mon数据目录 </span><br>[root@node31 lib]<span class="hljs-comment"># sudo -u ceph mkdir -p /var/lib/ceph/mon/ceph-mon-node31</span><br><br><span class="hljs-comment">#刚才 复制了配置文件 和 client.admin 的keyring，现在可以和集群交互</span><br><span class="hljs-comment">#获取 集群中的mon. 的keyring，其实这一步我也可以在 node29上导出后再拷贝过来</span><br>[root@node31 mon]<span class="hljs-comment">#  ceph auth get mon. -o /tmp/ceph.mon.keyring</span><br>exported keyring <span class="hljs-keyword">for</span> mon.<br><br><span class="hljs-comment">#获取集群的 monmap</span><br>[root@node31 ~]<span class="hljs-comment"># ceph mon getmap -o /tmp/ceph.mon.map</span><br>got monmap epoch 5<br><br><span class="hljs-comment">#初始化 mon   （这几步和部署第一个 mon是一样的）</span><br>[root@node31 ~]<span class="hljs-comment"># sudo -u ceph ceph-mon --mkfs -i mon-node31 --monmap /tmp/ceph.mon.map --keyring /tmp/ceph.mon.keyring</span><br><br><span class="hljs-comment">#最为关键的一步   将mon添加到 集群内</span><br>[root@node31 ceph-mon-node31]<span class="hljs-comment"># ceph mon add mon-node31 10.1.23.31:6789</span><br>adding mon.node2 at [v2:10.1.23.31:3300/0,v1:10.1.23.31:6789/0]<br><span class="hljs-comment">#启动 mon</span><br>[root@node31 ceph-mon-node31]<span class="hljs-comment"># systemctl start ceph-mon@mon-node31</span><br><br>[root@node29 ~]<span class="hljs-comment"># ceph -s</span><br>  cluster:<br>    <span class="hljs-built_in">id</span>:     e518351f-a867-4ce6-b0c5-2e40a2bfcd1c<br>    health: HEALTH_WARN<br>            OSD count 2 &lt; osd_pool_default_size 3<br>            clock skew detected on mon.mon-node30<br> <br>  services:<br>    mon: 3 daemons, quorum mon-node29,mon-node30,mon-node31 (age 2m)<br>    mgr: node29(active, since 9h)<br>    osd: 2 osds: 2 up (since 23h), 2 <span class="hljs-keyword">in</span> (since 23h)<br> <br>  data:<br>    pools:   0 pools, 0 pgs<br>    objects: 0 objects, 0 B<br>    usage:   2.0 GiB used, 148 GiB / 150 GiB avail<br>    pgs:     <br> <br>[root@node29 ~]<span class="hljs-comment"># </span><br><br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>ceph 最开始 是要先创建一个  moniter ，最先创建的用户也是 mon，接下来创建  client，他们各自都有 keyring，上文有个步骤是将 client的 keyring 加入到mon的keyring，mon是有保存 client.admin 的秘钥，用户形成都是这 向下开始；刚才还有一个  bootstrap-osd也加入了 mon的keyring，这个 bootstrap-osd 以后将引导生成 osd用户；</p>
+<p>集群启动，mon最先启动，然后才启动osd，mon启动时候是不需要想任何进程进行秘钥验证，其他用户验证操作时候，需要向mon进行验证keyring</p>
+<hr>
+<h3 id="添加mgr-节点"><a href="#添加mgr-节点" class="headerlink" title="添加mgr 节点"></a>添加mgr 节点</h3><blockquote>
+<p>  ​	eph-mgr 的主要功能是提供外部监测和管理系统的接口</p>
+</blockquote>
+<ol>
+<li><p>在ceph里各个节点 都要有秘钥进行认证 ，所以 创建 mgr前应该为添加秘钥</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># ceph auth get-or-create mgr.$name mon &#x27;allow profile mgr&#x27; osd &#x27;allow *&#x27; mds &#x27;allow *&#x27;</span><br><br><span class="hljs-comment"># 这命令的用途可以用  ceph auth -h 查看</span><br><br><span class="hljs-comment">#（很多命令都可以以 ceph &#123;模块功能名字&#125; -h 查看到，当然如果你以 ceph -h是查看全部的）</span><br><br><span class="hljs-comment">#我的 hostname 为node29上弄，所以mgr名字为 </span><br>ceph auth get-or-create mgr.node29 mon <span class="hljs-string">&#x27;allow *&#x27;</span> osd <span class="hljs-string">&#x27;allow *&#x27;</span><br><span class="hljs-comment">#查看是否生产 mgr.node29的认证秘钥</span><br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph auth get mgr.node29</span><br>exported keyring <span class="hljs-keyword">for</span> mgr.node29<br>[mgr.node29]<br>	key = AQBE/OBi5oFENxAAj5QZVDRi7NMOveXQTjathA==<br>	caps mon = <span class="hljs-string">&quot;allow *&quot;</span><br>	caps osd = <span class="hljs-string">&quot;allow *&quot;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>创建mgr的数据目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">mkdir</span> /var/lib/ceph/mgr/ceph-&#123;hostname&#125;/</span><br>mkdir /var/lib/ceph/mgr/ceph-node29<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>将刚才生成的秘钥导出为 keyring</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">ceph auth get mgr.node29 -o <span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ceph/mg</span>r<span class="hljs-regexp">/ceph-node29/</span>keyring<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>启动mgr</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># ceph-mgr -i &#123;hostname&#125;</span><br>ceph-mgr -i mgr.node29<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="添加osd"><a href="#添加osd" class="headerlink" title="添加osd"></a>添加osd</h3><p>L版本中  ceph-disk  都被 ceph-volum 取代了，下面都是都使用ceph-volume 创建osd</p>
+<h4 id="傻瓜式安装："><a href="#傻瓜式安装：" class="headerlink" title="傻瓜式安装："></a>傻瓜式安装：</h4><p>用  ceph-volume 添加里面有很多细节，我看安装的日志，好像是执行了很多脚本，这里面具体细节原理，以后再补充（留坑）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#ceph-volume inventory 可以用于检测这个磁盘能否做 osd </span><br>[root@node29 ceph]<span class="hljs-comment"># ceph-volume inventory /dev/sdd3</span><br><br>====== Device report /dev/sdd3 ======<br><br>     available                 True<br>     rejected reasons          <br>     path                      /dev/sdd3<br>     device <span class="hljs-built_in">id</span>                 QEMU_HARDDISK_drive-scsi0-0-0-1<br>     human readable size       50.00 GB<br>[root@node29 ceph]<span class="hljs-comment"># </span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li><p>用 ceph-volume 创建osd（osd在其他服务器上）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#将其他其他节点的硬盘用做osd，需要有认证文件 </span><br><span class="hljs-comment"># 将/var/lib/ceph/bootstrap-osd/ceph.keyring 拷贝到对应的服务上</span><br><span class="hljs-comment"># 还需要拷贝相应的ceph配置文件</span><br><span class="hljs-comment">#使用 ceph-volume 在osd节点创建osd </span><br>sudo ceph-volume lvm create --data /dev/hdd1<br><br><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>激活 osd</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">生产osd 可以查看osd 的<span class="hljs-built_in">id</span> 和fsid</span><br>[root@node31 ~]# ceph-volume lvm list<br><br><br>====== osd.2 =======<br><br>  [block]       /dev/ceph-ffbb3830-6bbf-4c6a-9e64-4d2817e64965/osd-block-5b5f3d72-caed-4369-91c1-c1667951a5e7<br><br>      block device              /dev/ceph-ffbb3830-6bbf-4c6a-9e64-4d2817e64965/osd-block-5b5f3d72-caed-4369-91c1-c1667951a5e7<br>      block uuid                ri9l8O-g17I-s2wn-memc-vJt0-B3E1-B2tSdX<br>      cephx lockbox secret      <br>      cluster fsid              311a4057-0837-4af8-92ab-a8053e4a3a57<br>      cluster name              ceph<br>      crush device class        None<br>      encrypted                 0<br>      osd fsid                  5b5f3d72-caed-4369-91c1-c1667951a5e7<br>      osd id                    2<br>      osdspec affinity          <br>      type                      block<br>      vdo                       0<br>      devices                   /dev/sdb<br><span class="hljs-meta prompt_">#</span><span class="language-bash">同过<span class="hljs-built_in">id</span> 和fsid 激活 osd</span> <br><br>sudo ceph-volume lvm activate 2 5b5f3d72-caed-4369-91c1-c1667951a5e7<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">如果osd 挂掉了    osd tree 里  状态为dowm</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">可以使用 systemctl restart重启服务，  @后面数字为 osd序号</span><br>systemctl restart ceph-osd@3.service<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>验证</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#ceph -s 可以查看</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#需要一个 uuid</span><br><span class="hljs-comment">#以下相当于执行shell 脚本（只是抽出来一条一条执行）</span><br>[root@node31 ~]<span class="hljs-comment"># UUID=$(uuidgen)</span><br><span class="hljs-comment">#UUID 会保存到当前bash 环境中</span><br>[root@node31 ~]<span class="hljs-comment"># echo $UUID</span><br>47225359-3e97-4c95-b1ae-992339d44ddc<br><br>[root@node31 ~]<span class="hljs-comment"># OSD_SECRET=$(ceph-authtool --gen-print-key)</span><br>[root@node31 ceph-4]<span class="hljs-comment"># echo $OSD_SECRET</span><br>AQCotPVihM3rDBAAJ1ikAGBHtti5ogVSrZ/xRg==<br>[root@node31 ceph-4]<span class="hljs-comment"># </span><br><br><br><span class="hljs-comment">#获取 OSD的id 其实也可以推断出来，osd tree 就可以看到  osd.&#123;number&#125;,新的 ID为  number+1 即可</span><br>ceph osd new <span class="hljs-variable">$UUID</span> <br>[root@node31 ceph-4]<span class="hljs-comment">#  ID = $(ceph osd new 2aff9fe6-eef8-4da2-9a03-d33ef062b2bb)</span><br>5<br><span class="hljs-comment">#注意，我这里是可以直接登录 集群的，如果你没有 keyring，需要想办法把 keyring 拷贝你要操作的机器上</span><br><span class="hljs-comment"># 创建osd目录  磁盘挂载的目录</span><br><br><span class="hljs-built_in">mkdir</span> /var/lib/ceph/osd/ceph-<span class="hljs-variable">$ID</span><br><br><span class="hljs-comment">#格式化磁盘  （为甚用xfs 还没弄清楚）</span><br>mkfs.xfs /dev/sdb<br><span class="hljs-comment">#挂载 </span><br>mount /dev/sdb /var/lib/ceph/osd/ceph-<span class="hljs-variable">$ID</span><br><br><span class="hljs-comment">#将 osd keyring 加入到 集群中</span><br>ceph-authtool --create-keyring /var/lib/ceph/osd/ceph-<span class="hljs-variable">$ID</span>/keyring \<br>     --name osd.<span class="hljs-variable">$ID</span> --add-key <span class="hljs-variable">$OSD_SECRET</span><br><br><span class="hljs-comment">#初始化</span><br>ceph-osd -i <span class="hljs-variable">$ID</span> --mkfs --osd-uuid <span class="hljs-variable">$UUID</span><br><br><span class="hljs-comment"># 启动 osd 服务 </span><br>systemctl start ceph-osd@<span class="hljs-variable">$ID</span><br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="改变osd层级"><a href="#改变osd层级" class="headerlink" title="改变osd层级"></a>改变osd层级</h3><p>在部署 OSD 时，它们会自动添加到 CRUSH 映射中的主机存储桶下，这个存储桶以运行它们的节点命名，默认是平面节点层次，但实际上为了故障隔离，可以添加不同的 bucket类型 到默认的层级中， 如 osd(device)host，chassis，rack，row，datacenter，zone，region，root等<br><strong>实现 层级可以是  rack -&gt; host -&gt; osd</strong></p>
+<ol>
+<li><p>添加rack </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">添加rack</span><br>ceph osd crush add-bucker rack01 rack<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>改变层级</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">默认是 osd直接在host下的，所以要需要修改host的root</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">ceph osd crush move 所在层级名 父层级名</span><br>ceph osd crush move node31 rack=rack03<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>改变后效果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@node29 ceph-node29]# ceph osd tree<br>ID  CLASS WEIGHT  TYPE NAME           STATUS REWEIGHT PRI-AFF <br> -1       0.87900 root default                                <br> -9       0.29300     rack rack01                             <br> -3       0.29300         host node29                         <br>  0   hdd 0.29300             osd.0       up  1.00000 1.00000 <br>-10       0.29300     rack rack02                             <br> -5       0.29300         host node30                         <br>  1   hdd 0.29300             osd.1       up  1.00000 1.00000 <br>-11       0.29300     rack rack03                             <br> -7       0.29300         host node31                         <br>  2   hdd 0.29300             osd.2       up  1.00000 1.00000 <br><span class="hljs-meta prompt_"># </span><span class="language-bash">weight 是指定osd对应磁盘大小，</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">REWEIGHT</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="添加池"><a href="#添加池" class="headerlink" title="添加池"></a>添加池</h3><p>Ceph 的池是一个用来存储对象的逻辑分区，每个池中有一定数量pg，通过pg可以吧一定数量的对象映射到不同OSD中，</p>
+<ol>
+<li>创建pool</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#ceph osd pool create &#123;pool-name&#125; [&#123;pg-num&#125; [&#123;pgp-num&#125;]] [replicated] \[crush-rule-name] [expected-num-objects]</span><br><span class="hljs-comment">#PG是指定存储池存储对象的目录有多少个，PGP是存储池PG的OSD分布组合个数</span><br><span class="hljs-comment">#可以指定 </span><br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool create pool_A1 128 128 replicated </span><br>pool <span class="hljs-string">&#x27;pool_A1&#x27;</span> created<br><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>查看 pool 信息</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#查看创建的池  rados lspools也可以  ceph osd pool ls detail可以查看更多信息</span><br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd lspools</span><br>2 pool_A1<br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool ls detail</span><br>pool 2 <span class="hljs-string">&#x27;pool_A1&#x27;</span> replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 128 pgp_num 128 autoscale_mode warn last_change 38 flags hashpspool stripe_width 0<br><br><span class="hljs-comment">#查看 新建pool 的信息  </span><br><span class="hljs-comment"># ceph osd pool get &#123;poolname&#125; &#123;value&#125;</span><br><span class="hljs-comment"># value 是你想获得的信息</span><br><span class="hljs-comment">#eg</span><br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool get pool_A1 min_size</span><br>min_size: 2<br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool get pool_A1 pg_num</span><br>pg_num: 128<br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool get pool_A1 crush_rule</span><br>crush_rule: replicated_rule<br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool get pool_A1 size</span><br>size: 3<br><span class="hljs-comment">#如果忘记value参数，可以  ceph osd pool get 就会有其他value 参数了</span><br><br><span class="hljs-comment">#查看当前池的配额 对多可以存多少个对象 ，最多可以保存多大数据</span><br>[root@node29 ceph-3]<span class="hljs-comment"># ceph osd pool get-quota pool_A1</span><br>quotas <span class="hljs-keyword">for</span> pool <span class="hljs-string">&#x27;pool_A1&#x27;</span>:<br>  max objects: 1k objects<br>  max bytes  : 10 GiB<br>[root@node29 ceph-3]<span class="hljs-comment"># </span><br><br><br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>修改 pool 配置信息</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#ceph osd pool set &#123;pool-name&#125; &#123;key&#125; &#123;value&#125;</span><br><span class="hljs-comment">#如更改 pool的副本数</span><br>ceph osd pool <span class="hljs-built_in">set</span> pool_A1 size 3 <br><span class="hljs-comment">#这里面的 key 也就是上一步 get 里的value，不知道key参数可以参考上一步（当然官方文档有更详细的解释）</span><br><br><span class="hljs-comment">#设置pool里面最大object数量</span><br>ceph osd pool set-quota &#123;poolname&#125; max_objects &#123;number&#125;<br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool set-quota pool_A1 max_objects 1000</span><br>set-quota max_objects = 1000 <span class="hljs-keyword">for</span> pool pool_A1<br><br><br><span class="hljs-comment">#设置pool里面最大容量</span><br>ceph osd pool set-quota &#123;poolname&#125;  max_bytes &#123;byte number&#125;<br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool set-quota pool_A1  max_bytes $((10 * 1024 * 1024 * 1024))</span><br>set-quota max_bytes = 10737418240 <span class="hljs-keyword">for</span> pool pool_A1<br><br>[root@node29 ceph-node29]<span class="hljs-comment"># ceph osd pool ls detail</span><br>pool 2 <span class="hljs-string">&#x27;pool_A1&#x27;</span> replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 128 pgp_num 128 autoscale_mode warn last_change 41 flags hashpspool max_bytes 10737418240 max_objects 1000 stripe_width 0<br><br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>删除pool</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#如果直接删除 </span><br>ceph osd pool delete    &#123;poolname&#125;  &#123;poolname&#125; --yes-i-really-really-mean-it<br><span class="hljs-comment">#如果直接执行 可能会出现</span><br>Error EPERM: pool deletion is disabled; you must first <span class="hljs-built_in">set</span> the mon_allow_pool_delete config option to <span class="hljs-literal">true</span> before you can destroy a pool<br><span class="hljs-comment">#解决方案 : 在配置文件 ceph.conf 中添加  mon allow pool delete = true</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="rados命令实践"><a href="#rados命令实践" class="headerlink" title="rados命令实践"></a>rados命令实践</h3><h4 id="1-池相关命令"><a href="#1-池相关命令" class="headerlink" title="1. 池相关命令"></a>1. 池相关命令</h4><p>再上一步添加池后，使用 rados命令对池增删数据，当然 rados也可以对创建池</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#往池里加入一个对象，对象名为 obj_A  文件名为 mem_history</span><br>[root@node29 home]<span class="hljs-comment"># rados -p pool_A1 put obj_A mem_history</span><br><span class="hljs-comment">#查看已插入的对象</span><br>[root@node29 home]<span class="hljs-comment"># rados -p pool_A1 ls</span><br>obj_A<br><span class="hljs-comment">#查看对象信息</span><br>[root@node29 home]<span class="hljs-comment">#  rados -p pool_A1 stat obj_A </span><br>pool_A1/obj_A mtime 2022-07-28 17:34:54.000000, size 7943881<br><span class="hljs-comment">#查看资源池信息</span><br>[root@node29 home]<span class="hljs-comment"># rados df -p pool_A1</span><br>POOL_NAME   USED OBJECTS CLONES COPIES MISSING_ON_PRIMARY UNFOUND DEGRADED RD_OPS      RD WR_OPS      WR USED COMPR UNDER COMPR <br>pool_A1   23 MiB       1      0      3                  0       0        0     11 7.6 MiB      5 7.6 MiB        0 B         0 B <br><br>total_objects    1<br>total_used       3.0 GiB<br>total_avail      897 GiB<br>total_space      900 GiB<br><span class="hljs-comment"># 资源池可以看出 存入了一个对象，占用了23m的空间 </span><br><br><span class="hljs-comment">#获取池里的对象内容 并导出来 -p 指的是poolname  get 后面 对象名 紧接着 输出的文件</span><br>[root@node29 home]<span class="hljs-comment"># rados -p pool_A1 get obj_A tmp | head -n1 tmp</span><br>root     516703  1.2  0.1 16320864 419544 ?     Sl   09:15   0:10 python3 /opt/expontech/obs-manager/obs_manager/csm_manager_status.py<br>[root@node29 home]<span class="hljs-comment"># </span><br><br><span class="hljs-comment">#对象 追加内容</span><br><span class="hljs-comment"># rados -p pool_A1 append obj_A mem_history</span><br><br><br><span class="hljs-comment">#删除 对象</span><br><span class="hljs-comment"># rados -p pool_A1 rm obj_A</span><br><br><br></code></pre></td></tr></table></figure>
+
+<p>…..</p>
+<p>​		</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ceph/">#ceph</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/02/ceph/%5Bceph%5DRBD/" title="ceph中 RBD 使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ceph中 RBD 使用</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/07/%E5%AD%98%E5%82%A8%E9%80%9A%E8%AF%86/" title="存储通识">
+                        <span class="hidden-mobile">存储通识</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments">
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.18/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"4tz8f6FTi0BVSOcKQPAnAAkg-gzGzoHsz","appKey":"ltYlWD7ItrDou5czyO7XrpbJ","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022011229号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" alt="police-icon"/>
+          
+          <span>粤ICP备2022011229号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

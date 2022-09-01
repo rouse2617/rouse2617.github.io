@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/R.png">
+  <link rel="icon" href="/img/R.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Rui">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ceph中RBD 建立 image后，可以map到操作系统，当磁盘使用和插入STAT一样，此外内核模块已经支持 rbd（krbd）， modinfo 可以查看内核模块；创建100g的image并不是在真实磁盘中占用了100g，而是用多少，在ceph中就占用多少  创建RBD发生了什么现在创建pool，名字为rbd，并在rbd pool里创建image 12345678910111213141516">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rbd 原理初步探索">
+<meta property="og:url" content="http://example.com/2022/08/03/ceph/[ceph]rbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/index.html">
+<meta property="og:site_name" content="Rui">
+<meta property="og:description" content="ceph中RBD 建立 image后，可以map到操作系统，当磁盘使用和插入STAT一样，此外内核模块已经支持 rbd（krbd）， modinfo 可以查看内核模块；创建100g的image并不是在真实磁盘中占用了100g，而是用多少，在ceph中就占用多少  创建RBD发生了什么现在创建pool，名字为rbd，并在rbd pool里创建image 12345678910111213141516">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://img.rui.vin/image-20220803095650245.png">
+<meta property="article:published_time" content="2022-08-03T04:11:39.000Z">
+<meta property="article:modified_time" content="2022-08-28T11:41:39.456Z">
+<meta property="article:author" content="Rui">
+<meta property="article:tag" content="ceph">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://img.rui.vin/image-20220803095650245.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>rbd 原理初步探索 - Rui</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":".","loop":false,"scope":[],"Options":"home | post | tag | category | about | links | page | 404"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"C++"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Rui</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.dujin.org/bing/1366.php') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="rbd 原理初步探索"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-03 12:11" pubdate>
+          August 3, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          57 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">rbd 原理初步探索</h1>
+            
+            <div class="markdown-body">
+              
+              <p>ceph中RBD 建立 image后，可以map到操作系统，当磁盘使用和插入STAT一样，此外内核模块已经支持 rbd（krbd）， modinfo 可以查看内核模块；创建100g的image并不是在真实磁盘中占用了100g，而是用多少，在ceph中就占用多少</p>
+<p><img src="http://img.rui.vin/image-20220802162244952.png"></p>
+<h2 id="创建RBD发生了什么"><a href="#创建RBD发生了什么" class="headerlink" title="创建RBD发生了什么"></a>创建RBD发生了什么</h2><p>现在创建pool，名字为rbd，并在rbd pool里创建image</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@node29 hrp]# rados lspools<br>pool_A1<br>pool_A2<br>pool_rack<br>rbd<br>[root@node29 hrp]# rbd create foo --size 10240<br>[root@node29 hrp]# rbd -p rbd ls<br>foo<br><span class="hljs-meta prompt_">#</span><span class="language-bash">查看rbd信息</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">[root@node29 hrp]<span class="hljs-comment"># rbd info foo</span></span><br>rbd image &#x27;foo&#x27;:<br>	size 10 GiB in 2560 objects<br>	order 22 (4 MiB objects) #22是次方  4M是22， 8M是23，因为2^22 bytes = 4MB, 2^23 bytes = 8MB<br>	snapshot_count: 0<br>	id: 87fa3437b808<br>	block_name_prefix: rbd_data.87fa3437b808 #每个块 唯一的前缀编号<br>	format: 2  # 有两种格式，1 和 2 ，两者区别只是 data的obj命名不同<br>	features: layering #这里特性 在其他文章有提过<br>	op_features: <br>	flags: <br>	create_timestamp: Tue Aug  2 16:31:58 2022<br>	access_timestamp: Tue Aug  2 16:31:58 2022<br>	modify_timestamp: Tue Aug  2 16:31:58 2022<br>	<br><br></code></pre></td></tr></table></figure>
+
+<p>现在r	bd pool里建了rbd，看看此时产生了什么数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node29 hrp]<span class="hljs-comment"># rados -p rbd ls</span><br>rbd_directory<br>rbd_info<br>rbd_id.foo<br>rbd_header.87fa3437b808<br>[root@node29 hrp]<span class="hljs-comment"># </span><br></code></pre></td></tr></table></figure>
+
+<p>建立 foo 后，生成了 rbd_id.foo，现在 查看下 rbd_directory 这个对象的内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node29 hrp]<span class="hljs-comment">#  rados listomapvals rbd_directory -p rbd </span><br>id_87fa3437b808<br>value (7 bytes) :<br>00000000  03 00 00 00 66 6f 6f                              |....foo|<br>00000007<br><br>name_foo<br>value (16 bytes) :<br>00000000  0c 00 00 00 38 37 66 61  33 34 33 37 62 38 30 38  |....87fa3437b808|<br>00000010<br><br>You have new mail <span class="hljs-keyword">in</span> /var/spool/mail/root<br><span class="hljs-comment">#不是给人看的，反编译下</span><br>[root@node29 hrp]<span class="hljs-comment">#  rados listomapvals rbd_directory -p rbd &gt; temp &amp;&amp; hexdump -vC temp &amp;&amp; cat temp</span><br>00000000  69 64 5f 38 37 66 61 33  34 33 37 62 38 30 38 0a  |id_87fa3437b808.|<br>00000010  76 61 6c 75 65 20 28 37  20 62 79 74 65 73 29 20  |value (7 bytes) |<br>00000020  3a 0a 30 30 30 30 30 30  30 30 20 20 30 33 20 30  |:.00000000  03 0|<br>00000030  30 20 30 30 20 30 30 20  36 36 20 36 66 20 36 66  |0 00 00 66 6f 6f|<br>00000040  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |                |<br>00000050  20 20 20 20 20 20 20 20  20 20 20 20 20 20 7c 2e  |              |.|<br>00000060  2e 2e 2e 66 6f 6f 7c 0a  30 30 30 30 30 30 30 37  |...foo|.00000007|<br>00000070  0a 0a 6e 61 6d 65 5f 66  6f 6f 0a 76 61 6c 75 65  |..name_foo.value|<br>00000080  20 28 31 36 20 62 79 74  65 73 29 20 3a 0a 30 30  | (16 bytes) :.00|<br>00000090  30 30 30 30 30 30 20 20  30 63 20 30 30 20 30 30  |000000  0c 00 00|<br>000000a0  20 30 30 20 33 38 20 33  37 20 36 36 20 36 31 20  | 00 38 37 66 61 |<br>000000b0  20 33 33 20 33 34 20 33  33 20 33 37 20 36 32 20  | 33 34 33 37 62 |<br>000000c0  33 38 20 33 30 20 33 38  20 20 7c 2e 2e 2e 2e 38  |38 30 38  |....8|<br>000000d0  37 66 61 33 34 33 37 62  38 30 38 7c 0a 30 30 30  |7fa3437b808|.000|<br>000000e0  30 30 30 31 30 0a 0a                              |00010..|<br>000000e7<br></code></pre></td></tr></table></figure>
+
+<p>从信息可以看到 信息包含了 刚才建立的image foo，从 rbd_directory可以猜测 这对象可能是保存 image信息的，现在再建立一个 rbd</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node29 hrp]<span class="hljs-comment"># rbd create bar --size 10240</span><br>[root@node29 hrp]<span class="hljs-comment"># rados -p rbd ls</span><br>rbd_directory<br>rbd_id.bar<br>rbd_id.foo<br>rbd_header.881e37e3e168<br>rbd_header.87fa3437b808<br>rbd_info<br>[root@node29 hrp]<span class="hljs-comment"># </span><br><br>[root@node29 hrp]<span class="hljs-comment">#  rados listomapvals rbd_directory -p rbd &gt; temp &amp;&amp; hexdump -vC temp &amp;&amp; cat temp | grep name</span><br>name_bar<br>name_foo<br><br></code></pre></td></tr></table></figure>
+
+<p>太多信息，过滤了其他其他内容，不过可以确定的是，每次创建一个rbd，都会pool里面rbd_directory 添加数据信息，而且还会添加 一个 rbd_header开头的 obj，rbd_header后面跟的是一个id，可以 再 rbd info看到</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node29 hrp]<span class="hljs-comment"># rbd info foo</span><br>rbd image <span class="hljs-string">&#x27;foo&#x27;</span>:<br>	size 10 GiB <span class="hljs-keyword">in</span> 2560 objects<br>	order 22 (4 MiB objects)<br>	snapshot_count: 0<br>	<span class="hljs-built_in">id</span>: 87fa3437b808<br>	block_name_prefix: rbd_data.87fa3437b808  <span class="hljs-comment"># 这里后面的id和rbd_header后面一样，很重要</span><br>	format: 2<br>	features: layering<br>	op_features: <br>	flags: <br>	create_timestamp: Tue Aug  2 16:31:58 2022<br>	access_timestamp: Tue Aug  2 16:31:58 2022<br>	modify_timestamp: Tue Aug  2 16:31:58 2022<br>[root@node29 hrp]<span class="hljs-comment"># </span><br><span class="hljs-comment">#发现一个命令  可以从 rbd_head 中看 这些信息</span><br><span class="hljs-comment">#比如我想看 order  </span><br>[root@node29 ~]<span class="hljs-comment"># rados getomapval -p rbd rbd_header.8a15f6edcaf9 order</span><br>value (1 bytes) :<br>00000000  16                                                |.|<br>00000001<br><span class="hljs-comment">#想看 features </span><br>[root@node29 ~]<span class="hljs-comment"># rados getomapval -p rbd rbd_header.8a15f6edcaf9 features</span><br>value (8 bytes) :<br>00000000  01 00 00 00 00 00 00 00                           |........|<br>00000008<br><br></code></pre></td></tr></table></figure>
+
+<p>​	<img src="http://img.rui.vin/image-20220803101534670.png" alt="image-20220803101534670">（补充 info 里面 feature）</p>
+<p><strong>可以得出，每创建一个 rbd 会在 pool里 生产 rbd_id.{name }和 rbd_header.{id}这两个 obj，并且也会更新 池中rbd_directory 的内容（可以理解一个目录，现在加了新的内容，要更新目录），</strong> <strong>rbd_header.{id} 里面包含了  image 的配置信息</strong></p>
+<hr>
+<h2 id="使用时底层发生什么"><a href="#使用时底层发生什么" class="headerlink" title="使用时底层发生什么"></a>使用时底层发生什么</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#简单使用下</span><br>[root@node29 hrp]<span class="hljs-comment"># rbd ls</span><br>bar<br>foo<br>[root@node29 hrp]<span class="hljs-comment">#  rbd map foo</span><br>/dev/rbd1<br><span class="hljs-comment"># 格式化  xfs</span><br>[root@node29 hrp]<span class="hljs-comment"># mkfs.xfs /dev/rbd1</span><br><span class="hljs-comment">#挂载后</span><br>[root@node29 mnt]<span class="hljs-comment"># df -h | grep rbd1</span><br>/dev/rbd1        10G   33M   10G   1% /mnt/foo<br>[root@node29 mnt]<span class="hljs-comment"># </span><br><br></code></pre></td></tr></table></figure>
+
+<p>文件系统建立后，查看 rdb pool增加的内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node29 home]<span class="hljs-comment"># rados -p rbd ls |sort </span><br>rbd_data.87fa3437b808.0000000000000000<br>rbd_data.87fa3437b808.0000000000000001<br>rbd_data.87fa3437b808.00000000000000a0<br>rbd_data.87fa3437b808.0000000000000140<br>rbd_data.87fa3437b808.00000000000001e0<br>rbd_data.87fa3437b808.0000000000000280<br>rbd_data.87fa3437b808.0000000000000320<br>rbd_data.87fa3437b808.00000000000003c0<br>rbd_data.87fa3437b808.0000000000000460<br>rbd_data.87fa3437b808.0000000000000500<br>rbd_data.87fa3437b808.0000000000000501<br>rbd_data.87fa3437b808.0000000000000502<br>rbd_data.87fa3437b808.00000000000005a0<br>rbd_data.87fa3437b808.0000000000000640<br>rbd_data.87fa3437b808.00000000000006e0<br>rbd_data.87fa3437b808.0000000000000780<br>rbd_data.87fa3437b808.0000000000000820<br>rbd_data.87fa3437b808.00000000000008c0<br>rbd_data.87fa3437b808.0000000000000960<br>rbd_data.rbd_data.00000000000009ff<br>...<br><span class="hljs-comment">#主要增加了 rbd_data.87fa3437b808.&#123;index&#125; 这些内容 </span><br></code></pre></td></tr></table></figure>
+
+<p>rbd_data数据井然有序，查看下 第一个data内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node29 hrp]<span class="hljs-comment"># rados -p rbd get rbd_data.87fa3437b808.0000000000000001 tmp1 &amp;&amp; hexdump -vC tmp1 |more</span><br>00000000  58 46 53 42 00 00 10 00  00 00 00 00 00 28 00 00  |XFSB.........(..|<br>00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>00000020  e7 f1 7c c2 16 09 4b <span class="hljs-built_in">fc</span>  ba 61 4e fd b0 8d 18 2f  |..|...K..aN..../|<br>[root@node29 ~]<span class="hljs-comment"># rados -p rbd get rbd_data.87fa3437b808.0000000000000001 tmp1 &amp;&amp; ls -lah tmp1 </span><br>-rw-r--r-- 1 root root 4.0M Aug  2 20:15 tmp1<br></code></pre></td></tr></table></figure>
+
+<p>可以确定，块格式化为 <strong>xfs</strong>时候 ，是有对块读写数据的，每个 obj都是 4M，这也书上说的一样，ceph中会将大文件切割成 4M 大小的obj，而且都遵循 对象文件名都是 以</p>
+<p> rbd_data.{block_name_prefix}.{index}命名（<strong>format 2 风格</strong>）</p>
+<p> block_name_prefix作为全局唯一标识，在加上索引即可成为一个obj；</p>
+<p>在ceph 设计原理与实现有一张图可以很好体现出 image的结构  ？（）</p>
+<h3 id="format-1-，2之间区别"><a href="#format-1-，2之间区别" class="headerlink" title="format 1 ，2之间区别"></a>format 1 ，2之间区别</h3><ul>
+<li><p><strong>format 1 - 此格式兼容所有版本的 librbd 和内核模块，但是不支持较新的功能，像克隆。</strong></p>
+</li>
+<li><p><strong>format 2 - librbd 和 3.11 版以上内核模块才支持。此格式增加了克隆支持，使得扩展更容易，还允许以后增加新功能。</strong></p>
+</li>
+</ul>
+<img src="http://img.rui.vin/image-20220803095650245.png" alt="image-20220803095650245" style="zoom:80%;" />	
+
+
+
+
+
+<p>如果我在挂载的目录 新建一个有内容的文件，在 obj 文件中是否有更新呢？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#新建一个文件</span><br>[root@node29 foo]<span class="hljs-comment"># echo &quot;aaaaaaaaaaaaaaagggggggggggggggggggggg&quot; &gt; file3</span><br><span class="hljs-comment">#同上面一样，提取obj 并反编译，发现刚才写的内容就保存在 obj中</span><br><span class="hljs-comment">#通过文件对比可以查到 具体是更新到那个文件里面</span><br>[root@node29 ~]<span class="hljs-comment"># rados -p rbd get rbd_data.87fa3437b808.0000000000000001 tmp1 &amp;&amp; hexdump -vC tmp1 | grep -5 &quot;gggg&quot;</span><br>0000afc0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>0000afd0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>0000afe0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>0000aff0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>0000b000  61 61 61 61 61 61 61 61  61 61 61 61 61 61 61 67  |aaaaaaaaaaaaaaag|<br>0000b010  67 67 67 67 67 67 67 67  67 67 67 67 67 67 67 67  |gggggggggggggggg|<br>0000b020  67 67 67 67 67 0a 00 00  00 00 00 00 00 00 00 00  |ggggg...........|<br>0000b030  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>0000b040  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br><br></code></pre></td></tr></table></figure>
+
+<p>显然文件内容在 obj中可以找到，只不过被压缩编译了下。如果 写入一个大文件，会有什么变化呢？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">这里写入一个 1G的 大文件</span>  <br>[root@node29 mnt]# dd if=/dev/zero  of=/mnt/foo/maxfile count=1000 bs=1M<br>[root@node29 foo]# ls -lah maxfile <br>-rw-r--r-- 1 root root 1000M Aug  2 20:19 maxfile<br>[root@node29 foo]# <br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">在rbd pool里查看obj数量是否增加</span><br>[root@node29 mnt]# rados -p rbd ls | wc -l| sort<br>280<br><span class="hljs-meta prompt_">#</span><span class="language-bash">原本才20几，现在290多个，1000/4=250  这样一算好像也差不多，符合上面说的，文件会分割成 4M大小obj</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>以上操作可以得出， rbd 生产 image 后，然后 map（这里用到的是 内核rbd）到操作系统，格式化，挂载使用；在挂载目录里面进行 crud操作，此时还没到 ceph pool 中，而是先通过 文件系统将数据整理后，在交给ceph，分割成4M对象文件（不一定都是是4M！！），接下来怎么操作是ceph底层的事情了。（后期结合代码更新）</p>
+<p><img src="http://img.rui.vin/image-20220803114900839.png" alt="image-20220803114900839">	</p>
+<h2 id="文件是怎么分割的"><a href="#文件是怎么分割的" class="headerlink" title="文件是怎么分割的"></a>文件是怎么分割的</h2><p>待总结…..</p>
+<h2 id="思考的问题"><a href="#思考的问题" class="headerlink" title="思考的问题"></a><strong>思考的问题</strong></h2><blockquote>
+<p>  以下是日常遇到RBD问题补充的</p>
+</blockquote>
+<p>上文说到，数据通过编译后才看得到数据，这种是直接以二进制的方式来存放数据的，在RADOS还有两种存放数据的方式，第二种是 以键值对的方式（xattr），地方是也是键值对 omap方式</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ceph/">#ceph</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/03/ceph/%5Bceph%5Drgw%E9%83%A8%E7%BD%B2/" title="rgw 部署">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">rgw 部署</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/02/ceph/%5Bceph%5DRBD/" title="ceph中 RBD 使用">
+                        <span class="hidden-mobile">ceph中 RBD 使用</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments">
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.18/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"4tz8f6FTi0BVSOcKQPAnAAkg-gzGzoHsz","appKey":"ltYlWD7ItrDou5czyO7XrpbJ","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022011229号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" alt="police-icon"/>
+          
+          <span>粤ICP备2022011229号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
