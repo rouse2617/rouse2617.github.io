@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2022/09/01/raft/"/>
+    <url>/2022/09/01/raft/</url>
+    
+    <content type="html"><![CDATA[<p>raft介绍</p><blockquote><p>  是一种<strong>强一致性</strong>、<strong>去中心化</strong>、<strong>高可用</strong>的分布式协议，是一种leader-based的共识算法；由于 一致性算法中最为出名 Paxos比较难理解，于是有两位学者研究出了raft算法，号称是最容易理解的共识算法（读了论文，确实比较容易理解）</p></blockquote><p>这篇文章主要对 结合raft论文和网上的文章做一个输出，从三个部分介绍 raft</p><ul><li>raft 协议能做什么</li><li>raft 中的 leader 选举</li><li>raft 中的 日志同步和安全性（待更新，会在另外一篇文章）</li></ul><p>谈到分布式就离不开一致性的问题，这里的一致性就是 CAP理论的Consistnecy ，在raft中 强一致性的，什么是强一致性呢？假如有三台服务器A，B，C，A收客户端发来的数据后，将数据拷贝到B，C作为副本保存，只有拷贝数据全部完成了，A才可以告知客户端接收数据成功，这是为了确保每个时刻外部从服务器读数据都是一致的；而Raft 使用了一种共识算法来实现前面所说的强一致性。</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>ceph admin socket 源码分析 </title>
     <link href="/2022/08/19/%5Bceph%5D%20adminsocke%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
     <url>/2022/08/19/%5Bceph%5D%20adminsocke%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</url>
