@@ -16,21 +16,35 @@
   <meta name="author" content="Rui">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="Rui">
-<meta property="og:url" content="http://example.com/2022/09/02/%E6%A8%A1%E5%BC%8F%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%AD%E7%9A%84prefork/index.html">
+    <meta name="description" content="在 osd启动流程的代码中有一个  global_init_prefork() 的 函数，发现在很多 模块启动流程都有 这个函数，这和模块对应的进程有关系，所以对这个函数剖析下    具体实现函数都在 Preforker 类中 	 在先执行是 global_init_prefork(g_ceph_context) 函数 global_init_prefork(g_ceph_context)p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ceph-模块初始化中 prefork源码解析">
+<meta property="og:url" content="http://example.com/2022/08/25/ceph/[ceph]%20%E6%A8%A1%E5%9D%97%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%AD%E7%9A%84prefork/index.html">
 <meta property="og:site_name" content="Rui">
+<meta property="og:description" content="在 osd启动流程的代码中有一个  global_init_prefork() 的 函数，发现在很多 模块启动流程都有 这个函数，这和模块对应的进程有关系，所以对这个函数剖析下    具体实现函数都在 Preforker 类中 	 在先执行是 global_init_prefork(g_ceph_context) 函数 global_init_prefork(g_ceph_context)p">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-09-01T16:14:31.922Z">
-<meta property="article:modified_time" content="2022-09-01T16:14:31.922Z">
+<meta property="og:image" content="http://imt.rui.vin/202209020024848.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024793.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024807.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024851.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024836.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024777.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024141.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024179.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024296.png">
+<meta property="og:image" content="http://imt.rui.vin/202209020024329.png">
+<meta property="article:published_time" content="2022-08-25T15:24:39.000Z">
+<meta property="article:modified_time" content="2022-09-01T16:26:26.845Z">
 <meta property="article:author" content="Rui">
+<meta property="article:tag" content="ceph">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://imt.rui.vin/202209020024848.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Rui</title>
+  <title>ceph-模块初始化中 prefork源码解析 - Rui</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,7 +207,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="ceph-模块初始化中 prefork源码解析"></span>
           
         </div>
 
@@ -204,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-09-02 00:14" pubdate>
-          September 2, 2022 am
+        <time datetime="2022-08-25 23:24" pubdate>
+          August 25, 2022 pm
         </time>
       </span>
     
@@ -216,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 words
+          1.5k words
         
       </span>
     
@@ -227,7 +241,7 @@
         
         
         
-          1 mins
+          13 mins
         
       </span>
     
@@ -273,17 +287,49 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">ceph-模块初始化中 prefork源码解析</h1>
             
             <div class="markdown-body">
               
-              
+              <p>   在 osd启动流程的代码中有一个  global_init_prefork() 的 函数，发现在很多 模块启动流程都有 这个函数，这和模块对应的进程有关系，所以对这个函数剖析下</p>
+<p><img src="http://imt.rui.vin/202209020024848.png" alt="image-20220901151643117"></p>
+<p>  具体实现函数都在 Preforker 类中 <img src="http://imt.rui.vin/202209020024793.png" alt="image-20220901154138047">	</p>
+<p>在先执行是 <strong>global_init_prefork(g_ceph_context)</strong> 函数</p>
+<h3 id="global-init-prefork-g-ceph-context"><a href="#global-init-prefork-g-ceph-context" class="headerlink" title="global_init_prefork(g_ceph_context)"></a>global_init_prefork(g_ceph_context)</h3><p>prefork 的预初始化</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs xl">int global_init_prefork(CephContext *cct)<br>&#123;<br>   <span class="hljs-comment">// 这里 判断是不是 判断着进程是不是 以守护进程方式启动</span><br>  <span class="hljs-keyword">if</span> (g_code_env != CODE_ENVIRONMENT_DAEMON)<br>    return -<span class="hljs-number">1</span>;<br><br>  <span class="hljs-function"><span class="hljs-title">const</span> auto&amp; conf = cct-&gt;</span>_conf;<br>  <span class="hljs-function"><span class="hljs-title">if</span> (!conf-&gt;</span>daemonize) &#123;<br>        <span class="hljs-comment">//这里进程的pid 写入文件中</span><br>    <span class="hljs-keyword">if</span> (pidfile_write(conf) &lt; <span class="hljs-number">0</span>)<br>      exit(<span class="hljs-number">1</span>);<br>    <span class="hljs-comment">//生产了 pid文件后，更改文件权限</span><br>    <span class="hljs-function"><span class="hljs-title">if</span> ((cct-&gt;</span>get_init_flags() &amp; CINIT_FLAG_DEFER_DROP_PRIVILEGES) &amp;&amp;<br>    (<span class="hljs-function"><span class="hljs-title">cct</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">get_set_uid</span>() || cct-&gt;</span>get_set_gid())) &#123;<br>      <span class="hljs-function"><span class="hljs-title">chown_path</span>(conf-&gt;</span><span class="hljs-function"><span class="hljs-title">pid_file</span>, cct-&gt;</span><span class="hljs-function"><span class="hljs-title">get_set_uid</span>(), cct-&gt;</span>get_set_gid(),<br>         <span class="hljs-function"><span class="hljs-title">cct</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">get_set_uid_string</span>(), cct-&gt;</span>get_set_gid_string());<br>    &#125;<br><br>    return -<span class="hljs-number">1</span>;<br>  &#125;<br> <span class="hljs-comment">//这里  告知大家要 pre_fork??????</span><br>  <span class="hljs-function"><span class="hljs-title">cct</span>-&gt;</span>notify_pre_fork();<br>  <span class="hljs-comment">// stop log thread</span><br>  <span class="hljs-function"><span class="hljs-title">cct</span>-&gt;</span>_<span class="hljs-function"><span class="hljs-title">log</span>-&gt;</span>flush();<br>  <span class="hljs-function"><span class="hljs-title">cct</span>-&gt;</span>_<span class="hljs-function"><span class="hljs-title">log</span>-&gt;</span>stop();<br>  return <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>pidfile_write(conf) 函数i就是把进程的 pid 写进 一个文件里，为什么这么做后面再说</p>
+<p><img src="http://imt.rui.vin/202209020024807.png" alt="image-20220901162701621"></p>
+<h3 id="forker-prefork"><a href="#forker-prefork" class="headerlink" title="forker.prefork"></a>forker.prefork</h3><p>关键部分，这里主要做的是 fork一个子进程，接下来执行的操作都是由 子进程执行，父进程处于 wait状态，并且这里也对标准输入输出做了些处理</p>
+<p><img src="http://imt.rui.vin/202209020024851.png" alt="image-20220901163924371"></p>
+<p>父进程处于等待状态，再执行 <strong>setsid</strong> 建立新会话</p>
+<p><img src="http://imt.rui.vin/202209020024836.png" alt="image-20220901164030039"></p>
+<h3 id="global-init-postfork-start"><a href="#global-init-postfork-start" class="headerlink" title="global_init_postfork_start();"></a>global_init_postfork_start();</h3><p>该函数重新再把当前进程的pid重新写入到pid文件 </p>
+<p>为什么创建一个经常需要 建立一个pid文件？ 可这里先从 pid 文件创建开始讲</p>
+<p><img src="http://imt.rui.vin/202209020024777.png" alt="image-20220901173051970"></p>
+<p>在刚才的  <strong>pidfile_write</strong>  函数中，有调用了一个 函数   <strong>pidfh::open</strong>  <img src="http://imt.rui.vin/202209020024141.png" alt="image-20220901171416846"></p>
+<p><strong>pidfh::open</strong> 中调用了 open，创建 文件 <img src="http://imt.rui.vin/202209020024179.png" alt="image-20220901171924980"></p>
+<p>随后 获取创建文件的信息保存  Preforker 类中 <img src="http://imt.rui.vin/202209020024296.png" alt="image-20220901172326150"></p>
+<p>最后一步比较关键，用 flock 给文件上锁 	</p>
+<p><img src="http://imt.rui.vin/202209020024329.png" alt="image-20220901172606066"></p>
+<p>  这里确保 只有获取锁的进程才能读取文件，没有锁的话直接退出，而且只有一把锁，可以防止进程启动多个副本，只有获得pid文件(固定路径固定文件名)写入权限(F_WRLCK)的进程才能正常启动并把自身的PID写入该文件中。其它同一个程序的多余进程则自动退出。</p>
+<blockquote>
+<p>  假如说我开了两个终端，都同时创建 osd，而且编号都相同，为了确保一个osd对应一个守护进程，跟据程序的设定，必须要读取pid文件才能继续执行，那谁先获得了 pid文件的读写锁，谁就可以继续执行；而且pid文件保存的是 进程的pid，所以可以通过文件来判断进程是否存在</p>
+</blockquote>
+
               
             </div>
             <hr/>
             <div>
               <div class="post-metas my-3">
   
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ceph/">#ceph</a>
+      
+    </div>
   
 </div>
 
