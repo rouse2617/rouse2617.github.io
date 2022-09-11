@@ -16,16 +16,16 @@
   <meta name="author" content="Rui">
   <meta name="keywords" content="">
   
-    <meta name="description" content="线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下线程的一些使用方法 ； （PS： 发现以前好多看的云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）  线程概念    进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本身">
+    <meta name="description" content="线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下 线程的一些使用方法 ； （PS： 发现以前好多看得云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）  线程概念    进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程的简单使用">
 <meta property="og:url" content="http://example.com/2022/03/25/%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Rui">
-<meta property="og:description" content="线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下线程的一些使用方法 ； （PS： 发现以前好多看的云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）  线程概念    进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本身">
+<meta property="og:description" content="线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下 线程的一些使用方法 ； （PS： 发现以前好多看得云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）  线程概念    进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/vorshen/blog/master/thread/assets/process_thread.png">
 <meta property="article:published_time" content="2022-03-25T15:15:46.000Z">
-<meta property="article:modified_time" content="2022-06-09T02:16:16.062Z">
+<meta property="article:modified_time" content="2022-09-11T15:01:58.130Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="线程">
 <meta name="twitter:card" content="summary_large_image">
@@ -283,7 +283,7 @@
             <div class="markdown-body">
               
               <blockquote>
-<p>线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下线程的一些使用方法 ； （PS： 发现以前好多看的云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）</p>
+<p>线程方面的知识一直是很薄弱的， 所以再次翻开 《APUE 》 ，重新再看一遍  第11 章 线程，有不一样的收获，在这总结下 线程的一些使用方法 ； （PS： 发现以前好多看得云里雾里的书籍，现在重头看，有种恍然大悟的感觉！）</p>
 </blockquote>
 <h3 id="线程概念"><a href="#线程概念" class="headerlink" title="线程概念"></a>线程概念</h3><blockquote>
 <p>   进程是程序执行时的一个实例，是担当分配系统资源（CPU时间、内存等）的基本单位。在面向线程设计的系统中，进程本身不是基本运行单位，而是线程的容器。程序本身只是指令、数据及其组织形式的描述，进程才是程序（那些指令和数据）的真正运行实例。</p>
