@@ -350,7 +350,7 @@
       
       <a class="index-excerpt " href="/2022/08/19/ceph/%5Bceph%5D%20adminsocke%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" target="_self">
         <div>
-          admin socket是什么？Ceph 中有很多守护进程，如osd，mon，这些守护进程开放了许多socket； Ceph 允许我们使用这些套接字来查询它的守护进程的配置情况；ceph admin socket 可以在 Ceph 守护进程运行时获取和设置 配置，更改守护程序配置值变得容易得多，而不是更改需要重新启动守护程序的 Ceph 配置文件。 下图查看 ceph中的有那些守护进程，并查看守护
+          预备知识Unix domain socket   和  网络 socket的区别​		对于网络socket，大家应该比较熟悉，两个不同主机上的进程通信，就可以网络 socket来通信；对于同一台主机上的两个进程通信也可以使用socket，地址使用 127.0.0.1就可以实现，但是对于同一主机的两个进程通信而言，其数据还是需要通过网络协议栈（数据需要打包又要拆包…），这样效率并不高，后来引用 U
         </div>
       </a>
 
