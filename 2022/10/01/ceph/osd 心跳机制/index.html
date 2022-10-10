@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://img.rui.vin/202209190006673.png">
 <meta property="article:published_time" content="2022-10-01T13:11:39.000Z">
-<meta property="article:modified_time" content="2022-10-10T14:38:31.776Z">
+<meta property="article:modified_time" content="2022-10-10T14:39:29.633Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="ceph">
 <meta name="twitter:card" content="summary_large_image">
@@ -293,7 +293,7 @@
 </ul>
 <h3 id="osd之间检测"><a href="#osd之间检测" class="headerlink" title="osd之间检测"></a>osd之间检测</h3><ol>
 <li><p>每个 Ceph OSD 守护进程以小于每 6 秒的随机间隔时间检查其他 Ceph OSD 守护进程的心跳<strong>（可以理解为：定期去敲邻居的门）</strong></p>
-<p><img src="http://img.rui.vin/202209190006673.png" alt="image-20220919000635555" style="zoom: 70%;" />·</p>
+<p><img src="http://img.rui.vin/202209190006673.png" alt="image-20220919000635555" style="zoom: 50%;" />·</p>
 </li>
 <li><p>如果一个相邻的Ceph OSD Daemon在20秒的宽限期内没有显示心跳，Ceph OSD Daemon可能会认为相邻的Ceph OSD Daemon是 dowm状态的，并将其报告给Ceph Monitor<strong>（可以理解为：敲了那么长时间的门都没来开门,就报警了）</strong></p>
 <img src="http://img.rui.vin/202209190007902.png" alt="image-20220919000758792" style="zoom:50%;" />	
