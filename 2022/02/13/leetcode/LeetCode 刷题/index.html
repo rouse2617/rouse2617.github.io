@@ -23,16 +23,16 @@
 <meta property="og:site_name" content="Rui">
 <meta property="og:description" content="LeetCode 刷题（以前刷的）">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="c:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1621751662409.png">
+<meta property="og:image" content="http://example.com/C:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1621751662409.png">
 <meta property="og:image" content="http://imt.rui.vin/202202151920602.jpeg">
 <meta property="og:image" content="http://imt.rui.vin/202202151920242.jpeg">
-<meta property="og:image" content="c:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1622255058092.png">
+<meta property="og:image" content="http://example.com/C:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1622255058092.png">
 <meta property="article:published_time" content="2022-02-13T03:12:46.000Z">
 <meta property="article:modified_time" content="2022-06-09T02:16:16.028Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="刷题合集">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="c:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1621751662409.png">
+<meta name="twitter:image" content="http://example.com/C:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1621751662409.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -310,7 +310,7 @@
 <p>​	不生成新的链表，把链表的指向的方向反过来</p>
 <p>假设链表为 1 -&gt;2  -&gt; 3 -&gt;∅     1→2→3→∅，我们想要把它改成  ∅←1←2←3。</p>
 <p>在遍历链表时，将当前节点的指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。在更改引用之前，还需要存储后一个节点。最后返回新的头引用。</p>
-<p><img src="C:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1621751662409.png" alt="1621751662409"></p>
+<p><img src="/C:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1621751662409.png" alt="1621751662409"></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>  <span class="hljs-function">ListNode* <span class="hljs-title">reverseList</span><span class="hljs-params">(ListNode* head)</span> </span>&#123;	<br>        ListNode* pre = <span class="hljs-literal">nullptr</span>;<br>    	ListNode* cur = head;<br>        <span class="hljs-keyword">while</span> (cur)<br>    	&#123;<br>    		ListNode* T = cur-&gt;next;<br>            cur-&gt;next =pre;<br>            pre =cur;<br>            cur = T;<br>    	&#125;  <span class="hljs-comment">//画图解决</span><br>        <span class="hljs-keyword">return</span> pre;<br>  &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
 
@@ -341,7 +341,7 @@
 </li>
 <li><p>那个指针指向的值比较小就先移动那个.</p>
 </li>
-<li><p>容器的大小<br />min（头，尾） * （头到尾直接的距离）<br />为啥移动小的呢？<br />容器的大小取决于最小的那个板，移动最大的那个板子，容器只会变得最小或者不变（板子可能变大，容器大小不变，板子变小若是比原来较小的那个板子还小，容器则会变得更小）移动较大的那个板子则是可能变大，会不会错过同个长度的其他搭配呢？其实我也没琢磨透…</p>
+<li><p>容器的大小<br>min（头，尾） * （头到尾直接的距离）<br>为啥移动小的呢？<br>容器的大小取决于最小的那个板，移动最大的那个板子，容器只会变得最小或者不变（板子可能变大，容器大小不变，板子变小若是比原来较小的那个板子还小，容器则会变得更小）移动较大的那个板子则是可能变大，会不会错过同个长度的其他搭配呢？其实我也没琢磨透…</p>
 </li>
 <li><p>代码</p>
 </li>
@@ -367,7 +367,7 @@
 
 <p>解法2： 原地交换，有0- n-1个数字， 每个数都对应一个下标 i，当然 下标 i 不一定等于  nums[i],</p>
 <p>若是等于的话，则有可能一个下标对应很多个数，</p>
-<p><img src="C:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1622255058092.png" alt="1622255058092"></p>
+<p><img src="/C:%5CUsers%5Cadmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1622255058092.png" alt="1622255058092"></p>
 <p>遍历每一个数，将其数值作为下标，即</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 纯文本">nums[nums[i]] = nums[i];<br></code></pre></td></tr></table></figure>
 
@@ -508,7 +508,7 @@
 <h3 id="16-接雨水"><a href="#16-接雨水" class="headerlink" title="16.接雨水"></a>16.接雨水</h3><p>给定 <em>n</em>  个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
 <p>思路：</p>
 <ul>
-<li>暴力解法<br />判断每个柱子能否装水，得看柱子左右两边的柱子 ，水的高度取决于最短的<br />并且中间的柱子也有高度，所以也要减去当前柱子（即中间的柱子）的高度<br />每一个柱子 装水量为<br />​	 s &#x3D;  min（left，right） - mid<br />总结： 遍历每一个柱子，取柱子左边最高的柱子，柱子右边最高的柱子，然后以左右两边最低的为标准来计算</li>
+<li>暴力解法<br>判断每个柱子能否装水，得看柱子左右两边的柱子 ，水的高度取决于最短的<br>并且中间的柱子也有高度，所以也要减去当前柱子（即中间的柱子）的高度<br>每一个柱子 装水量为<br>​	 s &#x3D;  min（left，right） - mid<br>总结： 遍历每一个柱子，取柱子左边最高的柱子，柱子右边最高的柱子，然后以左右两边最低的为标准来计算</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs 纯文本"> class Solution &#123;<br>public:<br>  int trap(vector&lt;int&gt;&amp; height) &#123;<br>  int n = height.size();<br>  int ans = 0;<br>  //遍历每一个柱子<br>  for (int i = 1; i &lt; n - 1; i++) &#123;<br>   int l_max = 0, r_max = 0;<br>    // 找右边最高的柱子<br>   for (int j = i; j &lt; n; j++)<br>    r_max = max(r_max, height[j]);<br>    // 找左边最高的柱子<br>    for (int j = i; j &gt;= 0; j--)<br>    l_max = max(l_max, height[j]);<br>    // 如果自己就是最高的话，<br>    // l_max == r_max == height[i]<br>    ans += min(l_max, r_max) - height[i];<br>  &#125;<br>  return ans;<br>  &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 

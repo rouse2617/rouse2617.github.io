@@ -282,7 +282,7 @@
             
             <div class="markdown-body">
               
-              <p><img src="http://img.rui.vin/image-20220803145842254.png" alt="image-20220803145842254"  />\</p>
+              <p><img src="http://img.rui.vin/image-20220803145842254.png" alt="image-20220803145842254">\</p>
 <h2 id="what-rgw"><a href="#what-rgw" class="headerlink" title="what rgw"></a>what rgw</h2><blockquote>
 <p>  RGW（Rados GateWay)  对象存储网关，ceph 是分布式对象系统，完全是可以做对象存储的，然而 Rados提供的是私有接口，不符合市场趋势，因为对象存储狭义上说是 云存储（互联网应用），所以接口应该支持主流网络协议，如http；ceph为了支持 http协议访问，设计了RGW存储网关，提供接口，此外还兼容云存储领域较为主流的接口  如 S3，Swift。</p>
 </blockquote>
@@ -303,7 +303,7 @@
 <li><p>服务起来了，但是  ceph -s 没有显示 rgw 节点</p>
 <ul>
 <li><p><strong>保证集群 是正常状态 ！</strong>  这个很关键！！用  ceph health detail 可查看  </p>
-<p><img src="C:%5CUsers%5Ch00165%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220804162818423.png" alt="image-20220804162818423">	</p>
+<p><img src="/C:%5CUsers%5Ch00165%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220804162818423.png" alt="image-20220804162818423">	</p>
 <p>（我的一开始就  pg chunk ， <strong>记得先坚持 集群正常状态</strong>）</p>
 </li>
 <li><p>查看 mgr 服务是否正常 （开始我的mgr是挂的）</p>

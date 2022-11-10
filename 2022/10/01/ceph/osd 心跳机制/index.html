@@ -293,10 +293,10 @@
 </ul>
 <h3 id="osd之间检测"><a href="#osd之间检测" class="headerlink" title="osd之间检测"></a>osd之间检测</h3><ol>
 <li><p>每个 Ceph OSD 守护进程以小于每 6 秒的随机间隔时间检查其他 Ceph OSD 守护进程的心跳<strong>（可以理解为：定期去敲邻居的门）</strong></p>
-<p><img src="http://img.rui.vin/202209190006673.png" alt="image-20220919000635555" style="zoom: 50%;" />·</p>
+<p><img src="http://img.rui.vin/202209190006673.png" alt="image-20220919000635555" style="zoom: 50%;">·</p>
 </li>
 <li><p>如果一个相邻的Ceph OSD Daemon在20秒的宽限期内没有显示心跳，Ceph OSD Daemon可能会认为相邻的Ceph OSD Daemon是 dowm状态的，并将其报告给Ceph Monitor<strong>（可以理解为：敲了那么长时间的门都没来开门,就报警了）</strong></p>
-<img src="http://img.rui.vin/202209190007902.png" alt="image-20220919000758792" style="zoom:50%;" />	
+<img src="http://img.rui.vin/202209190007902.png" alt="image-20220919000758792" style="zoom:50%;">	
 </li>
 <li><p>一个osd 无法和配置文件中的osd  达成 peer 关系，则这个osd 每 30 秒 ping 一次mon 以获取集群的osdmap<br><img src="http://img.rui.vin/202209151612621.png" alt="image-20220915161221587"></p>
 </li>
@@ -415,9 +415,9 @@
 
 
 <h3 id="mon-如何处理上报信息的"><a href="#mon-如何处理上报信息的" class="headerlink" title="mon 如何处理上报信息的"></a>mon 如何处理上报信息的</h3><p><img src="http://img.rui.vin/202209261104487.png" alt="image-20220922164958665">		</p>
-<p><img src="C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220922170235620.png" alt="image-20220922170235620">	</p>
-<p>和osd接受心跳消息一样，在mon中 也是有一个dispatch 来处理信息，并且也是根据消息类型来处理<br><img src="C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220926110653634.png" alt="image-20220926110653634"></p>
-<p>最终会调用   <strong>paxos_service[PAXOS_OSDMAP]-&gt;dispatch(op);</strong>   paxos_service 在 mon初始化时候就已经构造好了，可以看到处理reset重新指向了OSDMonitor的类，所以说处理报错消息是由OSDMonitor类的函数处理的；<br><img src="C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220926145352556.png" alt="image-20220926145352556"></p>
+<p><img src="/C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220922170235620.png" alt="image-20220922170235620">	</p>
+<p>和osd接受心跳消息一样，在mon中 也是有一个dispatch 来处理信息，并且也是根据消息类型来处理<br><img src="/C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220926110653634.png" alt="image-20220926110653634"></p>
+<p>最终会调用   <strong>paxos_service[PAXOS_OSDMAP]-&gt;dispatch(op);</strong>   paxos_service 在 mon初始化时候就已经构造好了，可以看到处理reset重新指向了OSDMonitor的类，所以说处理报错消息是由OSDMonitor类的函数处理的；<br><img src="/C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220926145352556.png" alt="image-20220926145352556"></p>
 <p>看看  <strong>paxos_service[PAXOS_OSDMAP]-&gt;dispatch(op)</strong> 是怎么处理的<br>对于上报消息并不是直接处理，而是分为两个步骤</p>
 <ul>
 <li>预处理  preprocess_query</li>
@@ -453,8 +453,8 @@
 
 <p>让后执行<br><strong>bool PaxosService::dispatch(MonOpRequestRef op)</strong></p>
 <p><img src="http://img.rui.vin/202209271607817.png" alt="image-20220926140755087">	</p>
-<p><img src="C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220926140802665.png" alt="image-20220926140802665">	</p>
-<p><img src="C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220926140809506.png" alt="image-20220926140809506">	</p>
+<p><img src="/C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220926140802665.png" alt="image-20220926140802665">	</p>
+<p><img src="/C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220926140809506.png" alt="image-20220926140809506">	</p>
 <p>OSDMonitor::preprocess_query(MonOpRequestRef op)</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">OSDMonitor::preprocess_query</span><span class="hljs-params">(MonOpRequestRef op)</span></span><br><span class="hljs-function"></span>&#123;<br>  op-&gt;<span class="hljs-built_in">mark_osdmon_event</span>(__func__);<br>  <span class="hljs-comment">//取得 message</span><br>  Message *m = op-&gt;<span class="hljs-built_in">get_req</span>();<br>  <span class="hljs-built_in">dout</span>(<span class="hljs-number">10</span>) &lt;&lt; <span class="hljs-string">&quot;preprocess_query &quot;</span> &lt;&lt; *m &lt;&lt; <span class="hljs-string">&quot; from &quot;</span> &lt;&lt; m-&gt;<span class="hljs-built_in">get_orig_source_inst</span>() &lt;&lt; dendl;<br>  <span class="hljs-comment">//判断 message类性</span><br>  <span class="hljs-keyword">switch</span> (m-&gt;<span class="hljs-built_in">get_type</span>()) &#123;<br>.....<br>  <span class="hljs-comment">//osd上报错误的处理函数</span><br>  <span class="hljs-keyword">case</span> MSG_OSD_FAILURE:<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">preprocess_failure</span>(op);<br>.......<br>  <span class="hljs-keyword">default</span>:<br>    <span class="hljs-built_in">ceph_abort</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -486,7 +486,7 @@
 <p>如果邻居 Ceph OSD 守护进程未在 20 秒宽限期内发送 heartbeat 数据包，Ceph OSD 守护进程可能会考虑相邻的 Ceph OSD 守护进程 <code>停机</code>。它将报告回 Ceph 监控器，后者将更新 Ceph 群集映射。若要更改此宽限期，可在 Ceph 配置文件的 <code>[osd]</code> 部分下添加 <code>osd heartbeat 宽限期</code>，或者在运行时设置其值。</p>
 <p><img src="http://img.rui.vin/202209141140073.png" alt="image-20220914114020984">	</p>
 <p>osd 之间心跳机制：osd之间会互相通信，通信间隔时间在随机 6s以内；如果在20s后没有收到osd没有收到相邻的osd心跳，会认为相邻的osd已经 dowm，并报告给 mon；</p>
-<img src="http://imt.rui.vin/202209121823055.png" alt="image-20220912181919117" style="zoom:80%;" />	
+<img src="http://imt.rui.vin/202209121823055.png" alt="image-20220912181919117" style="zoom:80%;">	
 
 <p>osd和mon之间的心跳机制：  </p>
 <ul>
@@ -496,11 +496,11 @@
 <ul>
 <li>上报 osd 状态，变更信息，不管osd 有没有变更信息，每个120s都要上报一次</li>
 </ul>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220912182611844.png" alt="image-20220912182611844">	</p>
+<p><img src="/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220912182611844.png" alt="image-20220912182611844">	</p>
 <ul>
 <li>当 获取不到 邻居osd信息时，上报给mon获取新的 osdmap</li>
 </ul>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220912182528403.png" alt="image-20220912182528403"></p>
+<p><img src="/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220912182528403.png" alt="image-20220912182528403"></p>
 <p><img src="http://img.rui.vin/202209131747251.png" alt="image-20220913174728093">	</p>
 <p><img src="http://img.rui.vin/202209071600481.png" alt="image-20220907160040430">	</p>
 <p><img src="http://img.rui.vin/202209071650942.png" alt="image-20220907165035868">	</p>

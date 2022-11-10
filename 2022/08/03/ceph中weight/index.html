@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://img.rui.vin/202208071417007.png">
 <meta property="og:image" content="http://img.rui.vin/202208071417723.png">
-<meta property="og:image" content="c:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220730012445791.png">
+<meta property="og:image" content="http://example.com/C:/Users/h00165/AppData/Roaming/Typora/typora-user-images/image-20220730012445791.png">
 <meta property="og:image" content="http://img.rui.vin/202208071417994.png">
 <meta property="article:published_time" content="2022-08-03T12:21:39.000Z">
 <meta property="article:modified_time" content="2022-08-27T17:08:42.154Z">
@@ -286,16 +286,16 @@
             <div class="markdown-body">
               
               <p>最近在群里讨论 crush weight的问题，什么是 crush weight？这两天都只是部署安装，还没了解这个，在osd tree中是可以看到 weight，如下图，有weight 和 reweight。前者我知道是对应osd （磁盘）容量，后者呢？这个reweight有什么？这几个问题网上几乎是千篇一律，说是 weight会改变 它影响PG的到OSD的映射关系？是为什么呢？而且还有一个问题，Ceph osd weight与ceph osd crush weight 这两个命令之间又有什么区别？</p>
- <img src="http://img.rui.vin/202208071417007.png" alt="image-20220730012445791" style="zoom:80%;" />		
+ <img src="http://img.rui.vin/202208071417007.png" alt="image-20220730012445791" style="zoom:80%;">		
 
 <p>先说下几个知识点</p>
 <ul>
 <li><p>CRUSH 层级结构</p>
 <p>假如一个数据中心里面有很多个机房，机房里面又有很多机柜，机柜里面又有很多服务器，服务器又可以挂载很多磁盘，层层递进就像是多叉树一样，前面所说的 基础设备，在ceph中统称为 <strong>故障域</strong>或者<strong>CRUSH bucket</strong> ，这里的 bucket 就是桶的意思，如在机房room0里面就是一个桶，桶里面装的时候rack0，rack1，rack2，rack0也是个bucket，这个bucket里面装的是host，以此类推，但是osd并不是桶，在这个层级结构中osd是最小的单位 ；这些bucket 表明了设备的位置，此外 ceph在管理这种大型分级存储网络，会将这些  基础设备 用crush map映射起来形成一个嵌套层次的结构如下图</p>
-<img src="http://img.rui.vin/202208071417723.png" alt="image-20220731001442177" style="zoom:67%;" />	
+<img src="http://img.rui.vin/202208071417723.png" alt="image-20220731001442177" style="zoom:67%;">	
 
 <p>在 ceph 的命令 也可以看到设备对应的层级结构</p>
-<img src="C:\Users\h00165\AppData\Roaming\Typora\typora-user-images\image-20220730012445791.png" alt="image-20220730012445791" style="zoom: 70%;" />	
+<img src="/C:/Users\h00165\AppData\Roaming\Typora\typora-user-images\image-20220730012445791.png" alt="image-20220730012445791" style="zoom: 70%;">	
 
 
 </li>

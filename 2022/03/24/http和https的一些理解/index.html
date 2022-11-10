@@ -319,7 +319,7 @@
 <hr>
 <h4 id="http-和-https（重点）"><a href="#http-和-https（重点）" class="headerlink" title="http 和 https（重点）"></a>http 和 https（重点）</h4><p>上文收到htpp传输是明文传输不安全的，数据有篡改和冒充的风险，为了提高安全性，目前都基本使用 https, 这里的s指的 是SecureSocket Layer（SSL） 的首字母，意为安全套接层</p>
 <h5 id="https是什么？"><a href="#https是什么？" class="headerlink" title="https是什么？"></a>https是什么？</h5><p>​	HTTPS 可以解决 HTTP 不安全的缺陷，在TCP 和 HTTP ⽹络层之间加⼊了 SSL&#x2F;TLS 安全协议，使得报⽂能够加密传输。HTTPS 在 TCP 三次握⼿之后还需要进行 SSL&#x2F;TLS的握手过程，才可进⼊加密报⽂传输； HTTPS 协议需要向 CA（证书权威机构）申请数字证书，来保证服务器的身份是可信的（防止伪装站点）。</p>
-<p><img src="http://imt.rui.vin/202203271518389.png" alt="image-20220327133731705" style="zoom: 50%;" /> HTTP和TCP直接加了一层SSL&#x2F;TLS</p>
+<p><img src="http://imt.rui.vin/202203271518389.png" alt="image-20220327133731705" style="zoom: 50%;"> HTTP和TCP直接加了一层SSL&#x2F;TLS</p>
 <h5 id="公钥-私钥-对称加密"><a href="#公钥-私钥-对称加密" class="headerlink" title="公钥 私钥 对称加密"></a>公钥 私钥 对称加密</h5><ul>
 <li>公钥 和 私钥  ：  可以类比为 公钥→锁头  私钥→钥匙（私钥只有一把只有一把） 我用公钥加密数据，那我就的用对应的私钥解密数据</li>
 <li>非对称加密：  使用两个秘钥来加密数据， 就是上面提到的 公钥和秘钥</li>

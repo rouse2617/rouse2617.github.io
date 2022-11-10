@@ -32,14 +32,14 @@
 <meta property="og:image" content="http://imt.rui.vin/202202071248330.png">
 <meta property="og:image" content="http://imt.rui.vin/202202071251934.png">
 <meta property="og:image" content="http://imt.rui.vin/202202071255688.png">
-<meta property="og:image" content="c:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220207131053481.png">
+<meta property="og:image" content="http://example.com/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220207131053481.png">
 <meta property="og:image" content="http://imt.rui.vin/202202071312659.png">
 <meta property="og:image" content="http://imt.rui.vin/202202071712150.png">
 <meta property="og:image" content="http://imt.rui.vin/202202071714386.png">
 <meta property="og:image" content="http://imt.rui.vin/202202072048503.png">
 <meta property="og:image" content="http://imt.rui.vin/202202072222329.png">
 <meta property="og:image" content="http://imt.rui.vin/202202081115742.png">
-<meta property="og:image" content="c:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208112758744.png">
+<meta property="og:image" content="http://example.com/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208112758744.png">
 <meta property="og:image" content="http://imt.rui.vin/202202081130876.png">
 <meta property="og:image" content="http://imt.rui.vin/202202081138946.png">
 <meta property="og:image" content="http://imt.rui.vin/202202081138735.png">
@@ -49,7 +49,7 @@
 <meta property="og:image" content="http://imt.rui.vin/202202081336048.png">
 <meta property="og:image" content="http://imt.rui.vin/202202081530984.png">
 <meta property="og:image" content="http://imt.rui.vin/202202081651635.png">
-<meta property="og:image" content="c:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208165822004.png">
+<meta property="og:image" content="http://example.com/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208165822004.png">
 <meta property="article:published_time" content="2022-02-06T11:31:22.000Z">
 <meta property="article:modified_time" content="2022-06-09T02:16:16.139Z">
 <meta property="article:author" content="Rui">
@@ -353,7 +353,7 @@
 <p><img src="http://imt.rui.vin/202202071255688.png" alt="image-20220207125543005"></p>
 <p>按照教材意思 比对 boot反汇编的代码和  gdb调试的代码</p>
 <p>boot返汇编的代码在这，比对了下 objdump 反汇编的出的风格还是 Intel的， 和gdb 调试也差多少 ，从 0x7c00开始一步一看吧</p>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220207131053481.png" alt="image-20220207131053481"></p>
+<p><img src="/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220207131053481.png" alt="image-20220207131053481"></p>
 <p>boot.o 反汇编的代码  </p>
 <p><img src="http://imt.rui.vin/202202071312659.png" alt="image-20220207131245606"></p>
 <p>当调试到 这一步时  地址为 0x7c2d时候  ，提示现在处于 i386状态（32位下）<br><img src="http://imt.rui.vin/202202071712150.png" alt="image-20220207171214490"></p>
@@ -371,7 +371,7 @@
 <p>Part3 讲的是虚拟内存 和 物理内存的映射，在这把那些细节 描述的很清楚，给了个结论，让我们去验证下， </p>
 <h4 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a><strong>Exercise 7</strong></h4><p>验证     物理地址转换虚拟地址</p>
 <p>执行 movl %eax, %cr0  后就开启了 分页  ，可以看到地址不同</p>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208112758744.png" alt="image-20220208112758744"></p>
+<p><img src="/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208112758744.png" alt="image-20220208112758744"></p>
 <p><img src="http://imt.rui.vin/202202081130876.png" alt="image-20220208113037678"></p>
 <p>执行  <code>movl %eax, %cr0</code> 前  0xf0100000 内存都是空的<br><img src="http://imt.rui.vin/202202081138946.png" alt="image-20220208113823730"></p>
 <p>执行后   0x 100000 映射到了 0xf0100000<br><img src="http://imt.rui.vin/202202081138735.png" alt="image-20220208113835668"></p>
@@ -389,7 +389,7 @@
 <p>从以上 代码可以看到  初始化了esp 和 edp，这函数调用的深入下也可以写很多东西，先挖个坑吧….<br>初始化后  看下两个寄存器的 值<br><img src="http://imt.rui.vin/202202081651635.png" alt="image-20220208165110291"></p>
 <p>可以得出 栈的地址是冲 0xf0110000 开始的</p>
 <p>esp 指向了栈的指针 ， bootstacktop 的定义我们可以看下 （合理  运用 ide ，我是用 vscode全局查的）</p>
-<p><img src="C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208165822004.png" alt="image-20220208165822004">  </p>
+<p><img src="/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20220208165822004.png" alt="image-20220208165822004">  </p>
 <p>可以的出 栈的大小为    8 * 4096  字节  （SPACE申请一片内存空间）…..</p>
 <p>带更新,,,</p>
 
