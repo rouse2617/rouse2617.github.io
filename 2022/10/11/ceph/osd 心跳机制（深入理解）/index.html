@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://img.rui.vin/202209190006673.png">
 <meta property="article:published_time" content="2022-10-11T12:11:39.000Z">
-<meta property="article:modified_time" content="2022-12-04T08:18:10.237Z">
+<meta property="article:modified_time" content="2022-12-04T08:21:30.820Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="ceph">
 <meta name="twitter:card" content="summary_large_image">
@@ -336,7 +336,7 @@
 <ul>
 <li>会自动清楚掉但有条件；为了保证 heartbeat_peer  里面没有 “常驻” osd； 距离上一次更新peer osd时间超过限定时间时，会尝试去清除 heartbeat_peer 中的osd，其条件是在过去的十分钟内都没有对该osd发送过心跳，则这种条件下则会清除；因为10分钟都没更新很有可能这个osd已经down掉了；还有一种情况时 osd 主动shutdown时候，会全部清除掉（释放内存）</li>
 </ul>
-<p>问题：选取 peer osd时为什么要通过好几种方式来选择，直接在集群内随机选osd可以吗？ 会不会出现个别osd 一直没		  有选到的情况？？</p>
+<p>问题：选取 peer osd时为什么要通过好几种方式来选择，直接在集群内随机选osd可以吗？ 会不会出现个别osd 一直没有选到的情况？？</p>
 <ul>
 <li><p>不能直接的随机选；心跳发送并不是广播式的，每次发送的数量是有限定的（避免集群压力过大）；在数量一定的情况下首先需要保证检测结果即准确又要快速</p>
 <ul>
