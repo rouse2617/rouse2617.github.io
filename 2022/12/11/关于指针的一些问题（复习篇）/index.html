@@ -23,11 +23,15 @@
 <meta property="og:site_name" content="Rui">
 <meta property="og:description" content="zuij	 看到一个改错题（很常见的一道题），一个关于申请内存的函数，即传入一个指针 p，然后分配内存，首地址保存到p，然后返回，由于malloc 是分配到栈的，即使函数消亡了，内存也不会回收，逻辑上没毛病，但实际上这个传入的参数是有问题的，刚好借这个题目复习下指针的一些操作 12345678910111213void * memory(int num,void *p)&amp;#123;		p &#x3D; ma">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://imt.rui.vin/202212110113966.png">
+<meta property="og:image" content="http://example.com/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20221211012445318.png">
+<meta property="og:image" content="http://imt.rui.vin/202212110122943.png">
 <meta property="article:published_time" content="2022-12-11T15:15:46.000Z">
-<meta property="article:modified_time" content="2022-12-10T17:06:00.252Z">
+<meta property="article:modified_time" content="2022-12-10T17:26:34.510Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="指针">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://imt.rui.vin/202212110113966.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -219,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          320 words
+          626 words
         
       </span>
     
@@ -230,7 +234,7 @@
         
         
         
-          3 mins
+          6 mins
         
       </span>
     
@@ -288,10 +292,17 @@
 
 <ol>
 <li><p>错在哪？</p>
+<p>知识回顾：<a target="_blank" rel="noopener" href="https://blog.csdn.net/rouse2617/article/details/106846613">https://blog.csdn.net/rouse2617/article/details/106846613</a>  以前在csdn 有发过一篇关于指针通俗理解可以先看下</p>
+<p>memory 传入参数p，只是单纯的<strong>复制</strong>了p所指向的值而已，main里面的 p 和 函数memory里面的p 并不是同一个，通过代码可以验证，这两个的地址都不相同</p>
+<p><img src="http://imt.rui.vin/202212110113966.png" alt="image-20221211011313002"></p>
 </li>
 <li><p>怎么改正，改正的方法有那些？</p>
+<p>方法1 ： 传入一个指针的地址，通过修改指针地址所在的值，即可达到目标，听起来有点绕，其实这个就是多重指针的用途！ 这里暂时先不讨论<img src="/C:/Users/hrp/AppData/Roaming/Typora/typora-user-images/image-20221211012445318.png" alt="image-20221211012445318"></p>
+<p>方法2： 使用指针引用， 引用我们都知道，通俗的说就是一个值的别名，传入一个指针引用，相当于操作不本体一样，这种方式也比较便捷，更容易理解；<img src="http://imt.rui.vin/202212110122943.png" alt="指针引用"></p>
 </li>
 </ol>
+<p>​		具体的细节后面再更新</p>
+<p>​			</p>
 
               
             </div>
