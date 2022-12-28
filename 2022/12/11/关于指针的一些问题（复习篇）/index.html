@@ -16,18 +16,18 @@
   <meta name="author" content="Rui">
   <meta name="keywords" content="">
   
-    <meta name="description" content="zuij	 看到一个改错题（很常见的一道题），一个关于申请内存的函数，即传入一个指针 p，然后分配内存，首地址保存到p，然后返回，由于malloc 是分配到栈的，即使函数消亡了，内存也不会回收，逻辑上没毛病，但实际上这个传入的参数是有问题的，刚好借这个题目复习下指针的一些操作 12345678910111213void * memory(int num,void *p)&amp;#123;		p &#x3D; ma">
+    <meta name="description" content="看到一个改错题（很常见的一道题），一个关于申请内存的函数，即传入一个指针 p，然后分配内存，首地址保存到p，然后返回，由于malloc 是分配到栈的，即使函数消亡了，内存也不会回收，逻辑上没毛病，但实际上这个传入的参数是有问题的，刚好借这个题目复习下指针的一些操作 12345678910111213void * memory(int num,void *p)&amp;#123;		p &#x3D; malloc(s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于指针的一些问题">
 <meta property="og:url" content="http://example.com/2022/12/11/%E5%85%B3%E4%BA%8E%E6%8C%87%E9%92%88%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%88%E5%A4%8D%E4%B9%A0%E7%AF%87%EF%BC%89/index.html">
-<meta property="og:site_name" content="Rui">
-<meta property="og:description" content="zuij	 看到一个改错题（很常见的一道题），一个关于申请内存的函数，即传入一个指针 p，然后分配内存，首地址保存到p，然后返回，由于malloc 是分配到栈的，即使函数消亡了，内存也不会回收，逻辑上没毛病，但实际上这个传入的参数是有问题的，刚好借这个题目复习下指针的一些操作 12345678910111213void * memory(int num,void *p)&amp;#123;		p &#x3D; ma">
+<meta property="og:site_name" content="后台开发技术总结">
+<meta property="og:description" content="看到一个改错题（很常见的一道题），一个关于申请内存的函数，即传入一个指针 p，然后分配内存，首地址保存到p，然后返回，由于malloc 是分配到栈的，即使函数消亡了，内存也不会回收，逻辑上没毛病，但实际上这个传入的参数是有问题的，刚好借这个题目复习下指针的一些操作 12345678910111213void * memory(int num,void *p)&amp;#123;		p &#x3D; malloc(s">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://imt.rui.vin/202212110113966.png">
 <meta property="og:image" content="http://imt.rui.vin/202212110126975.png">
 <meta property="og:image" content="http://imt.rui.vin/202212110122943.png">
 <meta property="article:published_time" content="2022-12-11T15:15:46.000Z">
-<meta property="article:modified_time" content="2022-12-10T17:26:54.346Z">
+<meta property="article:modified_time" content="2022-12-15T16:37:09.897Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="指针">
 <meta name="twitter:card" content="summary_large_image">
@@ -37,7 +37,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>关于指针的一些问题 - Rui</title>
+  <title>关于指针的一些问题 - 后台开发技术总结</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          626 words
+          622 words
         
       </span>
     
@@ -284,8 +284,7 @@
             
             <div class="markdown-body">
               
-              <p>zuij	</p>
-<p>看到一个改错题（很常见的一道题），一个关于申请内存的函数，即传入一个指针 p，然后分配内存，首地址保存到p，然后返回，由于malloc 是分配到栈的，即使函数消亡了，内存也不会回收，逻辑上没毛病，但实际上这个传入的参数是有问题的，刚好借这个题目复习下指针的一些操作</p>
+              <p>看到一个改错题（很常见的一道题），一个关于申请内存的函数，即传入一个指针 p，然后分配内存，首地址保存到p，然后返回，由于malloc 是分配到栈的，即使函数消亡了，内存也不会回收，逻辑上没毛病，但实际上这个传入的参数是有问题的，刚好借这个题目复习下指针的一些操作</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> * <span class="hljs-title">memory</span><span class="hljs-params">(<span class="hljs-type">int</span> num,<span class="hljs-type">void</span> *p)</span></span>&#123;<br>	<br>	p = <span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">int</span>) * num);<br>    <span class="hljs-keyword">return</span> p;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	<span class="hljs-type">void</span> *p = <span class="hljs-literal">nullptr</span>;<br>	<span class="hljs-built_in">memory</span>(<span class="hljs-number">1024</span>,p);<br>	&#123;<br>	<span class="hljs-comment">//申请成功后，操作p指向的内存</span><br>	<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
@@ -302,7 +301,7 @@
 </li>
 </ol>
 <p>​		具体的细节后面再更新</p>
-<p>​			</p>
+<p>​	</p>
 
               
             </div>
