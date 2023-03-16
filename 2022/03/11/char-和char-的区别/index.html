@@ -16,16 +16,16 @@
   <meta name="author" content="Rui">
   <meta name="keywords" content="">
   
-    <meta name="description" content="关于此类的问题都放在这里了，不另起文章了 遇到了一道题目： 12345678910111213char *fun1() &amp;#123;  char *x &#x3D; &quot;abcd&quot;;  return x;&amp;#125;char *fun2() &amp;#123;  char str[] &#x3D; &quot;abcd&quot;;  &#x2F;&#x2F;存放在静态数据区  return str;&amp;#125;int ma">
+    <meta name="description" content="关于此类的问题都放在这里了，不另起文章了 基础知识遇到了一道题目： 12345678910111213char *fun1() &amp;#123;  char *x &#x3D; &quot;abcd&quot;;  return x;&amp;#125;char *fun2() &amp;#123;  char str[] &#x3D; &quot;abcd&quot;;  &#x2F;&#x2F;存放在静态数据区  return str;&amp;#125;in">
 <meta property="og:type" content="article">
-<meta property="og:title" content="char*和char[]的区别">
+<meta property="og:title" content="char*和char[ ]的区别">
 <meta property="og:url" content="http://example.com/2022/03/11/char-%E5%92%8Cchar-%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="后台开发技术总结">
-<meta property="og:description" content="关于此类的问题都放在这里了，不另起文章了 遇到了一道题目： 12345678910111213char *fun1() &amp;#123;  char *x &#x3D; &quot;abcd&quot;;  return x;&amp;#125;char *fun2() &amp;#123;  char str[] &#x3D; &quot;abcd&quot;;  &#x2F;&#x2F;存放在静态数据区  return str;&amp;#125;int ma">
+<meta property="og:description" content="关于此类的问题都放在这里了，不另起文章了 基础知识遇到了一道题目： 12345678910111213char *fun1() &amp;#123;  char *x &#x3D; &quot;abcd&quot;;  return x;&amp;#125;char *fun2() &amp;#123;  char str[] &#x3D; &quot;abcd&quot;;  &#x2F;&#x2F;存放在静态数据区  return str;&amp;#125;in">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://imt.rui.vin/202203112353250.png">
 <meta property="article:published_time" content="2022-03-11T15:24:39.000Z">
-<meta property="article:modified_time" content="2022-06-09T02:16:15.953Z">
+<meta property="article:modified_time" content="2023-02-13T16:28:02.613Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="基础语法">
 <meta name="twitter:card" content="summary_large_image">
@@ -35,7 +35,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>char*和char[]的区别 - 后台开发技术总结</title>
+  <title>char*和char[ ]的区别 - 后台开发技术总结</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="char*和char[]的区别"></span>
+            <span id="subtitle" data-typed-text="char*和char[ ]的区别"></span>
           
         </div>
 
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k words
+          2.2k words
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          16 mins
+          19 mins
         
       </span>
     
@@ -278,19 +278,19 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">char*和char[]的区别</h1>
+            <h1 style="display: none">char*和char[ ]的区别</h1>
             
             <div class="markdown-body">
               
               <p>关于此类的问题都放在这里了，不另起文章了</p>
-<p>遇到了一道题目：</p>
+<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>遇到了一道题目：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">char</span> *<span class="hljs-title">fun1</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-type">char</span> *x = <span class="hljs-string">&quot;abcd&quot;</span>;<br>  <span class="hljs-keyword">return</span> x;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">char</span> *<span class="hljs-title">fun2</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-type">char</span> str[] = <span class="hljs-string">&quot;abcd&quot;</span>;  <span class="hljs-comment">//存放在静态数据区</span><br>  <span class="hljs-keyword">return</span> str;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>  cout &lt;&lt; <span class="hljs-built_in">fun1</span>() &lt;&lt; endl;  <span class="hljs-comment">//abcd</span><br>  cout &lt;&lt; <span class="hljs-built_in">fun2</span>() &lt;&lt; endl;  <span class="hljs-comment">// </span><br>  <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;pause&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>这两个输出是怎样的？<br>第一时间就意识到 函数调用结束后，这些变量不是都被回收了吗，那应该不存在才对  （想到的是栈的特性）</p>
 <p>于是上机一测，发现fun1是有输出的，fun2没有， 哦？ 那这样说明  字符常量不是在栈里分配内存的？</p>
-<p>原来 字符串常量也是存储在<strong>静态存储区</strong>，那这样就是说，char *p 指向的内存没有被回收，嗯，这样就说的通了</p>
+<p>原来 字符串常量也是存储在<strong>静态存储区</strong>，那这样就是说，char *x 指向的内存没有被回收，嗯，这样就说的通了</p>
 <p>而  char str[] 呢？ 前几天遇到一个题目  strlen(“abcd”)  结果是？ 第一次看到这个 ，有点蒙，“abcd” 也是变量吗？<br>上机一测还真是 4 个字节，尝试下  <strong>cout &lt;&lt; &amp;”abcd” &lt;&lt; endl;</strong>  发现这也是有地址的！！！！ 所以也说的通了，</p>
-<p> char str[] 是个字符数组，字符数组是有占用空间的，  在执行    <strong>char str[] &#x3D; “abcd”</strong>    时候，发生了一次拷贝将<br>内存”abcd”拷贝到str数组中，函数结束运行的时候，str的空间也被回收了，而对于char *p 而言，回收的知识这个<br>p的指针（指针也是变量）</p>
+<p> char str[] 是个字符数组，字符数组是有占用空间的，  在执行    <strong>char str[] &#x3D; “abcd”</strong>    时候，发生了一次拷贝将<br>内存”abcd”拷贝到str数组中，函数结束运行的时候，str的空间也被回收了，而对于char *p 而言，回收的只是这个 p的指针（指针也是变量）</p>
 <p>还有个实验完全可以证明， 字符串常量是在 静态存储区</p>
 <p><img src="http://imt.rui.vin/202203112350024.png" alt="image-20220311235052265"></p>
 <p><strong>尽管fun1结束了，打印“abcd”的地址还是和fun1运行时的一样</strong></p>
@@ -307,6 +307,15 @@
 <p>  总结： 这种就是要注意 字符后面有无带  结束标志 ‘\0’ ,  sizeof是统计 对象类型所占的空间  strlen 是遍历内存遇到 ‘\0’ 结束</p>
   <img src="http://imt.rui.vin/202203161950232.png" alt="image-20220316195022149" style="zoom: 67%;"></li>
 </ul>
+<h3 id="字符串-反转打印"><a href="#字符串-反转打印" class="headerlink" title="字符串 反转打印"></a>字符串 反转打印</h3><p>要求是手动拷贝，做这个题目的时候太多东西都忘记了….cao ,其实就是没有深刻的理解</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br> <span class="hljs-comment">//</span><br>  <span class="hljs-type">char</span> a[] = <span class="hljs-string">&quot;abcdef&quot;</span>;<br><span class="hljs-comment">// strlen 遇到 ‘\0’就停止   </span><br>  <span class="hljs-type">int</span> len = <span class="hljs-built_in">strlen</span>(a);<br><br>  <span class="hljs-type">char</span> *p = (<span class="hljs-type">char</span> *)<span class="hljs-built_in">malloc</span>(len+<span class="hljs-number">1</span>);<br><br>  <span class="hljs-type">char</span> *s = &amp;a[len<span class="hljs-number">-1</span>];<br>  <span class="hljs-type">char</span> *t = p;<br>  <span class="hljs-keyword">while</span> (len--) &#123;<br>    *p++ = *s--;<br>  &#125;<br>  p[len + <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br><br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, t);<br><br>  <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;pause&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 
               
             </div>
