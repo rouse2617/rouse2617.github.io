@@ -221,6 +221,52 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/03/11/ceph/rgwput%E6%B5%81%E7%A8%8B-execute%E5%88%86%E6%9E%90/" target="_self">
+          <img src="https://api.dujin.org/bing/1366.php" alt="rgwput流程-execute分析">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/11/ceph/rgwput%E6%B5%81%E7%A8%8B-execute%E5%88%86%E6%9E%90/" target="_self">
+          rgwput流程-execute分析
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/03/11/ceph/rgwput%E6%B5%81%E7%A8%8B-execute%E5%88%86%E6%9E%90/" target="_self">
+        <div>
+          put 流程分析  前言本文主题： 当我们用 s3cmd 上传文件是，rgw是如何处理的 	 整体上传：相关概念小于 4M ： 数据存放在  .rgw.buckets.data 池中，会生成一个rados 对象（默认4M） 大于4M  ：文件会分割成 4M大小rados c2c8dcbe-1203-4be1-b58b-5dc19a95fca9.4194.1__shadow_file.ECv7yKn
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-11 10:11" pubdate>
+              2023-03-11
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ceph/">#ceph</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/12/11/%E5%85%B3%E4%BA%8E%E6%8C%87%E9%92%88%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%88%E5%A4%8D%E4%B9%A0%E7%AF%87%EF%BC%89/" target="_self">
           <img src="https://api.dujin.org/bing/1366.php" alt="关于指针的一些问题">
         </a>
@@ -635,52 +681,6 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2022-08-03 20:11" pubdate>
-              2022-08-03
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ceph/">#ceph</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/08/03/ceph/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
-          <img src="http://img.rui.vin/image-20220803095650245.png" alt="rbd 原理初步探索">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/08/03/ceph/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
-          rbd 原理初步探索
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2022/08/03/ceph/%5Bceph%5Drbd%20%E5%8E%9F%E7%90%86%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/" target="_self">
-        <div>
-          ceph中RBD 建立 image后，可以map到操作系统，当磁盘使用和插入STAT一样，此外内核模块已经支持 rbd（krbd）， modinfo 可以查看内核模块；创建100g的image并不是在真实磁盘中占用了100g，而是用多少，在ceph中就占用多少  创建RBD发生了什么现在创建pool，名字为rbd，并在rbd pool里创建image 12345678910111213141516
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-08-03 12:11" pubdate>
               2022-08-03
             </time>
           </div>
